@@ -2,9 +2,9 @@ import { Search } from 'lucide-react'
 import React from 'react'
 import { Input } from './ui/input'
 interface propsSearch {
-    value : string,
-    onChange(event:any) : void,
-    placeholder : string
+    value? : string,
+    onChange?(event:any) : void,
+    placeholder? : string
 }
 const SearchInput : React.FC <propsSearch> = ({value,onChange,placeholder}) => {
     return (
