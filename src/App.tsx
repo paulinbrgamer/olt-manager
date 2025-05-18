@@ -4,6 +4,9 @@ import TabBar from "./components/TabBar"
 import { ThemeProvider } from "./context/theme-provider"
 import { Button } from "./components/ui/button"
 import { useState } from "react"
+import OltManager from "./OltManager"
+import Incidents from "./Incidents"
+import { icons } from "./constants/colors"
 
 type tabSelect = "OLTs" | "Incidentes"
 
@@ -13,18 +16,27 @@ function App() {
   const handleClickTab = (tab: tabSelect) => {
     settabSelected(tab)
   }
+  const renderScreen = ()=>{
+      switch (tabSelected) {
+        case "Incidentes":
+          return <Incidents/> 
+        case "OLTs":
+          return <OltManager/>
+      }
+  }
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <div className="flex h-screen w-full ">
         <TabBar>
-          <Button className={`${tabSelected=="OLTs" && "bg-accent"} w-12 h-10`} onClick={() => handleClickTab("OLTs")} variant="ghost">
-            <SquareTerminal className="!w-6 !h-6" color="#00BCFF" />
+          <Button className={`${tabSelected == "OLTs" && "bg-accent"} w-12 h-10`} onClick={() => handleClickTab("OLTs")} variant="ghost">
+            <SquareTerminal className="!w-6 !h-6" color={icons.blue} />
           </Button>
-          <Button className={`${tabSelected=="Incidentes" && "bg-accent"} w-12 h-10`} onClick={() => handleClickTab("Incidentes")}  variant="ghost">
+          <Button className={`${tabSelected == "Incidentes" && "bg-accent"} w-12 h-10`} onClick={() => handleClickTab("Incidentes")} variant="ghost">
             <TriangleAlert className="!w-6 !h-6" />
           </Button>
           <ModeToggle />
         </TabBar>
+        {renderScreen()}
       </div>
     </ThemeProvider>
 
