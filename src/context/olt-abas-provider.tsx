@@ -6,18 +6,23 @@ import type { Request } from "@/interfaces/request"
 interface  Props {
   children: ReactNode
 }
+//interface para o context
 interface AbasContextInterface {
   abaslist: abaInterface[] | null,
   removeAba(id:string):void,
   createAba(oltId:number): void,
 }
+//criação do contexto
 const AbasContext = createContext<AbasContextInterface | null>(null)
-const AbasProvider : React.FC<Props> = ({children}) => {
-  const [abaslist, setAbasList] = useState<abaInterface[] >([])
 
+const AbasProvider : React.FC<Props> = ({children}) => {
+  //listagem das abas
+  const [abaslist, setAbasList] = useState<abaInterface[] >([])
+  //função para remover aba passando o id da mesma
   const removeAba = (id:string)=>{
     setAbasList(prev=>prev.filter((aba)=>aba.id!=id))
   }
+  //função para crair aba passando o id da OLT 
   const createAba = (oltId:number)=>{
     const newAbba : abaInterface = {
       id: generateId(),
@@ -35,6 +40,8 @@ const AbasProvider : React.FC<Props> = ({children}) => {
     </AbasContext.Provider>
   )
 }
+
+//custon hook para uasr o contexto
 export const useAbas  = () =>{
   const context = useContext(AbasContext)
   if(context===null){
