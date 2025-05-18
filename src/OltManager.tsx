@@ -1,24 +1,61 @@
-import { RotateCcw, Server, TriangleAlert, X } from 'lucide-react'
+import { Loader2, RotateCcw, Server, TriangleAlert, X } from 'lucide-react'
 import IconButton from './components/IconButton'
 import { icons } from './constants/colors'
 import olts from './constants/olts'
-import { useEffect, useState, } from 'react'
+import {  useEffect, useState, } from 'react'
 import SearchInput from './components/SearchInput'
 import { Button } from './components/ui/button'
 import TableComponent from './components/TableComponent'
 import AbaHeader from './components/AbaHeader'
 import { useAbas } from './context/olt-abas-provider'
 import type oltInterface from './interfaces/olt-interface'
-import type { abaInterface } from './interfaces/abas'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger, } from '@radix-ui/react-dropdown-menu'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
 import { Input } from './components/ui/input'
-
+import { useLazyFetch } from './components/useLazyFetch'
+import { toast } from "sonner"
 const OltManager = () => {
     const [search, setSearch] = useState<string>("")
     const [modalSerial, setmodalSerial] = useState<boolean>(false)
-    const { abaslist, createAba,currentAbaInfo,setcurrentAbaInfo } = useAbas()
+    const { abaslist, createAba, currentAbaInfo, setcurrentAbaInfo } = useAbas()
+    const { data, loading, fetchData, error } = useLazyFetch()
     const filteredOlts = olts.filter((item) => `${item.model} ${item.location}`.toLowerCase().includes(search.toLowerCase()))  /*variavel que guarda o filtro do teclado */
+    const handleClickSerialOnu = async () => {
+        
+        const requestSerial = { olt: currentAbaInfo!.request!.olt.id, serialOnu: 'ZTEGD4B1126A' }
+        if(currentAbaInfo!.request?.olt.model == 'ZTE'){
+            fetchData('http://localhost:3031/zte/pon_route',{
+                method:'POST',
+                body:requestSerial
+            })
+        }
+
+        
+    }
+    useEffect(() => {
+        if (!error){
+            if(typeof data?.message ==="string"){
+                console.log(data);
+                toast("Nenhuma ONU encontrada",  {
+                    description:'Não foram encontradas Onus com o serial informado',
+                })
+            }else{
+                console.log(data);
+                toast("Busca realizada com sucesso!!",  {
+                    description:'Onus carregadas na tabela...',
+                })
+            }
+            
+        }
+    }, [data])
+    useEffect(() => {
+        if(error){
+            toast("Erro inesperado",  {
+                description:error,
+            }) 
+        }
+    }, [error])
+    
     const handleText = (event: any) => {
         setSearch(event.target.value)
     } //função para atualizar estado do search
@@ -74,24 +111,24 @@ const OltManager = () => {
                                 </DropdownMenuContent>
 
                             </DropdownMenu>
-                            
+
                             <SearchInput placeholder='Procurar Onu...' />
                         </div>
                         <Dialog open={modalSerial} >
-                                <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[20%] px-5 pb-5 pt-2 rounded-md flex flex-col">
-                                    <Button className='self-end' size={'icon'} variant={'ghost'} onClick={()=>setmodalSerial(false)}><X/></Button>
-                                    <DialogTitle className="text-xl font-bold">Buscar Pon por Serial de uma Onu</DialogTitle>
-                                    <DialogDescription className="text-sm text-muted-foreground">
-                                        Digite o serial da ONU
-                                    </DialogDescription>
-                                    <Input
-                                        type="text"
-                                        className="mt-4 w-full "
-                                        placeholder="Ex: ZTEG12345678"
-                                    />
-                                    <Button className='mt-4' variant={'outline'}>Buscar</Button>
-                                </DialogContent>
-                            </Dialog>
+                            <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[20%] px-5 pb-5 pt-2 rounded-md flex flex-col">
+                                <Button className='self-end w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalSerial(false)}><X size={10} /></Button>
+                                <DialogTitle className="text-xl font-bold">Buscar Pon por Serial de uma Onu</DialogTitle>
+                                <DialogDescription className="text-sm text-muted-foreground">
+                                    Digite o serial da ONU
+                                </DialogDescription>
+                                <Input
+                                    type="text"
+                                    className="mt-4 w-full "
+                                    placeholder="Ex: ZTEG12345678"
+                                />
+                                <Button onClick={handleClickSerialOnu} disabled={loading?true:false} className='mt-4' variant={'outline'}>{loading? <Loader2 className='animate-spin'/>:'Buscar'}</Button>
+                            </DialogContent>
+                        </Dialog>
                         <TableComponent />
                     </main>
                 </> : <div className='flex-1  col-end-3 flex flex-col justify-center items-center'>

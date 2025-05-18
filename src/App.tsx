@@ -1,3 +1,4 @@
+ import { Toaster } from 'sonner'; 
 import { Github, SquareTerminal, TriangleAlert } from "lucide-react"
 import { ModeToggle } from "./components/mode-toggle"
 import TabBar from "./components/TabBar"
@@ -45,7 +46,7 @@ function App() {
         {/*Função que retorna qual component deve ser renderizado*/}
         {renderScreen()}
       </div>
-
+      <Toaster  />
     </ThemeProvider>
 
   )
