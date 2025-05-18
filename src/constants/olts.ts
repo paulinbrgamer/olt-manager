@@ -1,4 +1,6 @@
-const olts = [
+import type oltInterface from "@/interfaces/olt-interface";
+
+const olts :  oltInterface[] = [
   { id: 1, model: "HW", location: "Aurora" },
   { id: 2, model: "HW", location: "Aurora/Jacamin" },
   { id: 3, model: "ZTE", location: "Aurora/Ramal do Cacoal" },
@@ -9,13 +11,11 @@ const olts = [
   { id: 8, model: "HW", location: "Curuça/KM50" },
   { id: 9, model: "ZTE", location: "Igarapé-Açú" },
   { id: 10, model: "ZTE", location: "Igarapé-Açú/KM96-Sao Fran" },
-  { id: 11, model: "PARKS", location: "Inhangapi - Pernambuco" },
   { id: 12, model: "HW", location: "Ipixuna/Cidade" },
   { id: 13, model: "ZTE", location: "Ipixuna/KM88 - NOVO HORIZONTE" },
   { id: 14, model: "HW", location: "Irituia" },
   { id: 15, model: "ZTE", location: "Marapanim/Cidade" },
   { id: 16, model: "HW", location: "Marudá(Crispim/Vista Alegre/Araticu/Camara)" },
-  { id: 17, model: "PARKS", location: "Mãe do Rio / PARKS" },
   { id: 18, model: "ZTE", location: "Mãe do Rio / ZTE" },
   { id: 19, model: "ZTE", location: "Recreio" },
   { id: 20, model: "ZTE", location: "Santa Izabel Pará" },

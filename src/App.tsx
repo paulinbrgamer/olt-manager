@@ -27,6 +27,7 @@ function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <div className="flex h-screen w-full ">
+        
         <TabBar>
           <Button className={`${tabSelected == "OLTs" && "bg-accent"} w-12 h-10`} onClick={() => handleClickTab("OLTs")} variant="ghost">
             <SquareTerminal className="!w-6 !h-6" color={icons.blue} />
