@@ -10,13 +10,14 @@ import AbaHeader from './components/AbaHeader'
 import { useAbas } from './context/olt-abas-provider'
 import type oltInterface from './interfaces/olt-interface'
 import type { abaInterface } from './interfaces/abas'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger, } from '@radix-ui/react-dropdown-menu'
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
+import { Input } from './components/ui/input'
 
 const OltManager = () => {
     const [search, setSearch] = useState<string>("")
-    const [currentAba, setcurrentAba] = useState<string | null>(null)
-    const [currentAbaInfo, setcurrentAbaInfo] = useState<abaInterface | null>(null)
-    const { abaslist, createAba } = useAbas()
+    const [modalSerial, setmodalSerial] = useState<boolean>(false)
+    const { abaslist, createAba,currentAbaInfo,setcurrentAbaInfo } = useAbas()
     const filteredOlts = olts.filter((item) => `${item.model} ${item.location}`.toLowerCase().includes(search.toLowerCase()))  /*variavel que guarda o filtro do teclado */
     const handleText = (event: any) => {
         setSearch(event.target.value)
@@ -24,12 +25,9 @@ const OltManager = () => {
 
     const handleClickSelectOlt = (oltItem: oltInterface) => {
         const idnewAba = createAba(oltItem)
-        setcurrentAba(idnewAba)
+        setcurrentAbaInfo(idnewAba)
     }
-    useEffect(() => {
-        console.log(currentAba);
 
-    }, [currentAba])
 
     return (
         <div className='grid grid-cols-[260px_2fr] grid-rows-[30px_1fr]  w-full '>
@@ -48,10 +46,10 @@ const OltManager = () => {
                 </div>
             </aside>
             <header className='flex h-11 bg-accent overflow-x-scroll ' >
-                {abaslist?.map(aba => <AbaHeader key={aba.id} setcurrentAba={setcurrentAba} currentSelected={currentAba} abaInfo={aba} />)}
+                {abaslist?.map(aba => <AbaHeader key={aba.id} abaInfo={aba} />)}
             </header>
             {/*Conteudo principal renderizado*/}
-            {currentAba ?
+            {currentAbaInfo ?
                 <>
                     <main className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full ">
                         <div className='grid grid-cols-[0.5fr_0.5fr_0.5fr_1fr] gap-2 justify-center w-fit justify-items-end self-start ml-auto'>
@@ -68,17 +66,32 @@ const OltManager = () => {
                                         <DropdownMenuItem>
                                             <Button className='w-full text-start' variant={'ghost'}>Buscar por Pon</Button>
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem>
+                                        <DropdownMenuItem onSelect={() => setmodalSerial(true)}>
                                             <Button className='w-full text-start' variant={'ghost'}>Buscar por Serial</Button>
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>
+
                                 </DropdownMenuContent>
 
                             </DropdownMenu>
-
-
+                            
                             <SearchInput placeholder='Procurar Onu...' />
                         </div>
+                        <Dialog open={modalSerial} >
+                                <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[20%] px-5 pb-5 pt-2 rounded-md flex flex-col">
+                                    <Button className='self-end' size={'icon'} variant={'ghost'} onClick={()=>setmodalSerial(false)}><X/></Button>
+                                    <DialogTitle className="text-xl font-bold">Buscar Pon por Serial de uma Onu</DialogTitle>
+                                    <DialogDescription className="text-sm text-muted-foreground">
+                                        Digite o serial da ONU
+                                    </DialogDescription>
+                                    <Input
+                                        type="text"
+                                        className="mt-4 w-full "
+                                        placeholder="Ex: ZTEG12345678"
+                                    />
+                                    <Button className='mt-4' variant={'outline'}>Buscar</Button>
+                                </DialogContent>
+                            </Dialog>
                         <TableComponent />
                     </main>
                 </> : <div className='flex-1  col-end-3 flex flex-col justify-center items-center'>

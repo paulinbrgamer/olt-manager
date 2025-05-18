@@ -6,37 +6,34 @@ import { type ponRequest } from '@/interfaces/request'
 import { useAbas } from '@/context/olt-abas-provider'
 interface Props {
     abaInfo: abaInterface,
-    currentSelected: string | null
-    setcurrentAba(state: string | null): void
 }
 function isPonRequest(obj: any): obj is ponRequest {
     return obj && typeof obj.pon === 'number' && typeof obj.slot === 'number';
 }
 
-const AbaHeader: React.FC<Props> = ({ abaInfo, currentSelected, setcurrentAba }) => {
-    const { removeAba ,abaslist} = useAbas()
+const AbaHeader: React.FC<Props> = ({ abaInfo}) => {
+    const { removeAba ,abaslist,setcurrentAbaInfo,currentAbaInfo} = useAbas()
     const handleDelete = (e: React.MouseEvent) => {
         e.stopPropagation();
         //variaveis para mudar automaticamente a aba ao se deletar, caso seja preciso
         const currentIndex = abaslist.findIndex(aba => aba.id === abaInfo.id);
-        const isCurrent = currentSelected === abaInfo.id;
+        const isCurrent = currentAbaInfo?.id === abaInfo.id;
         const hasMultipleAbas = abaslist.length > 1;
         const hasPreviousAba = currentIndex > 0;
-        const hasFrontAbas = abaslist[currentIndex+1] !=undefined 
         if (hasMultipleAbas && isCurrent && hasPreviousAba) {
-          const previousAbaId = abaslist[currentIndex - 1].id;
-          setcurrentAba(previousAbaId);
+          const previousAbaId = abaslist[currentIndex - 1];
+          setcurrentAbaInfo(previousAbaId);
           console.log("Selecionando aba anterior:", previousAbaId);
         }
         if(!hasMultipleAbas){
-            setcurrentAba(null)
+            setcurrentAbaInfo(null)
         }
 
         removeAba(abaInfo.id);
       };
       
     return (
-        <span onClick={() => setcurrentAba(abaInfo.id)} className={`cursor-pointer flex items-center gap-2 px-2    ${currentSelected === abaInfo.id ? "bg-background border-b-2 border-sky-600" : "bg-accent border-border"}`}>
+        <span onClick={() => setcurrentAbaInfo(abaInfo)} className={`cursor-pointer flex items-center gap-2 px-2    ${currentAbaInfo!.id === abaInfo.id ? "bg-background border-b-2 border-sky-600" : "bg-accent border-border"}`}>
             {/* Container de informações com truncamento */}
             <div className="flex flex-col min-w-0 max-w-[150px] overflow-hidden">
                 <p className="text-sm font-semibold text-slate-400 truncate">

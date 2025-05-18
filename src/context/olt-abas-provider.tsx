@@ -11,12 +11,16 @@ interface  Props {
 interface AbasContextInterface {
   abaslist: abaInterface[] ,
   removeAba(id:string):void,
-  createAba(oltObj:oltInterface): string,
+  createAba(oltObj:oltInterface): abaInterface,
+  currentAbaInfo : abaInterface | null,
+  setcurrentAbaInfo(abaInfo : abaInterface | null):void
+
 }
 //criação do contexto
 const AbasContext = createContext<AbasContextInterface | null>(null)
 
 const AbasProvider : React.FC<Props> = ({children}) => {
+  const [currentAbaInfo, setcurrentAbaInfo] = useState<abaInterface | null>(null)
   
   //listagem das abas
   const [abaslist, setAbasList] = useState<abaInterface[] >([])
@@ -35,11 +39,20 @@ const AbasProvider : React.FC<Props> = ({children}) => {
 
     }
     setAbasList(prev=>[...prev,newAbba])
-    return newAbba.id
+    return newAbba
   }
-
+  useEffect(() => {
+    console.log(abaslist);
+    
+  }, [abaslist])
+  useEffect(() => {
+    console.log("Selected");
+    
+    console.log(currentAbaInfo);
+    
+  }, [currentAbaInfo])
   return (
-    <AbasContext.Provider value={{abaslist,removeAba,createAba}}>
+    <AbasContext.Provider value={{abaslist,removeAba,createAba,currentAbaInfo,setcurrentAbaInfo}}>
     {children}
     </AbasContext.Provider>
   )
