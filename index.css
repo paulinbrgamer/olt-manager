@@ -1,20 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-/* scrollbar escondida */
-.scrollbar-none::-webkit-scrollbar {
-  display: none;
-}
-.scrollbar-none {
-  -ms-overflow-style: none;  /* IE e Edge */
-  scrollbar-width: none;     /* Firefox */
-}
 
-.selected-aba{
-  @apply border-1 h-full p-2 justify-between bg-background border-b-0 flex gap-2 flex-1 min-w-0
-}
-.unselected-aba{
-  @apply border-0 h-full p-2 bg-accent opacity-20 flex gap-2 
-}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -56,6 +43,7 @@
 }
 
 :root {
+  --destaque :oklch(45.5% 0.188 13.697);
   --radius: 0.625rem;
   --background: oklch(96.7% 0.001 286.375);
   --foreground: oklch(27.9% 0.041 260.031);
@@ -91,6 +79,7 @@
 }
 
 .dark {
+  --destaque : oklch(45.5% 0.188 13.697);
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);

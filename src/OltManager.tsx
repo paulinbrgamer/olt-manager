@@ -44,13 +44,13 @@ const OltManager = () => {
                             Icon={<Server color={oltItem.model == "HW" ? icons.red : icons.blue} />} />)}
                 </div>
             </aside>
-
-            {/*Conteudo principal renderizado*/}
-            {abaslist.length > 0 &&
-                <>
-                    <header className='flex h-11 bg-accent overflow-x-scroll ' >
+            <header className='flex h-11 bg-accent overflow-x-scroll ' >
                         {abaslist?.map(aba => <AbaHeader key={aba.id} setcurrentAba={setcurrentAba} currentSelected={currentAba} abaInfo={aba} />)}
                     </header>
+            {/*Conteudo principal renderizado*/}
+            {currentAba &&
+                <>
+                    
                     <main className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full ">
                         <div className='grid grid-cols-[0.5fr_0.5fr_0.5fr_1fr] gap-2 justify-center w-fit justify-items-end self-start ml-auto'>
                             <IconButton className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
