@@ -32,10 +32,10 @@ function App() {
         <TabBar>
           {/*Bottoes da tab */}
           <Button className={`${tabSelected == "OLTs" && "bg-accent"} w-12 h-10`} onClick={() => handleClickTab("OLTs")} variant="ghost">
-            <SquareTerminal className="!w-6 !h-6" color={icons.blue} />
+            <SquareTerminal className={`!w-6 !h-6 ${tabSelected === "OLTs" ? "text-sky-400" : "text-foreground"}`} />
           </Button>
           <Button className={`${tabSelected == "Incidentes" && "bg-accent"} w-12 h-10`} onClick={() => handleClickTab("Incidentes")} variant="ghost">
-            <TriangleAlert className="!w-6 !h-6" />
+            <TriangleAlert className={`!w-6 !h-6 ${tabSelected === "Incidentes" ? "text-sky-400" : "text-foreground"}`}/>
           </Button>
           <ModeToggle />
         </TabBar>

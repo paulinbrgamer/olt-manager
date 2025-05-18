@@ -7,7 +7,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Signal } from "lucide-react"
+import { EllipsisVertical, Signal } from "lucide-react"
+import { Button } from "./ui/button"
 
 const TableComponent = () => {
     return (
@@ -19,8 +20,8 @@ const TableComponent = () => {
                         <TableHead className="w-[100px] ">ID</TableHead>
                         <TableHead>Nome</TableHead>
                         <TableHead>Serial</TableHead>
+                        <TableHead className="text-center">Status</TableHead>
                         <TableHead className="text-right">Sinal(dbm)</TableHead>
-                        <TableHead className="text-right">Status</TableHead>
                         <TableHead className="text-right">Ultima queda</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -29,15 +30,24 @@ const TableComponent = () => {
                         <TableCell className="font-medium">1</TableCell>
                         <TableCell>19:lucas</TableCell>
                         <TableCell>ZTEG219G9D</TableCell>
-                        <TableCell className="flex gap-2 justify-end items-center">
-                            <Signal/>
-                            <p> -19</p>
-                        </TableCell>
-                        <TableCell className="text-right">
+                        <TableCell className="text-center">
                             Working
                         </TableCell>
-                        <TableCell className="text-end">
-                            2024-02-02 - 14:00
+                        <TableCell className="">
+                            <div className="flex justify-end gap-2 items-end">
+                            <Signal size={20}/>
+                            <p> -19</p>
+                            </div>
+                        </TableCell>
+
+                        <TableCell >
+                        <div className="flex justify-end gap-2 items-center">
+                            <span >2024-02-02 - 14:00</span>
+                            <Button variant={'ghost'} size={'icon'}>
+                            <EllipsisVertical />
+                            </Button>
+                            </div>
+                            
                         </TableCell>
                     </TableRow>
                     
