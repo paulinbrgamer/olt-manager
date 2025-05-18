@@ -13,21 +13,21 @@ import type oltInterface from './interfaces/olt-interface'
 const OltManager = () => {
     const [search, setSearch] = useState<string>("")
     const [currentAba, setcurrentAba] = useState<string | null>(null)
-    const { abaslist ,createAba} = useAbas()
+    const { abaslist, createAba } = useAbas()
     const filteredOlts = olts.filter((item) => `${item.model} ${item.location}`.toLowerCase().includes(search.toLowerCase()))  /*variavel que guarda o filtro do teclado */
 
     const handleText = (event: any) => {
         setSearch(event.target.value)
     } //função para atualizar estado do search
-    const handleClickSelectOlt = (oltItem:oltInterface)=>{
+    const handleClickSelectOlt = (oltItem: oltInterface) => {
         const idnewAba = createAba(oltItem)
         setcurrentAba(idnewAba)
     }
     useEffect(() => {
-      console.log(currentAba);
-      
+        console.log(currentAba);
+
     }, [currentAba])
-    
+
     return (
         <div className='grid grid-cols-[240px_2fr] grid-rows-[30px_1fr]  w-full'>
             <aside className='grid-cols-1 p-4  border-border border-r-1  flex flex-col justify-start items-center gap-5 h-screen w-[240px]'> {/*aside com as OLTs listadas */}
@@ -36,7 +36,7 @@ const OltManager = () => {
                 <div className='w-full overflow-y-scroll gap-1 flex flex-col'>
                     {filteredOlts.map(oltItem =>
                         <IconButton
-                            onClick={()=>handleClickSelectOlt(oltItem)}
+                            onClick={() => handleClickSelectOlt(oltItem)}
                             className='justify-start'
                             variant={"ghost"}
                             key={oltItem.id}
@@ -45,22 +45,25 @@ const OltManager = () => {
                 </div>
             </aside>
 
-            <header className='flex h-11 bg-accent overflow-x-scroll ' >
-                {abaslist?.map(aba => <AbaHeader key={aba.id} setcurrentAba={setcurrentAba} currentSelected={currentAba} abaInfo={aba} />)}
-            </header>
-            {/*Conteudo principal renderizado*/}
-            <main className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full ">
 
-                <div className='grid grid-cols-[0.5fr_0.5fr_0.5fr_1fr] gap-2 justify-center w-fit justify-items-end self-start ml-auto'>
-                    <IconButton className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
-                    <IconButton className='w-fit' variant={'outline'} Icon={<RotateCcw />} text='Atualizar' />
-                    <Button className='w-fit' variant={'outline'}>
-                        <p>Carregar Pon</p>
-                    </Button>
-                    <SearchInput placeholder='Procurar Onu...' />
-                </div>
-                <TableComponent />
-            </main>
+            {/*Conteudo principal renderizado*/}
+            {abaslist.length > 0 &&
+                <>
+                    <header className='flex h-11 bg-accent overflow-x-scroll ' >
+                        {abaslist?.map(aba => <AbaHeader key={aba.id} setcurrentAba={setcurrentAba} currentSelected={currentAba} abaInfo={aba} />)}
+                    </header>
+                    <main className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full ">
+                        <div className='grid grid-cols-[0.5fr_0.5fr_0.5fr_1fr] gap-2 justify-center w-fit justify-items-end self-start ml-auto'>
+                            <IconButton className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
+                            <IconButton className='w-fit' variant={'outline'} Icon={<RotateCcw />} text='Atualizar' />
+                            <Button className='w-fit' variant={'outline'}>
+                                <p>Carregar Pon</p>
+                            </Button>
+                            <SearchInput placeholder='Procurar Onu...' />
+                        </div>
+                        <TableComponent />
+                    </main>
+                </>}
         </div>
     )
 }

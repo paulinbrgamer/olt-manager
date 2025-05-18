@@ -17,7 +17,7 @@ const AbaHeader: React.FC<Props> = ({ abaInfo, currentSelected, setcurrentAba })
     const { removeAba ,abaslist} = useAbas()
     const handleDelete = (e: React.MouseEvent) => {
         e.stopPropagation();
-      
+        //variaveis para mudar automaticamente a aba ao se deletar, caso seja preciso
         const currentIndex = abaslist.findIndex(aba => aba.id === abaInfo.id);
         const isCurrent = currentSelected === abaInfo.id;
         const hasMultipleAbas = abaslist.length > 1;
@@ -28,11 +28,7 @@ const AbaHeader: React.FC<Props> = ({ abaInfo, currentSelected, setcurrentAba })
           setcurrentAba(previousAbaId);
           console.log("Selecionando aba anterior:", previousAbaId);
         }
-        if(hasFrontAbas && !hasPreviousAba){
-            const nextAbaId = abaslist[currentIndex + 1].id;
-          setcurrentAba(nextAbaId);
-          console.log("Selecionando aba superior:", nextAbaId);
-        }
+
         removeAba(abaInfo.id);
       };
       
