@@ -29,8 +29,8 @@ const OltManager = () => {
     }, [currentAba])
 
     return (
-        <div className='grid grid-cols-[240px_2fr] grid-rows-[30px_1fr]  w-full'>
-            <aside className='grid-cols-1 p-4  border-border border-r-1  flex flex-col justify-start items-center gap-5 h-screen w-[240px]'> {/*aside com as OLTs listadas */}
+        <div className='grid grid-cols-[240px_2fr] grid-rows-[30px_1fr]  w-full '>
+            <aside className='bg-background grid-cols-1 p-4  border-border border-r-1  flex flex-col justify-start items-center gap-5 h-screen w-[240px]'> {/*aside com as OLTs listadas */}
                 <SearchInput placeholder='Pesquisar Olt...' onChange={handleText} value={search} />
                 {/*Container de Olts*/}
                 <div className='w-full overflow-y-scroll gap-1 flex flex-col'>
@@ -44,7 +44,6 @@ const OltManager = () => {
                             Icon={<Server color={oltItem.model == "HW" ? icons.red : icons.blue} />} />)}
                 </div>
             </aside>
-
 
             {/*Conteudo principal renderizado*/}
             {abaslist.length > 0 &&
