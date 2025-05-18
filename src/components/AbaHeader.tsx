@@ -38,7 +38,7 @@ const AbaHeader: React.FC<Props> = ({ abaInfo, currentSelected, setcurrentAba })
     return (
         <span onClick={() => setcurrentAba(abaInfo.id)} className={`cursor-pointer flex items-center gap-2 px-2    ${currentSelected === abaInfo.id ? "bg-background border-b-2 border-sky-600" : "bg-accent border-border"}`}>
             {/* Container de informações com truncamento */}
-            <div className="flex flex-col min-w-0 max-w-[120px] overflow-hidden">
+            <div className="flex flex-col min-w-0 max-w-[150px] overflow-hidden">
                 <p className="text-sm font-semibold text-slate-400 truncate">
                     {abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location}
                 </p>

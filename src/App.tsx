@@ -1,4 +1,4 @@
-import { SquareTerminal, TriangleAlert } from "lucide-react"
+import { Github, SquareTerminal, TriangleAlert } from "lucide-react"
 import { ModeToggle } from "./components/mode-toggle"
 import TabBar from "./components/TabBar"
 import { ThemeProvider } from "./context/theme-provider"
@@ -36,7 +36,11 @@ function App() {
           <Button className={`${tabSelected == "Incidentes" && "bg-accent"} w-10 h-8`} onClick={() => handleClickTab("Incidentes")} variant="ghost">
             <TriangleAlert className={`!w-5 !h-5 ${tabSelected === "Incidentes" ? "text-sky-400" : "text-foreground"}`}/>
           </Button>
+          
           <ModeToggle />
+            <a className="p-2 mt-auto" href="https://github.com/paulinbrgamer">
+            <Github size={16}/>
+            </a>
         </TabBar>
         {/*Função que retorna qual component deve ser renderizado*/}
         {renderScreen()}
