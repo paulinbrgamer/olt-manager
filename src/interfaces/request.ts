@@ -1,5 +1,7 @@
+import type oltInterface from "./olt-interface"
+
 interface request {
-    olt : number
+    olt : oltInterface
 }
 export interface serialRequest extends request{
     serialOnu : string

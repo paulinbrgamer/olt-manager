@@ -2,6 +2,7 @@ import React, { useContext,createContext, type ReactNode, useState } from "react
 import {type abaInterface } from "@/interfaces/abas"
 import generateId from "@/utils/generateId"
 import type { Request } from "@/interfaces/request"
+import type oltInterface from "@/interfaces/olt-interface"
 
 interface  Props {
   children: ReactNode
@@ -10,7 +11,7 @@ interface  Props {
 interface AbasContextInterface {
   abaslist: abaInterface[] | null,
   removeAba(id:string):void,
-  createAba(oltId:number): void,
+  createAba(oltObj:oltInterface): void,
 }
 //criação do contexto
 const AbasContext = createContext<AbasContextInterface | null>(null)
@@ -23,10 +24,10 @@ const AbasProvider : React.FC<Props> = ({children}) => {
     setAbasList(prev=>prev.filter((aba)=>aba.id!=id))
   }
   //função para crair aba passando o id da OLT 
-  const createAba = (oltId:number)=>{
+  const createAba = (oltObj:oltInterface)=>{
     const newAbba : abaInterface = {
       id: generateId(),
-      request: {olt:oltId} as Request,
+      request: {olt:oltObj} as Request,
       OnuList : [],
       filter : "",
       incident : []

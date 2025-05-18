@@ -1,6 +1,20 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+/* scrollbar escondida */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE e Edge */
+  scrollbar-width: none;     /* Firefox */
+}
 
+.selected-aba{
+  @apply border-1 h-full p-2 justify-between bg-background border-b-0 flex gap-2 flex-1 min-w-0
+}
+.unselected-aba{
+  @apply border-0 h-full p-2 bg-accent opacity-20 flex gap-2 
+}
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
