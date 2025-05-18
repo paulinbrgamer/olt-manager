@@ -4,3 +4,4 @@ export default interface oltInterface {
     model : Model,
     location : string
 }
+

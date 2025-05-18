@@ -3,16 +3,17 @@ import { ModeToggle } from "./components/mode-toggle"
 import TabBar from "./components/TabBar"
 import { ThemeProvider } from "./context/theme-provider"
 import { Button } from "./components/ui/button"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import OltManager from "./OltManager"
 import Incidents from "./Incidents"
-import { icons } from "./constants/colors"
-
+import { useAbas } from "./context/olt-abas-provider"
 type tabSelect = "OLTs" | "Incidentes"
 
 function App() {
   const [tabSelected, settabSelected] = useState<tabSelect>("OLTs")
+  const  {abaslist,createAba,removeAba}=useAbas()
 
+  
   const handleClickTab = (tab: tabSelect) => {
     settabSelected(tab)
   }
@@ -42,6 +43,7 @@ function App() {
         {/*Função que retorna qual component deve ser renderizado*/}
         {renderScreen()}
       </div>
+
     </ThemeProvider>
 
   )
