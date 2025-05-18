@@ -16,19 +16,21 @@ function App() {
   const handleClickTab = (tab: tabSelect) => {
     settabSelected(tab)
   }
-  const renderScreen = ()=>{
-      switch (tabSelected) {
-        case "Incidentes":
-          return <Incidents/> 
-        case "OLTs":
-          return <OltManager/>
-      }
+  const renderScreen = () => {
+    switch (tabSelected) {
+      case "Incidentes":
+        return <Incidents />
+      case "OLTs":
+        return <OltManager />
+    }
   }
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      {/*Container geral da aplicação, guarda a barra de navegação e o conteudo renderizado */}
       <div className="flex h-screen w-full ">
-        
+        {/*Barra lateral  */}
         <TabBar>
+          {/*Bottoes da tab */}
           <Button className={`${tabSelected == "OLTs" && "bg-accent"} w-12 h-10`} onClick={() => handleClickTab("OLTs")} variant="ghost">
             <SquareTerminal className="!w-6 !h-6" color={icons.blue} />
           </Button>
@@ -37,6 +39,7 @@ function App() {
           </Button>
           <ModeToggle />
         </TabBar>
+        {/*Função que retorna qual component deve ser renderizado*/}
         {renderScreen()}
       </div>
     </ThemeProvider>
