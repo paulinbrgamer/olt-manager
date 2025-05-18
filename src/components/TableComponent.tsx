@@ -16,7 +16,7 @@ const TableComponent = () => {
             <Table className="flex-1">
                 <TableCaption>Resultados encontrados : 0</TableCaption>
                 <TableHeader >
-                    <TableRow className="bg-accent/90 ">
+                    <TableRow className="bg-accent/90 z-1 sticky ">
                         <TableHead className="w-[100px] ">ID</TableHead>
                         <TableHead>Nome</TableHead>
                         <TableHead>Serial</TableHead>
