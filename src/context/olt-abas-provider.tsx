@@ -1,4 +1,4 @@
-import React, { useContext,createContext, type ReactNode, useState } from "react"
+import React, { useContext,createContext, type ReactNode, useState, useEffect } from "react"
 import {type abaInterface } from "@/interfaces/abas"
 import generateId from "@/utils/generateId"
 import type { Request } from "@/interfaces/request"
@@ -9,21 +9,22 @@ interface  Props {
 }
 //interface para o context
 interface AbasContextInterface {
-  abaslist: abaInterface[] | null,
+  abaslist: abaInterface[] ,
   removeAba(id:string):void,
-  createAba(oltObj:oltInterface): void,
+  createAba(oltObj:oltInterface): string,
 }
 //criação do contexto
 const AbasContext = createContext<AbasContextInterface | null>(null)
 
 const AbasProvider : React.FC<Props> = ({children}) => {
+  
   //listagem das abas
   const [abaslist, setAbasList] = useState<abaInterface[] >([])
   //função para remover aba passando o id da mesma
   const removeAba = (id:string)=>{
     setAbasList(prev=>prev.filter((aba)=>aba.id!=id))
   }
-  //função para crair aba passando o id da OLT 
+  //função para crair aba passando o id da OLT , retorna o id criado
   const createAba = (oltObj:oltInterface)=>{
     const newAbba : abaInterface = {
       id: generateId(),
@@ -34,7 +35,12 @@ const AbasProvider : React.FC<Props> = ({children}) => {
 
     }
     setAbasList(prev=>[...prev,newAbba])
+    return newAbba.id
   }
+  useEffect(() => {
+    console.log(abaslist);
+    
+  }, [abaslist])
   return (
     <AbasContext.Provider value={{abaslist,removeAba,createAba}}>
     {children}
