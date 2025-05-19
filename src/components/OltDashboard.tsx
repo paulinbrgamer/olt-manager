@@ -21,7 +21,7 @@ interface Props {
 const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
     const [modalSerial, setmodalSerial] = useState<boolean>(false) //state para modal
     const { data, loading, fetchData, error } = useLazyFetch() // fetch hook
-    const { updateAba, setcurrentAbaInfo, abaslist } = useAbas() //context api
+    const { updateAba, abaslist } = useAbas() //context api
     const getAbaFromList = (): abaInterface => {
         return abaslist[abaslist.findIndex((abas) => abas.id == abaInfoId)] //função que retorna a aba utilizando o id
     }
@@ -104,7 +104,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                             <SearchInput placeholder='Procurar Onu...' />
                         </div>
                         <Dialog open={modalSerial} onOpenChange={setmodalSerial}>
-                             <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50" />
+                             <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
                             <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[20%] px-5 pb-5 pt-2 rounded-md flex flex-col">
                                 <Button className='self-end w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalSerial(false)}><X size={10} /></Button>
                                 <DialogTitle className="text-xl font-bold">Buscar Pon por Serial de uma Onu</DialogTitle>

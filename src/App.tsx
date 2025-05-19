@@ -27,9 +27,8 @@ function App() {
     }
   }
   return (
-    <AbasProvider>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <AbasProvider>
 
         {/*Container geral da aplicação, guarda a barra de navegação e o conteudo renderizado */}
         <div className="flex h-screen w-full ">
@@ -44,7 +43,7 @@ function App() {
             </Button>
 
             <ModeToggle />
-              <a className="p-2 mt-auto" href="https://github.com/paulinbrgamer">
+            <a className="p-2 mt-auto" href="https://github.com/paulinbrgamer">
               <Github size={16} />
             </a>
           </TabBar>
@@ -52,8 +51,9 @@ function App() {
           {renderScreen()}
         </div>
         <Toaster />
-      </ThemeProvider>
-    </AbasProvider>
+      </AbasProvider>
+
+    </ThemeProvider>
 
 
   )
