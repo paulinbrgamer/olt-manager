@@ -1,10 +1,10 @@
-import { Loader2, RotateCcw, TriangleAlert, X } from 'lucide-react'
+import { RotateCcw, TriangleAlert, X } from 'lucide-react'
 import { Button } from './ui/button'
 import TableComponent from './TableComponent'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger, } from '@radix-ui/react-dropdown-menu'
 import { Dialog, DialogContent, DialogDescription, DialogTitle, Overlay } from '@radix-ui/react-dialog'
 import { Input } from './ui/input'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, type ChangeEvent } from 'react'
 import { useLazyFetch } from './useLazyFetch'
 import { useAbas } from '@/context/olt-abas-provider'
 import { toast } from 'sonner'
@@ -15,30 +15,52 @@ import type { abaInterface } from '@/interfaces/abas'
 import { type ponRequest } from '@/interfaces/request'
 import LoaderButton from './LoaderButton'
 import { getAbaFromList } from '@/utils/getAbaFromList'
-import Onus from '@/constants/onuListTest'
+import { Label } from './ui/label'
 interface Props {
     abaInfoId?: string
 }
 const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
     const [modalSerial, setmodalSerial] = useState<boolean>(false) //state para modal
+    const [requestSerialInput, setrequestSerialInput] = useState<string>('')
+    const [requestPonInput, setrequestPonInput] = useState<{ slot: number | undefined, pon: number | undefined }>({ slot: undefined, pon: undefined })
+    const [modalPon, setmodalPon] = useState<boolean>(false)
     const { data, loading, fetchData, error } = useLazyFetch() // fetch hook
     const { updateAba, abaslist } = useAbas() //context api
 
-    const [abaInfo, setAbaInfo] = useState<abaInterface>(getAbaFromList(abaInfoId!,abaslist))//inicializando a informação de aba usando a função acima
+    const [abaInfo, setAbaInfo] = useState<abaInterface>(getAbaFromList(abaInfoId!, abaslist))//inicializando a informação de aba usando a função acima
 
     const handleClickSerialOnu = async () => {
-        const requestSerial = { olt: abaInfo!.request!.olt.id, serialOnu: 'ZTEGD4B1126A' }
-        if (abaInfo!.request?.olt.model == 'ZTE') {
-            fetchData('http://localhost:3031/zte/pon_route', {
-                method: 'POST',
-                body: requestSerial
-            })
-        }
+        if (requestSerialInput.length < 1) {
+            toast('Serial inserido invalido!!')
+        } else {
 
+            const requestSerial = { olt: abaInfo!.request!.olt.id, serialOnu: requestSerialInput }
+            if (abaInfo!.request?.olt.model == 'ZTE') {
+                fetchData('http://localhost:3031/zte/pon_route', {
+                    method: 'POST',
+                    body: requestSerial
+                })
+            }
+        }
     }
+    const handleClickPonRequest = async()=>{
+        if (requestPonInput.pon && requestPonInput.slot) {
+            const requestPon = { olt: abaInfo!.request!.olt.id, slot: requestPonInput.slot,pon:requestPonInput.pon }
+            if (abaInfo!.request?.olt.model == 'ZTE') {
+                fetchData('http://localhost:3031/zte/pon_route', {
+                    method: 'POST',
+                    body: requestPon
+                })
+            }
+        }
+        else{
+            toast('Slot ou Pon invalido!!')
+        } 
+    }
+    
     useEffect(() => {
-        interface ErrorResponse {message: string}
-        function isErrorResponse(data: responseData): data is ErrorResponse {return !Array.isArray(data);} //guarde que retorna se encontoru onu ou Não
+        interface ErrorResponse { message: string }
+        function isErrorResponse(data: responseData): data is ErrorResponse { return !Array.isArray(data); } //guarde que retorna se encontoru onu ou Não
         type responseData = OnuInfo[] | ErrorResponse
         //verificação se não consta erro e foi feito fetch
         if (!error && data != null) {
@@ -50,13 +72,14 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             } else {
                 //@ts-expect-error
                 const onulist: OnuInfo[] = data
-                const requestInfo : ponRequest = {olt:abaInfo.request?.olt!,slot:Number(onulist[0].slot),pon:Number(onulist[0]!.pon)}
+                const requestInfo: ponRequest = { olt: abaInfo.request?.olt!, slot: Number(onulist[0].slot), pon: Number(onulist[0]!.pon) }
 
-                updateAba({ ...abaInfo!, OnuList: onulist ,request:requestInfo}) //atualizando aba atual com OnUlIST
+                updateAba({ ...abaInfo!, OnuList: onulist, request: requestInfo }) //atualizando aba atual com OnUlIST
                 toast("Busca realizada com sucesso!!", {
                     description: 'Onus carregadas na tabela...',
                 })
                 setmodalSerial(false)
+                setmodalPon(false)
             }
 
         }
@@ -69,9 +92,9 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
         }
     }, [error])
     useEffect(() => {
-        setAbaInfo(getAbaFromList(abaInfoId!,abaslist)) //atualizando a info da aba local
+        setAbaInfo(getAbaFromList(abaInfoId!, abaslist)) //atualizando a info da aba local
     }, [abaslist])
-    
+
     return (
         <>
             {abaInfo ?
@@ -86,10 +109,9 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                                         <p>Carregar Pon</p>
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className='w-40 border rounded-sm bg-background z-10 data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2
-                          data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
+                                <DropdownMenuContent className='w-40 border rounded-sm bg-background z-10 data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
                                     <DropdownMenuGroup>
-                                        <DropdownMenuItem>
+                                        <DropdownMenuItem onSelect={() => setmodalPon(true)}>
                                             <Button className='w-full text-start' variant={'ghost'}>Buscar por Pon</Button>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem onSelect={() => setmodalSerial(true)}>
@@ -100,11 +122,10 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                                 </DropdownMenuContent>
 
                             </DropdownMenu>
-
                             <SearchInput placeholder='Procurar Onu...' />
                         </div>
                         <Dialog open={modalSerial} onOpenChange={setmodalSerial}>
-                             <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
+                            <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
                             <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[10%] mr-[15%]  px-5 pb-5 pt-2 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
                           data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
                                 <Button className='self-end w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalSerial(false)}><X size={10} /></Button>
@@ -113,14 +134,49 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                                     Digite o serial da ONU
                                 </DialogDescription>
                                 <Input
+                                    value={requestSerialInput}
+                                    onChange={(e) => setrequestSerialInput(e.target.value)}
                                     type="text"
                                     className="mt-4 w-full "
                                     placeholder="Ex: ZTEG12345678"
                                 />
-                                <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickSerialOnu} variant='outline' text='Buscar'/>
+                                <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickSerialOnu} variant='outline' text='Buscar' />
                             </DialogContent>
                         </Dialog>
-                        <TableComponent onuList={Onus}/>
+                        <Dialog open={modalPon} onOpenChange={setmodalPon}>
+                            <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
+                            <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[10%] mr-[15%]  px-5 pb-5 pt-2 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
+                          data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
+                                <Button className='self-end w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalPon(false)}><X size={10} /></Button>
+                                <DialogTitle className="text-xl font-bold">Carregar informações de Pon</DialogTitle>
+                                <DialogDescription className="text-sm text-muted-foreground">
+                                    Digite o slot e pon
+                                </DialogDescription>
+                                <Label className='mt-4' htmlFor={'slot'}>Slot</Label>
+                                <Input
+                                    value={requestPonInput.slot!}
+                                    onChange={(e)=>setrequestPonInput(prev=>{
+                                        return {...prev,slot:Number(e.target.value)}
+                                    })}
+                                    id='slot'
+                                    type="text"
+                                    className="mt-2 w-full "
+                                    placeholder="Ex: 2"
+                                />
+                                <Label className='mt-2' htmlFor={'pon'}>Pon</Label>
+                                <Input id='pon'
+                                    onChange={(e)=>setrequestPonInput(prev=>{
+                                        return {...prev,pon:Number(e.target.value)}
+                                    })}
+                                    type="text"
+                                    className="mt-2 w-full "
+                                    placeholder="Ex: 7"
+                                />
+                                <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickPonRequest} variant='outline' text='Buscar' />
+                            </DialogContent>
+                        </Dialog>
+
+                        <TableComponent onuList={abaInfo.OnuList} />
                     </main>
                 </> : <div className='flex-1  col-end-3 flex flex-col justify-center items-center'>
                     <p className='text-3xl font-medium'>Sem Tabs abertas...</p>

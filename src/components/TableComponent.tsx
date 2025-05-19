@@ -43,7 +43,7 @@ const StateComponent = ({ state }: { state: string }) => {
           <p>{state}</p>
         </div>
       );
-    case "Los":
+    case "LOS":
       return (
         <div className="flex w-fit gap-2 bg-red-200/10 text-red-500 p-1 rounded-full">
           <p>{state}</p>
@@ -109,7 +109,7 @@ const TableComponent: React.FC<Props> = ({ onuList }) => {
           </TableBody>
         </Table>
       </div>
-      <TableCaption>Resultados encontrados: {onuList.length}</TableCaption>
+      <p className="text-center text-sm text-accent p-2">Resultados encontrados: {onuList.length}</p>
     </div>
   );
 };
