@@ -13,7 +13,8 @@ interface AbasContextInterface {
   removeAba(id:string):void,
   createAba(oltObj:oltInterface): abaInterface,
   currentAbaInfo : abaInterface | null,
-  setcurrentAbaInfo(abaInfo : abaInterface | null):void
+  setcurrentAbaInfo(abaInfo : abaInterface | null):void,
+  updateAba(abaInfo : abaInterface): void
 
 }
 //criação do contexto
@@ -24,6 +25,14 @@ const AbasProvider : React.FC<Props> = ({children}) => {
   
   //listagem das abas
   const [abaslist, setAbasList] = useState<abaInterface[] >([])
+  //update aba
+  const updateAba = (AbaUpdate:abaInterface)=>{
+    const newstate = abaslist.findIndex((abas)=>abas.id==AbaUpdate.id)
+    setAbasList(prev=>{
+      prev[newstate] = AbaUpdate
+      return prev
+    })
+  }
   //função para remover aba passando o id da mesma
   const removeAba = (id:string)=>{
     setAbasList(prev=>prev.filter((aba)=>aba.id!=id))
@@ -52,7 +61,7 @@ const AbasProvider : React.FC<Props> = ({children}) => {
     
   }, [currentAbaInfo])
   return (
-    <AbasContext.Provider value={{abaslist,removeAba,createAba,currentAbaInfo,setcurrentAbaInfo}}>
+    <AbasContext.Provider value={{abaslist,removeAba,createAba,currentAbaInfo,setcurrentAbaInfo,updateAba}}>
     {children}
     </AbasContext.Provider>
   )

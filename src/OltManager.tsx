@@ -14,10 +14,11 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@radix-ui
 import { Input } from './components/ui/input'
 import { useLazyFetch } from './components/useLazyFetch'
 import { toast } from "sonner"
+import type { OnuInfo } from './interfaces/onu-interface'
 const OltManager = () => {
     const [search, setSearch] = useState<string>("")
     const [modalSerial, setmodalSerial] = useState<boolean>(false)
-    const { abaslist, createAba, currentAbaInfo, setcurrentAbaInfo } = useAbas()
+    const { abaslist, createAba, currentAbaInfo, setcurrentAbaInfo,updateAba } = useAbas()
     const { data, loading, fetchData, error } = useLazyFetch()
     const filteredOlts = olts.filter((item) => `${item.model} ${item.location}`.toLowerCase().includes(search.toLowerCase()))  /*variavel que guarda o filtro do teclado */
     const handleClickSerialOnu = async () => {
@@ -33,14 +34,25 @@ const OltManager = () => {
         
     }
     useEffect(() => {
+        interface ErrorResponse {
+            message:string
+        }
+        function isErrorResponse(data: responseData): data is ErrorResponse {
+            return !Array.isArray(data);
+          }
+
+        type responseData = OnuInfo[] | ErrorResponse
         if (!error){
-            if(typeof data?.message ==="string"){
-                console.log(data);
+            //@ts-expect-error
+            if(isErrorResponse(data)){
                 toast("Nenhuma ONU encontrada",  {
                     description:'Não foram encontradas Onus com o serial informado',
                 })
             }else{
-                console.log(data);
+                //@ts-expect-error
+                const onulist : OnuInfo[] = data
+                updateAba({...currentAbaInfo!,OnuList:onulist})
+                setcurrentAbaInfo({...currentAbaInfo!,OnuList:onulist})
                 toast("Busca realizada com sucesso!!",  {
                     description:'Onus carregadas na tabela...',
                 })
