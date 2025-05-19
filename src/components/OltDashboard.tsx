@@ -4,7 +4,7 @@ import TableComponent from './TableComponent'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger, } from '@radix-ui/react-dropdown-menu'
 import { Dialog, DialogContent, DialogDescription, DialogTitle, Overlay } from '@radix-ui/react-dialog'
 import { Input } from './ui/input'
-import React, { useEffect, useState, type ChangeEvent } from 'react'
+import React, { useEffect, useState, } from 'react'
 import { useLazyFetch } from './useLazyFetch'
 import { useAbas } from '@/context/olt-abas-provider'
 import { toast } from 'sonner'
@@ -43,9 +43,9 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             }
         }
     }
-    const handleClickPonRequest = async()=>{
+    const handleClickPonRequest = async () => {
         if (requestPonInput.pon && requestPonInput.slot) {
-            const requestPon = { olt: abaInfo!.request!.olt.id, slot: requestPonInput.slot,pon:requestPonInput.pon }
+            const requestPon = { olt: abaInfo!.request!.olt.id, slot: requestPonInput.slot, pon: requestPonInput.pon }
             if (abaInfo!.request?.olt.model == 'ZTE') {
                 fetchData('http://localhost:3031/zte/pon_route', {
                     method: 'POST',
@@ -53,11 +53,11 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                 })
             }
         }
-        else{
+        else {
             toast('Slot ou Pon invalido!!')
-        } 
+        }
     }
-    
+
     useEffect(() => {
         interface ErrorResponse { message: string }
         function isErrorResponse(data: responseData): data is ErrorResponse { return !Array.isArray(data); } //guarde que retorna se encontoru onu ou Não
@@ -154,24 +154,34 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                                 </DialogDescription>
                                 <Label className='mt-4' htmlFor={'slot'}>Slot</Label>
                                 <Input
-                                    value={requestPonInput.slot!}
-                                    onChange={(e)=>setrequestPonInput(prev=>{
-                                        return {...prev,slot:Number(e.target.value)}
-                                    })}
-                                    id='slot'
-                                    type="text"
-                                    className="mt-2 w-full "
+                                    id="slot"
+                                    type="number"
                                     placeholder="Ex: 2"
+                                    className="mt-2 w-full"
+                                    value={requestPonInput.slot ?? ""}
+                                    onChange={(e) =>
+                                        setrequestPonInput((prev) => ({
+                                            ...prev,
+                                            slot: e.target.valueAsNumber,
+                                        }))
+                                    }
                                 />
-                                <Label className='mt-2' htmlFor={'pon'}>Pon</Label>
-                                <Input id='pon'
-                                    onChange={(e)=>setrequestPonInput(prev=>{
-                                        return {...prev,pon:Number(e.target.value)}
-                                    })}
-                                    type="text"
-                                    className="mt-2 w-full "
+
+                                <Label htmlFor="pon" className="mt-4 block">Pon</Label>
+                                <Input
+                                    id="pon"
+                                    type="number"
                                     placeholder="Ex: 7"
+                                    className="mt-2 w-full"
+                                    value={requestPonInput.pon ?? ""}
+                                    onChange={(e) =>
+                                        setrequestPonInput((prev) => ({
+                                            ...prev,
+                                            pon: e.target.valueAsNumber,
+                                        }))
+                                    }
                                 />
+
                                 <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickPonRequest} variant='outline' text='Buscar' />
                             </DialogContent>
                         </Dialog>

@@ -5,11 +5,8 @@ import olts from './constants/olts'
 import { useState } from 'react'
 import SearchInput from './components/SearchInput'
 import AbaHeader from './components/AbaHeader'
-import AbasProvider, { useAbas } from './context/olt-abas-provider'
+import  { useAbas } from './context/olt-abas-provider'
 import type oltInterface from './interfaces/olt-interface'
-import Onus from './constants/onuListTest'
-import TableComponent from './components/TableComponent'
-import { TableHead, TableHeader, TableRow, Table } from './components/ui/table'
 const OltManager = () => {
     const [search, setSearch] = useState<string>("")
     const { abaslist, createAba, setcurrentAbaInfo, currentAbaInfo } = useAbas()
