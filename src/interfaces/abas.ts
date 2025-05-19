@@ -1,3 +1,4 @@
+import type { ReactNode } from "react"
 import type { OnuInfo } from "./onu-interface"
 import type {Request} from "./request"
 
@@ -7,5 +8,5 @@ export interface abaInterface {
     OnuList : OnuInfo[] | []
     filter : string,
     incident : string[] | []
-
+    dashboard?: ReactNode
 }

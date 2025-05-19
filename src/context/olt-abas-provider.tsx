@@ -3,6 +3,7 @@ import {type abaInterface } from "@/interfaces/abas"
 import generateId from "@/utils/generateId"
 import type { Request } from "@/interfaces/request"
 import type oltInterface from "@/interfaces/olt-interface"
+import OltDashboard from "@/components/OltDashboard"
 
 interface  Props {
   children: ReactNode
@@ -29,7 +30,8 @@ const AbasProvider : React.FC<Props> = ({children}) => {
   const updateAba = (AbaUpdate:abaInterface)=>{
     const newstate = abaslist.findIndex((abas)=>abas.id==AbaUpdate.id)
     setAbasList(prev=>{
-      prev[newstate] = AbaUpdate
+      const prevObj = prev[newstate]
+      prev[newstate] = {...prevObj,...AbaUpdate}
       return prev
     })
   }
@@ -39,12 +41,14 @@ const AbasProvider : React.FC<Props> = ({children}) => {
   }
   //função para crair aba passando o id da OLT , retorna o id criado
   const createAba = (oltObj:oltInterface)=>{
+    const idG = generateId()
     const newAbba : abaInterface = {
-      id: generateId(),
+      id: idG,
       request: {olt:oltObj} as Request,
       OnuList : [],
       filter : "",
-      incident : []
+      incident : [],
+      dashboard : <OltDashboard key={idG} abaInfo={{id:idG,request:{olt:oltObj},OnuList:[],filter:'',incident:[]}}/>
 
     }
     setAbasList(prev=>[...prev,newAbba])
