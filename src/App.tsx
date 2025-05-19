@@ -7,6 +7,7 @@ import { Button } from "./components/ui/button"
 import {  useState } from "react"
 import OltManager from "./OltManager"
 import Incidents from "./Incidents"
+import AbasProvider from './context/olt-abas-provider';
 type tabSelect = "OLTs" | "Incidentes"
 
 function App() {
@@ -27,6 +28,8 @@ function App() {
   }
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <AbasProvider>
+
       {/*Container geral da aplicação, guarda a barra de navegação e o conteudo renderizado */}
       <div className="flex h-screen w-full ">
         {/*Barra lateral  */}
@@ -48,6 +51,7 @@ function App() {
         {renderScreen()}
       </div>
       <Toaster  />
+      </AbasProvider>
     </ThemeProvider>
 
   )

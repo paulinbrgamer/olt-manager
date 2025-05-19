@@ -9,6 +9,7 @@
 }
 
 .scroll-container:hover {
+  
   scrollbar-width: thin; /* Firefox */
 }
 
@@ -18,7 +19,6 @@
 }
 
 .scroll-container:hover::-webkit-scrollbar-thumb {
-  background: #888; /* Cor da barra */
   border-radius: 4px; /* Arredondamento */
 }
 

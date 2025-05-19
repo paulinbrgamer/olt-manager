@@ -13,6 +13,7 @@ import SearchInput from './SearchInput'
 import IconButton from './IconButton'
 import type { abaInterface } from '@/interfaces/abas'
 import { type ponRequest } from '@/interfaces/request'
+import LoaderButton from './LoaderButton'
 
 interface Props {
     abaInfoId?: string
@@ -114,7 +115,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                                     className="mt-4 w-full "
                                     placeholder="Ex: ZTEG12345678"
                                 />
-                                <Button onClick={handleClickSerialOnu} disabled={loading ? true : false} className='mt-4' variant={'outline'}>{loading ? <Loader2 className='animate-spin' /> : 'Buscar'}</Button>
+                                <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickSerialOnu} variant='outline' text='Buscar'/>
                             </DialogContent>
                         </Dialog>
                         <TableComponent />
