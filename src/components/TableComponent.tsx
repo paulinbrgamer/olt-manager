@@ -94,11 +94,11 @@ const TableComponent: React.FC<Props> = ({ onuList }) => {
                 </TableCell>
                 <TableCell>
                   <div className="flex justify-end gap-2 items-center">
-                    <span>
-                      {onu.lastDown
-                        ? onu.lastDown.split(" ").slice(2).join(" ")
-                        : "N/A"}
-                    </span>
+                    {onu.lastDown !="N/A"?
+                      <span>
+                        {onu.lastDown!.split(" ").slice(2).join(" ")}
+                      </span>
+                      : <p >N/A</p>}
                     <Button variant="ghost" size="icon">
                       <EllipsisVertical />
                     </Button>
