@@ -3,7 +3,9 @@
 .scroll-container {
   scrollbar-width: none; /* Firefox */
 }
-
+.noscroll::-webkit-scrollbar{
+display: none; /* Chrome, Edge, Safari */
+}
 .scroll-container::-webkit-scrollbar {
   display: none; /* Chrome, Edge, Safari */
 }

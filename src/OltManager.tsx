@@ -7,6 +7,9 @@ import SearchInput from './components/SearchInput'
 import AbaHeader from './components/AbaHeader'
 import AbasProvider, { useAbas } from './context/olt-abas-provider'
 import type oltInterface from './interfaces/olt-interface'
+import Onus from './constants/onuListTest'
+import TableComponent from './components/TableComponent'
+import { TableHead, TableHeader, TableRow, Table } from './components/ui/table'
 const OltManager = () => {
     const [search, setSearch] = useState<string>("")
     const { abaslist, createAba, setcurrentAbaInfo, currentAbaInfo } = useAbas()
@@ -38,11 +41,12 @@ const OltManager = () => {
                 {abaslist?.map(aba => <AbaHeader key={aba.id} abaInfo={aba} />)}
             </header>
             {/*Conteudo principal renderizado da tab atual*/}
-            {currentAbaInfo && abaslist.length>0  ? (
+            {currentAbaInfo && abaslist.length > 0 ? (
                 abaslist.find(e => e.id === currentAbaInfo)?.dashboard ?? null
             ) : <div className='flex-1 flex col-end-3 justify-center items-center'>
                 <p>Sem abas abertas...</p>
-                </div>}
+            </div>}
+            
 
         </div>
     )
