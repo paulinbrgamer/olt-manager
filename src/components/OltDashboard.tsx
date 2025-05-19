@@ -105,7 +105,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                         </div>
                         <Dialog open={modalSerial} onOpenChange={setmodalSerial}>
                              <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
-                            <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[10%]  px-5 pb-5 pt-2 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
+                            <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[10%] mr-[15%]  px-5 pb-5 pt-2 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
                           data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
                                 <Button className='self-end w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalSerial(false)}><X size={10} /></Button>
                                 <DialogTitle className="text-xl font-bold">Buscar Pon por Serial de uma Onu</DialogTitle>

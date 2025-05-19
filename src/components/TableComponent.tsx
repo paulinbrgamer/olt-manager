@@ -76,7 +76,7 @@ const TableComponent: React.FC<Props> = ({ onuList }) => {
                 <TableCell className="font-medium">{onu.id}</TableCell>
                 <TableCell>{onu.name}</TableCell>
                 <TableCell>{onu.serialNumber}</TableCell>
-                <TableCell className="justify-items-center">
+                <TableCell className="flex items-end justify-center">
                   <StateComponent state={onu.phaseState!} />
                 </TableCell>
                 <TableCell>
