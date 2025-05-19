@@ -14,6 +14,7 @@ import IconButton from './IconButton'
 import type { abaInterface } from '@/interfaces/abas'
 import { type ponRequest } from '@/interfaces/request'
 import LoaderButton from './LoaderButton'
+import { getAbaFromList } from '@/utils/getAbaFromList'
 
 interface Props {
     abaInfoId?: string
@@ -22,10 +23,8 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
     const [modalSerial, setmodalSerial] = useState<boolean>(false) //state para modal
     const { data, loading, fetchData, error } = useLazyFetch() // fetch hook
     const { updateAba, abaslist } = useAbas() //context api
-    const getAbaFromList = (): abaInterface => {
-        return abaslist[abaslist.findIndex((abas) => abas.id == abaInfoId)] //função que retorna a aba utilizando o id
-    }
-    const [abaInfo, setAbaInfo] = useState<abaInterface>(getAbaFromList())//inicializando a informação de aba usando a função acima
+
+    const [abaInfo, setAbaInfo] = useState<abaInterface>(getAbaFromList(abaInfoId!,abaslist))//inicializando a informação de aba usando a função acima
 
     const handleClickSerialOnu = async () => {
         const requestSerial = { olt: abaInfo!.request!.olt.id, serialOnu: 'ZTEGD4B1126A' }
@@ -70,7 +69,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
         }
     }, [error])
     useEffect(() => {
-        setAbaInfo(getAbaFromList()) //atualizando a info da aba local
+        setAbaInfo(getAbaFromList(abaInfoId!,abaslist)) //atualizando a info da aba local
     }, [abaslist])
     
     return (

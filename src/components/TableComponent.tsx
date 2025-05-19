@@ -9,11 +9,18 @@ import {
 } from "@/components/ui/table"
 import { EllipsisVertical, Signal } from "lucide-react"
 import { Button } from "./ui/button"
+import type { OnuInfo } from "@/interfaces/onu-interface"
+import type React from "react"
+import { useAbas } from "@/context/olt-abas-provider"
 
-const TableComponent = () => {
+interface Props {
+    onuList? : OnuInfo[]
+}
+const TableComponent :React.FC<Props> = ({onuList}) => {
+    const {currentAbaInfo} = useAbas()
     return (
         <div className="rounded-md overflow-hidden border flex h-full">
-            <Table className="flex-1">
+            <Table className="flex-1" >
                 <TableCaption>Resultados encontrados : 0</TableCaption>
                 <TableHeader >
                     <TableRow className="bg-accent/90 z-1 sticky ">
