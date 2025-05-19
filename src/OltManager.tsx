@@ -42,7 +42,7 @@ const OltManager = () => {
           }
 
         type responseData = OnuInfo[] | ErrorResponse
-        if (!error){
+        if (!error && data!=null){
             //@ts-expect-error
             if(isErrorResponse(data)){
                 toast("Nenhuma ONU encontrada",  {
