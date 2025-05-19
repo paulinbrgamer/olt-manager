@@ -36,8 +36,14 @@ const StateComponent = ({ state }: { state: string }) => {
           <p>{state}</p>
         </div>
       );
-    // eslint-disable-next-line no-constant-binary-expression
-    case "OffLine" || "Los":
+
+    case "OffLine":
+      return (
+        <div className="flex w-fit gap-2 bg-red-200/10 text-red-500 p-1 rounded-full">
+          <p>{state}</p>
+        </div>
+      );
+    case "Los":
       return (
         <div className="flex w-fit gap-2 bg-red-200/10 text-red-500 p-1 rounded-full">
           <p>{state}</p>
