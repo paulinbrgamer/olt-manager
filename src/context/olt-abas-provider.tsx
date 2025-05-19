@@ -12,7 +12,7 @@ interface  Props {
 interface AbasContextInterface {
   abaslist: abaInterface[] ,
   removeAba(id:string):void,
-  createAba(oltObj:oltInterface): abaInterface,
+  createAba(oltObj:oltInterface): string,
   currentAbaInfo : string | null,
   setcurrentAbaInfo(abaInfo : string | null):void,
   updateAba(abaInfo : abaInterface): void
@@ -22,9 +22,10 @@ interface AbasContextInterface {
 const AbasContext = createContext<AbasContextInterface | null>(null)
 
 const AbasProvider : React.FC<Props> = ({children}) => {
-  const [currentAbaInfo, setcurrentAbaInfo] = useState<string | null>(null)
-  //listagem das abas
-  const [abaslist, setAbasList] = useState<abaInterface[] >([])
+  const [currentAbaInfo, setcurrentAbaInfo] = useState<string | null>(null) //id da tab atual
+
+  const [abaslist, setAbasList] = useState<abaInterface[] >([])   //listagem das abas
+  
   //update aba
   const updateAba = (AbaUpdate: abaInterface) => {
     setAbasList(prev => {
@@ -43,7 +44,7 @@ const AbasProvider : React.FC<Props> = ({children}) => {
 
   };
   
-  //função para crair aba passando o id da OLT , retorna o id criado
+  //função para crair aba passando o id da OLT , retorna o id criado 
   const createAba = (oltObj:oltInterface)=>{
     const idG = generateId()
     const newAbba : abaInterface = {
@@ -56,7 +57,7 @@ const AbasProvider : React.FC<Props> = ({children}) => {
 
     }
     setAbasList(prev=>[...prev,newAbba])
-    return newAbba
+    return idG
   }
   useEffect(() => {
     console.log(abaslist);

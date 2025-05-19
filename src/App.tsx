@@ -16,6 +16,7 @@ function App() {
   const handleClickTab = (tab: tabSelect) => {
     settabSelected(tab)
   }
+  //função que retorna o elemento a ser renderizado pela tab
   const renderScreen = () => {
     switch (tabSelected) {
       case "Incidentes":

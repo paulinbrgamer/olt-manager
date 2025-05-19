@@ -1,4 +1,4 @@
-import {  Server } from 'lucide-react'
+import { Server } from 'lucide-react'
 import IconButton from './components/IconButton'
 import { icons } from './constants/colors'
 import olts from './constants/olts'
@@ -9,15 +9,14 @@ import { useAbas } from './context/olt-abas-provider'
 import type oltInterface from './interfaces/olt-interface'
 const OltManager = () => {
     const [search, setSearch] = useState<string>("")
-    const { abaslist, createAba, setcurrentAbaInfo,currentAbaInfo } = useAbas()
+    const { abaslist, createAba, setcurrentAbaInfo, currentAbaInfo } = useAbas()
     const filteredOlts = olts.filter((item) => `${item.model} ${item.location}`.toLowerCase().includes(search.toLowerCase()))  /*variavel que guarda o filtro do teclado */
-
     const handleText = (event: any) => {
         setSearch(event.target.value)
     } //função para atualizar estado do search
     const handleClickSelectOlt = (oltItem: oltInterface) => {
         const idnewAba = createAba(oltItem)
-        setcurrentAbaInfo(idnewAba.id)
+        setcurrentAbaInfo(idnewAba)
     }
     return (
         <div className='grid grid-cols-[260px_2fr] grid-rows-[30px_1fr]  w-full '>
@@ -38,9 +37,9 @@ const OltManager = () => {
             <header className='flex h-11 bg-accent overflow-x-scroll ' >
                 {abaslist?.map(aba => <AbaHeader key={aba.id} abaInfo={aba} />)}
             </header>
-            {/*Conteudo principal renderizado*/}
-            {currentAbaInfo && abaslist.find((e)=>e.id ==currentAbaInfo)?.dashboard}
-            
+            {/*Conteudo principal renderizado da tab atual*/}
+            {currentAbaInfo && abaslist.find((e) => e.id == currentAbaInfo)?.dashboard}
+
         </div>
     )
 }
