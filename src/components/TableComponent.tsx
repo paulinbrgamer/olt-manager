@@ -12,16 +12,31 @@ import { Button } from "./ui/button"
 import type { OnuInfo } from "@/interfaces/onu-interface"
 import type React from "react"
 import { useAbas } from "@/context/olt-abas-provider"
+import { useEffect } from "react"
 
 interface Props {
-    onuList? : OnuInfo[]
+    onuList: OnuInfo[]
 }
-const TableComponent :React.FC<Props> = ({onuList}) => {
-    const {currentAbaInfo} = useAbas()
+const StateComponent = ({ state }: { state: string }) => {
+    switch (state) {
+        case "working":
+            return (
+                <div className="flex w-fit gap-2  bg-green-200/10 text-green-500 p-1 rounded-full">
+                    <Signal size={16} />
+                    <p>{state}</p>
+                </div>
+            )
+
+        default:
+            break;
+    }
+}
+const TableComponent: React.FC<Props> = ({ onuList }) => {
+    const { currentAbaInfo, abaslist } = useAbas()
     return (
         <div className="rounded-md overflow-hidden border flex h-full">
             <Table className="flex-1" >
-                <TableCaption>Resultados encontrados : 0</TableCaption>
+                <TableCaption>Resultados encontrados :{onuList.length}</TableCaption>
                 <TableHeader >
                     <TableRow className="bg-accent/90 z-1 sticky ">
                         <TableHead className="w-[100px] ">ID</TableHead>
@@ -33,31 +48,31 @@ const TableComponent :React.FC<Props> = ({onuList}) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow>
-                        <TableCell className="font-medium">1</TableCell>
-                        <TableCell>19:lucas</TableCell>
-                        <TableCell>ZTEG219G9D</TableCell>
-                        <TableCell className="text-center">
-                            Working
-                        </TableCell>
-                        <TableCell className="">
-                            <div className="flex justify-end gap-2 items-end">
-                            <Signal size={20}/>
-                            <p> -19</p>
-                            </div>
-                        </TableCell>
+                    {onuList.map(onu => (
+                        <TableRow key={onu.serialNumber}>
+                            <TableCell className="font-medium">{onu.id}</TableCell>
+                            <TableCell>{onu.name}</TableCell>
+                            <TableCell>{onu.serialNumber}</TableCell>
+                            <TableCell className="text-center">
+                                {onu.phaseState}
+                            </TableCell>
+                            <TableCell className="">
+                                <StateComponent state={onu.phaseState!} />
+                            </TableCell>
 
-                        <TableCell >
-                        <div className="flex justify-end gap-2 items-center">
-                            <span >2024-02-02 - 14:00</span>
-                            <Button variant={'ghost'} size={'icon'}>
-                            <EllipsisVertical />
-                            </Button>
-                            </div>
-                            
-                        </TableCell>
-                    </TableRow>
-                    
+                            <TableCell >
+                                <div className="flex justify-end gap-2 items-center">
+                                    <span >{onu.lastDown ? onu.lastDown.split(' ').slice(2).join(' ') : "N/A"}</span>
+                                    <Button variant={'ghost'} size={'icon'}>
+                                        <EllipsisVertical />
+                                    </Button>
+                                </div>
+
+                            </TableCell>
+                        </TableRow>
+                    )
+                    )}
+
                 </TableBody>
             </Table>
         </div>

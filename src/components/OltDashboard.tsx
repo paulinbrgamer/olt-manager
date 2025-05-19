@@ -120,7 +120,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                                 <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickSerialOnu} variant='outline' text='Buscar'/>
                             </DialogContent>
                         </Dialog>
-                        <TableComponent />
+                        <TableComponent onuList={abaInfo.OnuList}/>
                     </main>
                 </> : <div className='flex-1  col-end-3 flex flex-col justify-center items-center'>
                     <p className='text-3xl font-medium'>Sem Tabs abertas...</p>
