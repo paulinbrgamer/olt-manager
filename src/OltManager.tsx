@@ -7,7 +7,6 @@ import SearchInput from './components/SearchInput'
 import AbaHeader from './components/AbaHeader'
 import { useAbas } from './context/olt-abas-provider'
 import type oltInterface from './interfaces/olt-interface'
-import OltDashboard from './components/OltDashboard'
 const OltManager = () => {
     const [search, setSearch] = useState<string>("")
     const { abaslist, createAba, setcurrentAbaInfo,currentAbaInfo } = useAbas()
@@ -18,7 +17,7 @@ const OltManager = () => {
     } //função para atualizar estado do search
     const handleClickSelectOlt = (oltItem: oltInterface) => {
         const idnewAba = createAba(oltItem)
-        setcurrentAbaInfo(idnewAba)
+        setcurrentAbaInfo(idnewAba.id)
     }
     return (
         <div className='grid grid-cols-[260px_2fr] grid-rows-[30px_1fr]  w-full '>
@@ -40,7 +39,7 @@ const OltManager = () => {
                 {abaslist?.map(aba => <AbaHeader key={aba.id} abaInfo={aba} />)}
             </header>
             {/*Conteudo principal renderizado*/}
-            {currentAbaInfo?.dashboard}
+            {currentAbaInfo && abaslist.find((e)=>e.id ==currentAbaInfo)?.dashboard}
             
         </div>
     )

@@ -13,8 +13,8 @@ interface AbasContextInterface {
   abaslist: abaInterface[] ,
   removeAba(id:string):void,
   createAba(oltObj:oltInterface): abaInterface,
-  currentAbaInfo : abaInterface | null,
-  setcurrentAbaInfo(abaInfo : abaInterface | null):void,
+  currentAbaInfo : string | null,
+  setcurrentAbaInfo(abaInfo : string | null):void,
   updateAba(abaInfo : abaInterface): void
 
 }
@@ -22,23 +22,27 @@ interface AbasContextInterface {
 const AbasContext = createContext<AbasContextInterface | null>(null)
 
 const AbasProvider : React.FC<Props> = ({children}) => {
-  const [currentAbaInfo, setcurrentAbaInfo] = useState<abaInterface | null>(null)
-  
+  const [currentAbaInfo, setcurrentAbaInfo] = useState<string | null>(null)
   //listagem das abas
   const [abaslist, setAbasList] = useState<abaInterface[] >([])
   //update aba
-  const updateAba = (AbaUpdate:abaInterface)=>{
-    const newstate = abaslist.findIndex((abas)=>abas.id==AbaUpdate.id)
-    setAbasList(prev=>{
-      const prevObj = prev[newstate]
-      prev[newstate] = {...prevObj,...AbaUpdate}
-      return prev
-    })
-  }
+  const updateAba = (AbaUpdate: abaInterface) => {
+    setAbasList(prev => {
+      const index = prev.findIndex(aba => aba.id === AbaUpdate.id);
+      if (index === -1) return prev; // segurança extra
+      const updated = [...prev]; // faz cópia segura do array
+      updated[index] = { ...updated[index], ...AbaUpdate }; // merge dos dados
+      return updated;
+    });
+  };
+  
   //função para remover aba passando o id da mesma
-  const removeAba = (id:string)=>{
-    setAbasList(prev=>prev.filter((aba)=>aba.id!=id))
-  }
+  const removeAba = (id: string) => {
+    setAbasList(prev => prev.filter(aba => aba.id !== id));
+  
+
+  };
+  
   //função para crair aba passando o id da OLT , retorna o id criado
   const createAba = (oltObj:oltInterface)=>{
     const idG = generateId()
@@ -48,7 +52,7 @@ const AbasProvider : React.FC<Props> = ({children}) => {
       OnuList : [],
       filter : "",
       incident : [],
-      dashboard : <OltDashboard key={idG} abaInfo={{id:idG,request:{olt:oltObj},OnuList:[],filter:'',incident:[]}}/>
+      dashboard : <OltDashboard key={idG} abaInfoId={idG}/>
 
     }
     setAbasList(prev=>[...prev,newAbba])
@@ -58,12 +62,7 @@ const AbasProvider : React.FC<Props> = ({children}) => {
     console.log(abaslist);
     
   }, [abaslist])
-  useEffect(() => {
-    console.log("Selected");
-    
-    console.log(currentAbaInfo);
-    
-  }, [currentAbaInfo])
+  
   return (
     <AbasContext.Provider value={{abaslist,removeAba,createAba,currentAbaInfo,setcurrentAbaInfo,updateAba}}>
     {children}

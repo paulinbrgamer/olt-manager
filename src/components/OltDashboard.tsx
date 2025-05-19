@@ -13,12 +13,16 @@ import SearchInput from './SearchInput'
 import IconButton from './IconButton'
 import type { abaInterface } from '@/interfaces/abas'
 interface Props {
-    abaInfo? : abaInterface
+    abaInfoId? : string
 }
-const OltDashboard : React.FC<Props> = ({abaInfo}) => {
+const OltDashboard : React.FC<Props> = ({abaInfoId}) => {
     const [modalSerial, setmodalSerial] = useState<boolean>(false)
     const { data, loading, fetchData, error } = useLazyFetch()
-    const { updateAba } = useAbas()
+    const { updateAba,setcurrentAbaInfo,abaslist } = useAbas()
+    const getAbaFromList =  () : abaInterface=>{
+        return abaslist[abaslist.findIndex((abas)=>abas.id==abaInfoId)]
+    }
+    const [abaInfo,setAbaInfo] = useState<abaInterface>(getAbaFromList())
     const handleClickSerialOnu = async () => {
         const requestSerial = { olt: abaInfo!.request!.olt.id, serialOnu: 'ZTEGD4B1126A' }
         if(abaInfo!.request?.olt.model == 'ZTE'){
@@ -48,6 +52,8 @@ const OltDashboard : React.FC<Props> = ({abaInfo}) => {
                 //@ts-expect-error
                 const onulist : OnuInfo[] = data
                 updateAba({...abaInfo!,OnuList:onulist})
+                setAbaInfo(getAbaFromList())
+                setcurrentAbaInfo(abaInfo!.id)
                 toast("Busca realizada com sucesso!!",  {
                     description:'Onus carregadas na tabela...',
                 })
@@ -93,7 +99,7 @@ const OltDashboard : React.FC<Props> = ({abaInfo}) => {
 
                     <SearchInput placeholder='Procurar Onu...' />
                 </div>
-                <Dialog open={modalSerial} >
+                <Dialog open={modalSerial} onOpenChange={setmodalSerial}>
                     <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[20%] px-5 pb-5 pt-2 rounded-md flex flex-col">
                         <Button className='self-end w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalSerial(false)}><X size={10} /></Button>
                         <DialogTitle className="text-xl font-bold">Buscar Pon por Serial de uma Onu</DialogTitle>
