@@ -79,7 +79,7 @@ const AbasProvider : React.FC<Props> = ({children}) => {
 export const useAbas  = () =>{
   const context = useContext(AbasContext)
   if(context===null){
-    throw new Error("useAbas must be used within a ThemeProvider")
+    throw new Error("useAbas must be used within a AbasProvider")
   }
   return context
 }

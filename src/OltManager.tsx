@@ -38,7 +38,10 @@ const OltManager = () => {
                 {abaslist?.map(aba => <AbaHeader key={aba.id} abaInfo={aba} />)}
             </header>
             {/*Conteudo principal renderizado da tab atual*/}
-            {currentAbaInfo && abaslist.find((e) => e.id == currentAbaInfo)?.dashboard}
+            {currentAbaInfo ? (
+                abaslist.find(e => e.id === currentAbaInfo)?.dashboard ?? null
+            ) : null}
+
 
         </div>
     )
