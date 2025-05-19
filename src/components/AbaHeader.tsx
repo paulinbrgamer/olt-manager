@@ -46,7 +46,7 @@ const AbaHeader: React.FC<Props> = ({ abaInfo }) => {
 
     {isPonRequest(abaInfo.request) && (
       <p className="text-xs text-muted-foreground truncate w-full">
-        {abaInfo.request.slot + "/" + abaInfo.request.pon}
+        {"Pon : "+abaInfo.request.slot + "/" + abaInfo.request.pon}
       </p>
     )}
   </div>

@@ -12,6 +12,8 @@ import type { OnuInfo } from '@/interfaces/onu-interface'
 import SearchInput from './SearchInput'
 import IconButton from './IconButton'
 import type { abaInterface } from '@/interfaces/abas'
+import { type ponRequest } from '@/interfaces/request'
+
 interface Props {
     abaInfoId?: string
 }
@@ -48,7 +50,9 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             } else {
                 //@ts-expect-error
                 const onulist: OnuInfo[] = data
-                updateAba({ ...abaInfo!, OnuList: onulist }) //atualizando aba atual com OnUlIST
+                const requestInfo : ponRequest = {olt:abaInfo.request?.olt!,slot:Number(onulist[0].slot),pon:Number(onulist[0]!.pon)}
+
+                updateAba({ ...abaInfo!, OnuList: onulist ,request:requestInfo}) //atualizando aba atual com OnUlIST
                 toast("Busca realizada com sucesso!!", {
                     description: 'Onus carregadas na tabela...',
                 })
