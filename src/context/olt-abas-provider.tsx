@@ -62,6 +62,10 @@ const AbasProvider : React.FC<Props> = ({children}) => {
     console.log(abaslist);
     
   }, [abaslist])
+  useEffect(() => {
+    console.log(currentAbaInfo);
+    
+  }, [currentAbaInfo])
   
   return (
     <AbasContext.Provider value={{abaslist,removeAba,createAba,currentAbaInfo,setcurrentAbaInfo,updateAba}}>
