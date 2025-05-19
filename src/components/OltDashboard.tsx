@@ -57,6 +57,7 @@ const OltDashboard : React.FC<Props> = ({abaInfoId}) => {
                 toast("Busca realizada com sucesso!!",  {
                     description:'Onus carregadas na tabela...',
                 })
+                setmodalSerial(false)
             }
             
         }
