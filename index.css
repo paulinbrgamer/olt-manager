@@ -1,5 +1,26 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+.scroll-container {
+  scrollbar-width: none; /* Firefox */
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none; /* Chrome, Edge, Safari */
+}
+
+.scroll-container:hover {
+  scrollbar-width: thin; /* Firefox */
+}
+
+.scroll-container:hover::-webkit-scrollbar {
+  display: block; /* Chrome, Edge, Safari */
+  width: 8px;
+}
+
+.scroll-container:hover::-webkit-scrollbar-thumb {
+  background: #888; /* Cor da barra */
+  border-radius: 4px; /* Arredondamento */
+}
 
 
 @custom-variant dark (&:is(.dark *));

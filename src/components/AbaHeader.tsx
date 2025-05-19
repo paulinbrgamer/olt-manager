@@ -11,8 +11,8 @@ function isPonRequest(obj: any): obj is ponRequest {
     return obj && typeof obj.pon === 'number' && typeof obj.slot === 'number';
 }
 
-const AbaHeader: React.FC<Props> = ({ abaInfo}) => {
-    const { removeAba ,abaslist,setcurrentAbaInfo,currentAbaInfo} = useAbas()
+const AbaHeader: React.FC<Props> = ({ abaInfo }) => {
+    const { removeAba, abaslist, setcurrentAbaInfo, currentAbaInfo } = useAbas()
     const handleDelete = (e: React.MouseEvent) => {
         e.stopPropagation();
         //variaveis para mudar automaticamente a aba ao se deletar, caso seja preciso
@@ -21,33 +21,42 @@ const AbaHeader: React.FC<Props> = ({ abaInfo}) => {
         const hasMultipleAbas = abaslist.length > 1;
         const hasPreviousAba = currentIndex > 0;
         if (hasMultipleAbas && isCurrent && hasPreviousAba) {
-          const previousAbaId = abaslist[currentIndex - 1];
-          setcurrentAbaInfo(previousAbaId.id);
-          console.log("Selecionando aba anterior:", previousAbaId);
+            const previousAbaId = abaslist[currentIndex - 1];
+            setcurrentAbaInfo(previousAbaId.id);
+            console.log("Selecionando aba anterior:", previousAbaId);
         }
 
         removeAba(abaInfo.id);
-      };
-      
-    return (
-        <span onClick={() => setcurrentAbaInfo(abaInfo.id)} className={`cursor-pointer flex items-center gap-2 px-2    ${currentAbaInfo! === abaInfo.id ? "bg-background border-b-2 border-sky-600" : "bg-accent border-border"}`}>
-            {/* Container de informações com truncamento */}
-            <div className="flex flex-col min-w-0 max-w-[150px] overflow-hidden">
-                <p className="text-sm font-semibold text-slate-400 truncate">
-                    {abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location}
-                </p>
-                {isPonRequest(abaInfo.request) && (
-                    <p className="text-xs text-muted-foreground truncate">
-                        {abaInfo.request.slot + "/" + abaInfo.request.pon}
-                    </p>
-                )}
-            </div>
+    };
 
-            {/* Botão de fechar sempre visível */}
-            <Button onClick={handleDelete} variant="ghost" size="sm" className="shrink-0">
-                <X className="text-red-500 h-4 w-4" />
-            </Button>
-        </span>
+    return (
+        <div
+  onClick={() => setcurrentAbaInfo(abaInfo.id)}
+  className={`flex items-center gap-2 px-2 cursor-pointer 
+              flex-1 min-w-0 max-w-[200px] shrink 
+              ${currentAbaInfo === abaInfo.id
+                ? "bg-background border-b-2 border-sky-600"
+                : "bg-accent border-border"}`}
+>
+  {/* Container de informações com truncamento */}
+  <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
+    <p className="text-sm font-semibold text-slate-400 truncate w-full">
+      {abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location}
+    </p>
+
+    {isPonRequest(abaInfo.request) && (
+      <p className="text-xs text-muted-foreground truncate w-full">
+        {abaInfo.request.slot + "/" + abaInfo.request.pon}
+      </p>
+    )}
+  </div>
+
+  {/* Botão de fechar sempre visível */}
+  <Button onClick={handleDelete} variant="ghost" size="sm" className="shrink-0">
+    <X className="text-red-500 h-4 w-4" />
+  </Button>
+</div>
+
     )
 }
 

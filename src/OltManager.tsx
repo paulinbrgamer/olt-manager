@@ -34,7 +34,7 @@ const OltManager = () => {
                             Icon={<Server color={oltItem.model == "HW" ? icons.red : icons.blue} />} />)}
                 </div>
             </aside>
-            <header className='flex h-11 bg-accent overflow-x-scroll ' >
+            <header className="flex h-11 bg-accent overflow-hidden min-w-0">
                 {abaslist?.map(aba => <AbaHeader key={aba.id} abaInfo={aba} />)}
             </header>
             {/*Conteudo principal renderizado da tab atual*/}
