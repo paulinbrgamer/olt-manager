@@ -20,12 +20,17 @@ const AbaHeader: React.FC<Props> = ({ abaInfo }) => {
     const isCurrent = currentAbaInfo === abaInfo.id;
     const hasMultipleAbas = abaslist.length > 1;
     const hasPreviousAba = currentIndex > 0;
+    const hasNextAba = abaslist[currentIndex+1] != undefined
     if (hasMultipleAbas && isCurrent && hasPreviousAba) {
       const previousAbaId = abaslist[currentIndex - 1];
       setcurrentAbaInfo(previousAbaId.id);
       console.log("Selecionando aba anterior:", previousAbaId);
     }
-
+    if (hasMultipleAbas && isCurrent && hasNextAba) {
+      const previousAbaId = abaslist[currentIndex  +1];
+      setcurrentAbaInfo(previousAbaId.id);
+      console.log("Selecionando aba superior:", previousAbaId);
+    }
     removeAba(abaInfo.id);
   };
 
