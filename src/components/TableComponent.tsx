@@ -9,7 +9,7 @@ import {
 import { EllipsisVertical, Signal } from "lucide-react";
 import { Button } from "./ui/button";
 import type { OnuInfo } from "@/interfaces/onu-interface";
-import type React from "react";
+import React from "react";
 
 interface Props {
   onuList: OnuInfo[];
@@ -53,7 +53,7 @@ const StateComponent = ({ state }: { state: string }) => {
   }
 };
 
-const TableComponent: React.FC<Props> = ({ onuList }) => {
+const TableComponent: React.FC<Props> = React.memo( ({ onuList }) => {
   return (
     <div className="h-full flex flex-col border rounded-md overflow-hidden noscroll">
       <div className="overflow-auto flex-1 noscroll">
@@ -70,8 +70,8 @@ const TableComponent: React.FC<Props> = ({ onuList }) => {
           </TableHeader>
 
           <TableBody>
-            {onuList.map((onu) => (
-              <TableRow key={onu.serialNumber}>
+            {onuList?.map((onu) => (
+              <TableRow key={onu.serialNumber+'row'}>
                 <TableCell className="font-medium">{onu.id}</TableCell>
                 <TableCell>{onu.name}</TableCell>
                 <TableCell>{onu.serialNumber}</TableCell>
@@ -108,9 +108,9 @@ const TableComponent: React.FC<Props> = ({ onuList }) => {
           </TableBody>
         </Table>
       </div>
-      <p className="text-center text-sm text-accent p-2">Resultados encontrados: {onuList.length}</p>
+      <p className="text-center text-sm text-accent p-2">Resultados encontrados: {onuList?.length}</p>
     </div>
   );
-};
+});
 
 export default TableComponent;
