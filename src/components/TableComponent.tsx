@@ -79,9 +79,9 @@ const TableComponent: React.FC<Props> = ({ onuList }) => {
                 <TableCell className="flex items-end justify-center">
                   <StateComponent state={onu.phaseState!} />
                 </TableCell>
-                <TableCell>
+                <TableCell className="">
                   {onu.signal ? (
-                    <div className="flex gap-2 items-end justify-end">
+                    <div className="flex gap-2 items-end justify-between w-[70px] justify-self-end">
                       <Signal
                         className={`${signalColor(onu.signal!)}`}
                         size={16}
