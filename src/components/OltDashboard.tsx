@@ -18,6 +18,7 @@ import { getAbaFromList } from '@/utils/getAbaFromList'
 import { Label } from './ui/label'
 import { useDebounce } from './useDebounce';
 import { filterBySearch } from '@/utils/filterBySearch'
+import Onus from '@/constants/onuListTest'
 interface Props {
     abaInfoId?: string
 }
@@ -118,7 +119,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
 
 
     return (
-        <main className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[600px] ">
+        <main className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
             <div className='grid grid-cols-[0.5fr_0.5fr_0.5fr_1fr] gap-2 justify-center w-fit justify-items-end self-start ml-auto'>
                 <IconButton className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
                 <IconButton className='w-fit' variant={'outline'} Icon={<RotateCcw />} text='Atualizar' />
@@ -204,7 +205,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                     <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickPonRequest} variant='outline' text='Buscar' />
                 </DialogContent>
             </Dialog>
-            <TableComponent onuList={filteredOnulistSearch!} />
+            <TableComponent onuList={filteredOnulistSearch} />
         </main>
     )
 }
