@@ -3,9 +3,10 @@ export function filterBySearch<T>(
   searchTerm: string,
   fields: (keyof T)[]
 ): T[] {
-  if (!searchTerm.trim()) return items;
+  const trimmedSearch = searchTerm.trim();
+  if (!trimmedSearch) return items;
 
-  const lowerSearch = searchTerm.toLowerCase();
+  const lowerSearch = trimmedSearch.toLowerCase();
 
   return items.filter((item) =>
     fields.some((field) => {

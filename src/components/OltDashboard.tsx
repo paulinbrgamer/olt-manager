@@ -27,12 +27,12 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
     const abaInfo : abaInterface =(getAbaFromList(abaInfoId!, abaslist))// inicialização da informação da abaLocal
     const [modalSerial, setmodalSerial] = useState<boolean>(false) //state para modal
     const [requestSerialInput, setrequestSerialInput] = useState<string>('') //state para pegar o input do serial do modal
-    const [searchFilter, setsearchFilter] = useState<string>('')// state para receber o filtro
+    const [searchFilter, setsearchFilter] = useState<string>(abaInfo.filter.search)// state para receber o filtro
     const debounceSearch = useDebounce(searchFilter, 200) //debouncer que recebe o state searchFilter
     const [requestPonInput, setrequestPonInput] = useState<{ slot: number | undefined, pon: number | undefined }>({ slot: undefined, pon: undefined }) //state para pegar slot e pon
     const [modalPon, setmodalPon] = useState<boolean>(false)//state para controlar o modal da pon 
     const { data, loading, fetchData, error } = useLazyFetch() // fetch hook
-    const [filteredOnulistSearch, setFilteredOnulistSearch] = useState<OnuInfo[]>(abaInfo.OnuList)//state para guardar as onus filtradas
+    const [filteredOnulistSearch, setFilteredOnulistSearch] = useState<OnuInfo[]>()//state para guardar as onus filtradas
 
     const handleClickSerialOnu = async () => {
         if (requestSerialInput.length < 1) {
@@ -73,7 +73,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
         if (debounceSearch) {
             const result = filterBySearch(abaInfo.OnuList, debounceSearch, ['name', 'serialNumber', 'id']);
             setFilteredOnulistSearch(result);
-            updateAba({ ...abaInfo!, filter:debounceSearch })
+            updateAba({ ...abaInfo!, filter:{...abaInfo.filter,search:debounceSearch} })
 
         } else {
             setFilteredOnulistSearch(abaInfo.OnuList);
@@ -115,8 +115,8 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             })
         }
     }, [error])
-    //useEffect para atualizar o state abaInfo com o da lista do contexto
-
+    
+    
 
     return (
         <main className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
@@ -142,7 +142,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                     </DropdownMenuContent>
 
                 </DropdownMenu>
-                <SearchInput onChange={(e: ChangeEvent<HTMLInputElement>) => setsearchFilter(e.target.value)} placeholder='Procurar Onu...' />
+                <SearchInput value={searchFilter} onChange={(e: ChangeEvent<HTMLInputElement>) => setsearchFilter(e.target.value)} placeholder='Procurar Onu...' />
             </div>
             <Dialog open={modalSerial} onOpenChange={setmodalSerial}>
                 <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
@@ -205,7 +205,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                     <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickPonRequest} variant='outline' text='Buscar' />
                 </DialogContent>
             </Dialog>
-            <TableComponent onuList={filteredOnulistSearch} />
+            <TableComponent onuList={filteredOnulistSearch!} />
         </main>
     )
 }

@@ -32,7 +32,7 @@ const StateComponent = ({ state }: { state: string }) => {
 const TableComponent: React.FC<Props> = React.memo(({ onuList }) => {
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualized = useVirtualizer({
-    count: onuList.length,
+    count: onuList?.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 55,
   });
