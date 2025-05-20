@@ -23,7 +23,7 @@ interface Props {
 }
 const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
     const { updateAba, abaslist } = useAbas() //context api
-    const [abaInfo, setAbaInfo] = useState<abaInterface>(getAbaFromList(abaInfoId!, abaslist))// inicialização da informação da abaLocal
+    const abaInfo : abaInterface =(getAbaFromList(abaInfoId!, abaslist))// inicialização da informação da abaLocal
     const [modalSerial, setmodalSerial] = useState<boolean>(false) //state para modal
     const [requestSerialInput, setrequestSerialInput] = useState<string>('') //state para pegar o input do serial do modal
     const [searchFilter, setsearchFilter] = useState<string>('')// state para receber o filtro
@@ -115,9 +115,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
         }
     }, [error])
     //useEffect para atualizar o state abaInfo com o da lista do contexto
-    useEffect(() => {
-        setAbaInfo(getAbaFromList(abaInfoId!, abaslist)) //atualizando a info da aba local
-    }, [abaslist])
+
 
     return (
         <main className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[600px] ">
