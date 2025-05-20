@@ -4,6 +4,7 @@ import generateId from "@/utils/generateId"
 import type { Request } from "@/interfaces/request"
 import type oltInterface from "@/interfaces/olt-interface"
 import OltDashboard from "@/components/OltDashboard"
+import type { filter } from "@/interfaces/filter"
 
 interface  Props {
   children: ReactNode
@@ -51,7 +52,7 @@ const AbasProvider : React.FC<Props> = ({children}) => {
       id: idG,
       request: {olt:oltObj} as Request,
       OnuList : [],
-      filter : "",
+      filter : {search:'',state:null} as filter,
       incident : [],
       dashboard : <OltDashboard key={idG} abaInfoId={idG}/>
 

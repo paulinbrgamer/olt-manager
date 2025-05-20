@@ -84,7 +84,7 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList }) => {
                       <span>{onu.signal}</span>
                     </>
                   ) : (
-                    <p>N/A</p>
+                    <p className="w-full text-end">N/A</p>
                   )}
                 </div>
                 <div className="flex justify-end gap-2 items-center text-foreground">
