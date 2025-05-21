@@ -18,7 +18,6 @@ import { getAbaFromList } from '@/utils/getAbaFromList'
 import { Label } from './ui/label'
 import { useDebounce } from './useDebounce';
 import { filterBySearch } from '@/utils/filterBySearch'
-import Onus from '@/constants/onuListTest'
 interface Props {
     abaInfoId?: string
 }
@@ -38,7 +37,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
         if (requestSerialInput.length < 1) {
             toast('Serial inserido invalido!!')
         } else {
-
+            
             const requestSerial = { olt: abaInfo!.request!.olt.id, serialOnu: requestSerialInput }
             if (abaInfo!.request?.olt.model == 'ZTE') {
                 fetchData('http://localhost:3031/zte/pon_route', {
@@ -62,6 +61,9 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             toast('Slot ou Pon invalido!!')
         }
     }
+    const guardRequestPon = (obj: any): boolean => {
+        return obj && typeof obj.slot === 'number' && typeof obj.pon === 'number';
+      }
     useEffect(() => {
       console.log(abaInfo);
       
@@ -91,13 +93,14 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             //@ts-expect-error
             if (isErrorResponse(data)) {
                 toast("Nenhuma ONU encontrada", {
-                    description: 'Não foram encontradas Onus com o serial informado',
+                    description: data.message,
                 })
             } else {
                 //@ts-expect-error
                 const onulist: OnuInfo[] = data
                 const requestInfo: ponRequest = { olt: abaInfo.request?.olt!, slot: Number(onulist[0].slot), pon: Number(onulist[0]!.pon) }
                 updateAba({ ...abaInfo!, OnuList: onulist, request: requestInfo }) //atualizando aba atual com OnUlIST
+                setrequestPonInput({slot:requestInfo.slot,pon:requestInfo.pon})
                 toast("Busca realizada com sucesso!!", {
                     description: 'Onus carregadas na tabela...',
                 })
@@ -120,9 +123,11 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
 
     return (
         <main className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
-            <div className='grid grid-cols-[0.5fr_0.5fr_0.5fr_1fr] gap-2 justify-center w-fit justify-items-end self-start ml-auto'>
+            <div className='flex gap-3 justify-center w-fit justify-items-end self-start ml-auto'>
                 <IconButton className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
-                <IconButton className='w-fit' variant={'outline'} Icon={<RotateCcw />} text='Atualizar' />
+                {/*@ts-ignore*/ }
+                { guardRequestPon(abaInfo.request)&&
+                 <LoaderButton isLoading={loading} variant={'outline'} text='Atualizar' onClick={handleClickPonRequest}/>}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button className='w-fit' variant={'outline'}>
