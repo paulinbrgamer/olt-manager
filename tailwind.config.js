@@ -6,7 +6,10 @@ module.exports = {
     ],
     theme: {
       extend: {
-        colors:{}
+        colors:{
+          tablerow:'var(--tablerow)',
+          textrow:'var(--textrow)'
+        }
       },
     },
     plugins: [require("tailwindcss-animate")],

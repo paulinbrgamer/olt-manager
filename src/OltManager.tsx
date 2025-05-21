@@ -1,11 +1,11 @@
-import { Server } from 'lucide-react'
+import { Server, ServerCog } from 'lucide-react'
 import IconButton from './components/IconButton'
 import { icons } from './constants/colors'
 import olts from './constants/olts'
 import { useState } from 'react'
 import SearchInput from './components/SearchInput'
 import AbaHeader from './components/AbaHeader'
-import  { useAbas } from './context/olt-abas-provider'
+import { useAbas } from './context/olt-abas-provider'
 import type oltInterface from './interfaces/olt-interface'
 const OltManager = () => {
     const [search, setSearch] = useState<string>("")
@@ -21,6 +21,10 @@ const OltManager = () => {
     return (
         <div className='grid grid-cols-[260px_2fr] grid-rows-[30px_1fr]  w-full '>
             <aside className='bg-background grid-cols-1 p-4  border-border border-r-1  flex flex-col justify-start items-center gap-5 h-screen w-[260px] '> {/*aside com as OLTs listadas */}
+                <div className='border-b pb-1.5 w-full flex gap-1.5 justify-center'>
+                    <ServerCog className='text-sky-400' />
+                    <p className='font-medium '>OLT MANAGER</p>
+                </div>
                 <SearchInput placeholder='Pesquisar Olt...' onChange={handleText} value={search} />
                 {/*Container de Olts*/}
                 <div className='w-full overflow-y-scroll gap-1 flex flex-col scroll-container'>
@@ -34,7 +38,7 @@ const OltManager = () => {
                             Icon={<Server color={oltItem.model == "HW" ? icons.red : icons.blue} />} />)}
                 </div>
             </aside>
-            <header className="flex h-11 bg-accent overflow-hidden min-w-0">
+            <header className="flex h-11 bg-primary-foreground overflow-hidden min-w-0">
                 {abaslist?.map(aba => <AbaHeader key={aba.id} abaInfo={aba} />)}
             </header>
             {/*Conteudo principal renderizado da tab atual*/}
@@ -43,7 +47,7 @@ const OltManager = () => {
             ) : <div className='flex-1 flex col-end-3 justify-center items-center'>
                 <p>Sem abas abertas...</p>
             </div>}
-            
+
 
         </div>
     )

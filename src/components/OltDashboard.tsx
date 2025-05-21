@@ -154,7 +154,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                     <Button className='self-end w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalSerial(false)}><X size={10} /></Button>
                     <DialogTitle className="text-xl font-bold">Buscar Pon por Serial de uma Onu</DialogTitle>
                     <DialogDescription className="text-sm text-muted-foreground">
-                        Digite o serial da ONU
+                    Carregue as informações da Pon <br /> Procurando pelo Serial de uma Onu.
                     </DialogDescription>
                     <Input
                         value={requestSerialInput}
@@ -168,12 +168,12 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             </Dialog>
             <Dialog open={modalPon} onOpenChange={setmodalPon}>
                 <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
-                <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[10%] mr-[15%]  px-5 pb-5 pt-2 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
+                <DialogContent className="z-50  absolute bg-sidebar border self-center mt-[10%] mr-[15%]  px-5 pb-5 pt-2 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
                           data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
                     <Button className='self-end w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalPon(false)}><X size={10} /></Button>
-                    <DialogTitle className="text-xl font-bold">Carregar informações de Pon</DialogTitle>
-                    <DialogDescription className="text-sm text-muted-foreground">
-                        Digite o slot e pon
+                    <DialogTitle className="text-xl font-bold text-start">Carregar informações de Pon</DialogTitle>
+                    <DialogDescription className="text-sm text-muted-foreground  text-start ">
+                        Carregue as informações digitando o Slot e Pon.
                     </DialogDescription>
                     <Label className='mt-4' htmlFor={'slot'}>Slot</Label>
                     <Input

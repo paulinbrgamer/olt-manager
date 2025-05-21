@@ -41,11 +41,11 @@ const AbaHeader: React.FC<Props> = ({ abaInfo }) => {
               flex-1 min-w-0 max-w-[240px] shrink hover:opacity-70 
               ${currentAbaInfo === abaInfo.id
           ? "bg-background border-b-2 border-sky-600"
-          : "bg-accent border-border"}`}
+          : " border-border"}`}
     >
       {/* Container de informações com truncamento */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-        <p className="text-sm font-semibold text-slate-400 truncate w-full">
+        <p className="text-sm font-medium  truncate w-full">
           {abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location}
         </p>
 

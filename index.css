@@ -32,6 +32,8 @@ display: none; /* Chrome, Edge, Safari */
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-tablerow: var(--tablerow) ;
+  --color-textrow : var(--textrow);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -66,25 +68,24 @@ display: none; /* Chrome, Edge, Safari */
 }
 
 :root {
-  --destaque :oklch(45.5% 0.188 13.697);
   --radius: 0.625rem;
-  --background: oklch(96.7% 0.001 286.375);
-  --foreground: oklch(27.9% 0.041 260.031);
+  --background: #f3f6f7;
+  --foreground: oklch(27.4% 0.006 286.033);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary-foreground: oklch(86.9% 0.022 252.894);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(92.9% 0.013 255.508);
+  --accent:oklch(92.9% 0.013 255.508);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(86.9% 0.022 252.894);
-  --input: oklch(0.922 0 0);
+  --input: oklch(87.1% 0.006 286.286);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -99,12 +100,14 @@ display: none; /* Chrome, Edge, Safari */
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --tablerow: oklch(98.4% 0.003 247.858);
+  --textrow : oklch(37.2% 0.044 257.287);
 }
 
 .dark {
   --destaque : oklch(45.5% 0.188 13.697);
   --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+  --foreground: oklch(70.8% 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
@@ -134,6 +137,8 @@ display: none; /* Chrome, Edge, Safari */
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --tablerow : oklch(0.145 0 0);
+  --textrow : oklch(70.8% 0 0);
 }
 
 @layer base {
