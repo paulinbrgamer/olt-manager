@@ -20,14 +20,14 @@ const AbaHeader: React.FC<Props> = ({ abaInfo }) => {
     const isCurrent = currentAbaInfo === abaInfo.id;
     const hasMultipleAbas = abaslist.length > 1;
     const hasPreviousAba = currentIndex > 0;
-    const hasNextAba = abaslist[currentIndex+1] != undefined
+    const hasNextAba = abaslist[currentIndex + 1] != undefined
     if (hasMultipleAbas && isCurrent && hasPreviousAba) {
       const previousAbaId = abaslist[currentIndex - 1];
       setcurrentAbaInfo(previousAbaId.id);
       console.log("Selecionando aba anterior:", previousAbaId);
     }
     if (hasMultipleAbas && isCurrent && hasNextAba) {
-      const previousAbaId = abaslist[currentIndex  +1];
+      const previousAbaId = abaslist[currentIndex + 1];
       setcurrentAbaInfo(previousAbaId.id);
       console.log("Selecionando aba superior:", previousAbaId);
     }
@@ -38,7 +38,7 @@ const AbaHeader: React.FC<Props> = ({ abaInfo }) => {
     <div
       onClick={() => setcurrentAbaInfo(abaInfo.id)}
       className={`flex items-center gap-2 px-2 cursor-pointer 
-              flex-1 min-w-0 max-w-[200px] shrink hover:opacity-70 
+              flex-1 min-w-0 max-w-[240px] shrink hover:opacity-70 
               ${currentAbaInfo === abaInfo.id
           ? "bg-background border-b-2 border-sky-600"
           : "bg-accent border-border"}`}
