@@ -11,3 +11,7 @@ export interface ponRequest extends request{
     pon:number,
 }
 export type Request = ponRequest | serialRequest | request|null
+const guardRequestPon = (obj: any): boolean => {
+        return obj && typeof obj.slot === 'number' && typeof obj.pon === 'number';
+      }
+export default guardRequestPon

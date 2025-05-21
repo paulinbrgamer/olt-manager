@@ -12,7 +12,7 @@ import type { OnuInfo } from '@/interfaces/onu-interface'
 import SearchInput from './SearchInput'
 import IconButton from './IconButton'
 import type { abaInterface } from '@/interfaces/abas'
-import { type ponRequest } from '@/interfaces/request'
+import guardRequestPon, { type ponRequest } from '@/interfaces/request'
 import LoaderButton from './LoaderButton'
 import { getAbaFromList } from '@/utils/getAbaFromList'
 import { Label } from './ui/label'
@@ -61,9 +61,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             toast('Slot ou Pon invalido!!')
         }
     }
-    const guardRequestPon = (obj: any): boolean => {
-        return obj && typeof obj.slot === 'number' && typeof obj.pon === 'number';
-      }
+    
     useEffect(() => {
       console.log(abaInfo);
       
