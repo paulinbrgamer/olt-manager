@@ -28,7 +28,8 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
     const [requestSerialInput, setrequestSerialInput] = useState<string>('') //state para pegar o input do serial do modal
     const [searchFilter, setsearchFilter] = useState<string>(abaInfo.filter.search)// state para receber o filtro
     const debounceSearch = useDebounce(searchFilter, 200) //debouncer que recebe o state searchFilter
-    const [requestPonInput, setrequestPonInput] = useState<{ slot: number | undefined, pon: number | undefined }>({ slot: undefined, pon: undefined }) //state para pegar slot e pon
+    //@ts-ignore
+    const [requestPonInput, setrequestPonInput] = useState<{ slot: number | undefined, pon: number | undefined }>(guardRequestPon(abaInfo.request)?{pon:abaInfo.request?.pon,slot:abaInfo.request.slot}: {pon:undefined,slot:undefined}) //state para pegar slot e pon
     const [modalPon, setmodalPon] = useState<boolean>(false)//state para controlar o modal da pon 
     const { data, loading, fetchData, error } = useLazyFetch() // fetch hook
     const [filteredOnulistSearch, setFilteredOnulistSearch] = useState<OnuInfo[]>()//state para guardar as onus filtradas
@@ -69,6 +70,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
     
     //useEffect para atualizar a onuList conforme o imput do debounce muda
     useEffect(() => {
+        
         //verifica se  tem algo digitado e faz o filtro setando as onusFiltradas
         if (debounceSearch) {
             const result = filterBySearch(abaInfo.OnuList, debounceSearch, ['name', 'serialNumber', 'id']);
@@ -77,6 +79,8 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
 
         } else {
             setFilteredOnulistSearch(abaInfo.OnuList);
+            updateAba({ ...abaInfo!, filter:{...abaInfo.filter,search:debounceSearch} })
+
         }
     }, [debounceSearch, abaInfo.OnuList]);
     //useEffect para o response do fetch
