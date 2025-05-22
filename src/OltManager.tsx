@@ -20,8 +20,8 @@ const OltManager = () => {
     }
     return (
         <div className='grid grid-cols-[260px_2fr] grid-rows-[30px_1fr]  w-full '>
-            <aside className='bg-background grid-cols-1 p-4  border-border border-r-1  flex flex-col justify-start items-center gap-5 h-screen w-[260px] '> {/*aside com as OLTs listadas */}
-                <div className='border-b pb-1.5 w-full flex gap-1.5 justify-center'>
+            <aside className='bg-background grid-cols-1 p-4 pt-3  border-border border-r-1  flex flex-col justify-start items-center gap-5 h-screen w-[260px] '> {/*aside com as OLTs listadas */}
+                <div className='border-b pb-2 w-full flex gap-1.5 justify-center'>
                     <ServerCog className='text-sky-400' />
                     <p className='font-medium '>OLT MANAGER</p>
                 </div>
