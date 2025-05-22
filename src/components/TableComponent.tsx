@@ -1,13 +1,12 @@
-import { EllipsisVertical, Signal } from "lucide-react";
+import { EllipsisVertical, Filter, Signal, X } from "lucide-react";
 import { Button } from "./ui/button";
 import type { OnuInfo } from "@/interfaces/onu-interface";
 import React, { useRef } from "react";
 import { useVirtualizer } from '@tanstack/react-virtual';
-
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 interface Props {
   onuList: OnuInfo[];
 }
-
 const signalColor = (signal: number) => {
   if (signal >= -24) return "text-green-500";
   if (signal >= -28) return "text-orange-500";
@@ -40,11 +39,39 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList }) => {
   return (
     <div className="h-full flex flex-col border rounded-md overflow-hidden">
       {/* Cabeçalho */}
-      <div className="grid grid-cols-[0.5fr_2fr_2fr_1fr_80px_3fr] text-sm font-medium bg-tablerow text-textrow px-4 py-3 border-b transition-all  duration-35 hover:bg-accent/60  ease-in">
+      <div className="grid grid-cols-[0.1fr_2fr_1.5fr_1fr_80px_3fr] text-sm font-medium bg-tablerow text-textrow px-4 py-3 border-b transition-all  duration-35 hover:bg-accent/60  ease-in">
         <div className="w-[100px]">ID</div>
         <div>Nome</div>
-        <div>Serial</div>
-        <div className="text-center">Status</div>
+        <div className="text-start">Serial</div>
+        <div className="text-center flex  items-start gap-1 justify-center">
+          <p>Status</p>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant={'ghost'} size={'icon'} className="rounded-full h-5"><Filter size={16} /></Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className='w-fit border rounded-md bg-background z-10 data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
+              <DropdownMenuGroup>
+                <DropdownMenuItem >
+                  <Button className='w-full text-start' variant={'ghost'}>{<StateComponent state="working"/>}</Button>
+                </DropdownMenuItem>
+                <DropdownMenuItem >
+                <Button className='w-full text-start' variant={'ghost'}>{<StateComponent state="LOS"/>}</Button>
+                </DropdownMenuItem>
+                <DropdownMenuItem >
+                <Button className='w-full text-start' variant={'ghost'}>{<StateComponent state="DyingGasp"/>}</Button>
+                </DropdownMenuItem>
+                <DropdownMenuItem >
+                <Button className='w-full text-start' variant={'ghost'}>{<StateComponent state="OffLine"/>}</Button>
+                </DropdownMenuItem>
+                <DropdownMenuItem >
+                <Button className='w-full text-start' variant={'ghost'}>{<X/>}</Button>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+
+            </DropdownMenuContent>
+
+          </DropdownMenu>
+        </div>
         <div className="text-right">Sinal (dbm)</div>
         <div className="text-right">Última queda</div>
       </div>
@@ -63,7 +90,7 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList }) => {
             return (
               <div
                 key={virtualItem.key}
-                className="grid grid-cols-[0.5fr_2fr_2fr_1fr_80px_3fr]  items-center px-4 py-3 border-b text-sm absolute w-full bg-tablerow transition-all  duration-35  hover:bg-accent/20  ease-in"
+                className="grid grid-cols-[0.1fr_2fr_1.5fr_1fr_80px_3fr]  items-center px-4 py-3 border-b text-sm absolute w-full bg-tablerow transition-all  duration-35  hover:bg-accent/20  ease-in"
                 style={{
                   top: 0,
                   left: 0,
@@ -73,7 +100,7 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList }) => {
               >
                 <div className="w-[100px] font-medium text-textrow">{onu.id}</div>
                 <div className="text-textrow">{onu.name}</div>
-                <div className="text-textrow">{onu.serialNumber}</div>
+                <div className="text-textrow text-start">{onu.serialNumber}</div>
                 <div className="flex justify-center">
                   <StateComponent state={onu.phaseState!} />
                 </div>
