@@ -7,6 +7,12 @@ import SearchInput from './components/SearchInput'
 import AbaHeader from './components/AbaHeader'
 import { useAbas } from './context/olt-abas-provider'
 import type oltInterface from './interfaces/olt-interface'
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
 const OltManager = () => {
     const [search, setSearch] = useState<string>("")
     const { abaslist, createAba, setcurrentAbaInfo, currentAbaInfo } = useAbas()
@@ -27,16 +33,62 @@ const OltManager = () => {
                 </div>
                 <SearchInput placeholder='Pesquisar Olt...' onChange={handleText} value={search} />
                 {/*Container de Olts*/}
-                <div className='w-full overflow-y-scroll gap-1 flex flex-col scroll-container'>
-                    {filteredOlts.map(oltItem =>
-                        <IconButton
-                            onClick={() => handleClickSelectOlt(oltItem)}
-                            className='justify-start'
-                            variant={"ghost"}
-                            key={oltItem.id}
-                            text={oltItem.model + " " + oltItem.location}
-                            Icon={<Server color={oltItem.model == "HW" ? icons.red : icons.blue} />} />)}
+                {search && (
+                    <div className='w-full overflow-y-scroll gap-1 flex flex-col noscroll'>
+                        {filteredOlts.map(oltItem =>
+                            <IconButton
+                                onClick={() => handleClickSelectOlt(oltItem)}
+                                className='justify-start'
+                                variant={"ghost"}
+                                key={oltItem.id}
+                                text={oltItem.model + " " + oltItem.location}
+                                Icon={<Server color={oltItem.model == "HW" ? icons.red : icons.blue} />} />)}
+                                {filteredOlts.length<1 && <p className='text-sm text-center'>Sem resultados...</p>}
+                    </div>
+                )}
+                <div className='w-full gap-1 flex flex-col scroll-container'>
+                    {!search && (
+                        <Accordion type="single" collapsible className="w-full ">
+                            <AccordionItem value="item-1">
+                                <AccordionTrigger className='hover:bg-accent pl-2 cursor-pointer'>ZTE</AccordionTrigger>
+                                <AccordionContent className='w-full overflow-y-scroll gap-1 flex flex-col scroll-container h-52 '>
+                                    {filteredOlts.map((oltzte) => {
+                                        if (oltzte.model === "ZTE") {
+                                            return (<IconButton
+                                                onClick={() => handleClickSelectOlt(oltzte)}
+                                                className='justify-start'
+                                                variant={"ghost"}
+                                                key={oltzte.id+'group'}
+                                                text={oltzte.model + " " + oltzte.location}
+                                                Icon={<Server color={ icons.blue} />} />)
+                                        }
+                                    })}
+
+                                </AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem value="item-2">
+                                <AccordionTrigger className='hover:bg-accent pl-2 cursor-pointer'>Huawei</AccordionTrigger>
+                                <AccordionContent className='w-full overflow-y-scroll gap-1 flex flex-col scroll-container h-52 '>
+                                    {filteredOlts.map((olthw) => {
+                                        if (olthw.model === "HW") {
+                                            return (<IconButton
+                                                onClick={() => handleClickSelectOlt(olthw)}
+                                                className='justify-start'
+                                                variant={"ghost"}
+                                                key={olthw.id+'group'}
+                                                text={olthw.model + " " + olthw.location}
+                                                Icon={<Server color={ icons.red} />} />)
+                                        }
+                                    })}
+
+                                </AccordionContent>
+                            </AccordionItem>
+
+                        </Accordion>
+                    )}
+
                 </div>
+
             </aside>
             <header className="flex h-11 bg-primary-foreground overflow-hidden min-w-0">
                 {abaslist?.map(aba => <AbaHeader key={aba.id} abaInfo={aba} />)}
