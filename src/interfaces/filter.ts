@@ -1,5 +1,7 @@
+
 export interface filter{
     search : string,
-    state : "working" | "LOS" | "DyingGasp" | "OffLine" | "",
+    state :stateOnu,
 
 }
+export type stateOnu = "working" | "LOS" | "DyingGasp" | "OffLine" | ""

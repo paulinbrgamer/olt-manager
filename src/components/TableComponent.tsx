@@ -4,8 +4,13 @@ import type { OnuInfo } from "@/interfaces/onu-interface";
 import React, { useRef } from "react";
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { useAbas } from "@/context/olt-abas-provider";
+import { getAbaFromList } from "@/utils/getAbaFromList";
+import type { abaInterface } from "@/interfaces/abas";
+import type {  stateOnu } from "@/interfaces/filter";
 interface Props {
   onuList: OnuInfo[];
+  abaInfoId:string | undefined
 }
 const signalColor = (signal: number) => {
   if (signal >= -24) return "text-green-500";
@@ -28,14 +33,18 @@ const StateComponent = ({ state }: { state: string }) => {
   );
 };
 
-const TableComponent: React.FC<Props> = React.memo(({ onuList }) => {
+const TableComponent: React.FC<Props> = React.memo(({ onuList ,abaInfoId}) => {
+  const {updateAba,abaslist} = useAbas()
+  const abaInfo: abaInterface = (getAbaFromList(abaInfoId!, abaslist))
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualized = useVirtualizer({
     count: onuList?.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 55,
   });
-
+  const handleSelect = (newstate:stateOnu)=>{
+    updateAba({...abaInfo,filter:{...abaInfo.filter,state:newstate}})
+  }
   return (
     <div className="h-full flex flex-col border rounded-md overflow-hidden">
       {/* Cabeçalho */}
@@ -51,19 +60,19 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-fit border rounded-md bg-background z-10 data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
               <DropdownMenuGroup>
-                <DropdownMenuItem >
+                <DropdownMenuItem onSelect={()=>handleSelect("working")} >
                   <Button className='w-full text-start' variant={'ghost'}>{<StateComponent state="working"/>}</Button>
                 </DropdownMenuItem>
-                <DropdownMenuItem >
+                <DropdownMenuItem onSelect={()=>handleSelect("LOS")} >
                 <Button className='w-full text-start' variant={'ghost'}>{<StateComponent state="LOS"/>}</Button>
                 </DropdownMenuItem>
-                <DropdownMenuItem >
+                <DropdownMenuItem onSelect={()=>handleSelect("DyingGasp")}  >
                 <Button className='w-full text-start' variant={'ghost'}>{<StateComponent state="DyingGasp"/>}</Button>
                 </DropdownMenuItem>
-                <DropdownMenuItem >
+                <DropdownMenuItem onSelect={()=>handleSelect("OffLine")}  >
                 <Button className='w-full text-start' variant={'ghost'}>{<StateComponent state="OffLine"/>}</Button>
                 </DropdownMenuItem>
-                <DropdownMenuItem >
+                <DropdownMenuItem onSelect={()=>handleSelect("")} >
                 <Button className='w-full text-start' variant={'ghost'}>{<X/>}</Button>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
@@ -77,7 +86,7 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList }) => {
       </div>
 
       {/* Lista virtualizada */}
-      <div ref={parentRef} className="overflow-auto flex-1 h-[700px] relative noscroll">
+      <div ref={parentRef} className="overflow-auto flex-1 h-[700px] relative noscroll">  
         <div
           style={{
             height: `${rowVirtualized.getTotalSize()}px`,

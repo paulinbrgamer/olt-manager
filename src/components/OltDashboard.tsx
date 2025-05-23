@@ -1,4 +1,4 @@
-import { RotateCcw, TriangleAlert, X } from 'lucide-react'
+import {  TriangleAlert, X } from 'lucide-react'
 import { Button } from './ui/button'
 import TableComponent from './TableComponent'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger, } from '@radix-ui/react-dropdown-menu'
@@ -24,7 +24,7 @@ interface Props {
 const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
     const { updateAba, abaslist } = useAbas() //context api
     const abaInfo: abaInterface = (getAbaFromList(abaInfoId!, abaslist))// inicialização da informação da abaLocal
-    const stateFilter = filterBySearch(abaInfo.OnuList,abaInfo.filter.state,['phaseState']) //variavel com as onusFiltradas por state
+    const stateFilter = filterBySearch(abaInfo.OnuList, abaInfo.filter.state, ['phaseState']) //variavel com as onusFiltradas por state
     const [modalSerial, setmodalSerial] = useState<boolean>(false) //state para modal
     const [requestSerialInput, setrequestSerialInput] = useState<string>('') //state para pegar o input do serial do modal
     const [searchFilter, setsearchFilter] = useState<string>(abaInfo.filter.search)// state para receber o filtro
@@ -63,17 +63,19 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             toast('Slot ou Pon invalido!!')
         }
     }
-    useEffect(() => {
-        console.log('abalist rendere');
-
-    }, [abaslist])
-    
     //carregando a lista de onus filtradas por state no filteredOnulistSearch
     useEffect(() => {
-            setFilteredOnulistSearch(stateFilter);
+        setFilteredOnulistSearch(stateFilter);
+        
+        
+    }, [abaInfo.filter.state])
+    //carregando a lista de onus filtradas por state no filteredOnulistSearch
+    useEffect(() => {
+        setFilteredOnulistSearch(stateFilter);
+        
     }, [abaInfo.OnuList])
 
-    //useEffect para atualizar a onuList conforme o imput do debounce muda
+    //useEffect para atualizar a onuList conforme o imput do debounce mudar e também quando o filtro se alterar
     useEffect(() => {
 
         //verifica se  tem algo digitado e faz o filtro setando as onusFiltradas e atualizando o estado da aba.
@@ -82,12 +84,12 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             setFilteredOnulistSearch(result);
             updateAba({ ...abaInfo!, filter: { ...abaInfo.filter, search: debounceSearch } })
 
-        }else{
+        } else {
             //caso o que for digitado seja vazio, retorna as onusFiltradas por state e atualiza o search da aba.
             setFilteredOnulistSearch(stateFilter);
             updateAba({ ...abaInfo!, filter: { ...abaInfo.filter, search: debounceSearch } })
         }
-    }, [debounceSearch]);
+    }, [debounceSearch,abaInfo.filter.state]);
 
 
     //useEffect para o response do fetch
@@ -245,7 +247,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                     <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickPonRequest} variant='outline' text='Buscar' />
                 </DialogContent>
             </Dialog>
-            <TableComponent onuList={filteredOnulistSearch!} />
+            <TableComponent onuList={filteredOnulistSearch!} abaInfoId={abaInfoId} />
         </main>
     )
 }
