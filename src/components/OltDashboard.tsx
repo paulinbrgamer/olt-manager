@@ -23,13 +23,13 @@ interface Props {
 }
 const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
     const { updateAba, abaslist } = useAbas() //context api
-    const abaInfo : abaInterface =(getAbaFromList(abaInfoId!, abaslist))// inicialização da informação da abaLocal
+    const abaInfo: abaInterface = (getAbaFromList(abaInfoId!, abaslist))// inicialização da informação da abaLocal
     const [modalSerial, setmodalSerial] = useState<boolean>(false) //state para modal
     const [requestSerialInput, setrequestSerialInput] = useState<string>('') //state para pegar o input do serial do modal
     const [searchFilter, setsearchFilter] = useState<string>(abaInfo.filter.search)// state para receber o filtro
     const debounceSearch = useDebounce(searchFilter, 200) //debouncer que recebe o state searchFilter
     //@ts-ignore
-    const [requestPonInput, setrequestPonInput] = useState<{ slot: number | undefined, pon: number | undefined }>(guardRequestPon(abaInfo.request)?{pon:abaInfo.request?.pon,slot:abaInfo.request.slot}: {pon:undefined,slot:undefined}) //state para pegar slot e pon
+    const [requestPonInput, setrequestPonInput] = useState<{ slot: number | undefined, pon: number | undefined }>(guardRequestPon(abaInfo.request) ? { pon: abaInfo.request?.pon, slot: abaInfo.request.slot } : { pon: undefined, slot: undefined }) //state para pegar slot e pon
     const [modalPon, setmodalPon] = useState<boolean>(false)//state para controlar o modal da pon 
     const { data, loading, fetchData, error } = useLazyFetch() // fetch hook
     const [filteredOnulistSearch, setFilteredOnulistSearch] = useState<OnuInfo[]>()//state para guardar as onus filtradas
@@ -38,7 +38,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
         if (requestSerialInput.length < 1) {
             toast('Serial inserido invalido!!')
         } else {
-            
+
             const requestSerial = { olt: abaInfo!.request!.olt.id, serialOnu: requestSerialInput }
             if (abaInfo!.request?.olt.model == 'ZTE') {
                 fetchData('http://localhost:3031/zte/pon_route', {
@@ -62,27 +62,30 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             toast('Slot ou Pon invalido!!')
         }
     }
-    
     useEffect(() => {
-      console.log(abaInfo);
-      
-    }, [abaInfo])
-    
+        console.log('abalist rendere');
+
+    }, [abaslist])
+    useEffect(() => {
+            setFilteredOnulistSearch(abaInfo.OnuList);
+    }, [abaInfo.OnuList])
     //useEffect para atualizar a onuList conforme o imput do debounce muda
     useEffect(() => {
-        
-        //verifica se  tem algo digitado e faz o filtro setando as onusFiltradas
+
+        //verifica se  tem algo digitado e faz o filtro setando as onusFiltradas e atualizando o estado da aba.
         if (debounceSearch) {
             const result = filterBySearch(abaInfo.OnuList, debounceSearch, ['name', 'serialNumber', 'id']);
             setFilteredOnulistSearch(result);
-            updateAba({ ...abaInfo!, filter:{...abaInfo.filter,search:debounceSearch} })
+            updateAba({ ...abaInfo!, filter: { ...abaInfo.filter, search: debounceSearch } })
 
-        } else {
+        }else{
+            //caso o que for digitado seja vazio, retorna toda a onulist
             setFilteredOnulistSearch(abaInfo.OnuList);
-            updateAba({ ...abaInfo!, filter:{...abaInfo.filter,search:debounceSearch} })
-
+            updateAba({ ...abaInfo!, filter: { ...abaInfo.filter, search: debounceSearch } })
         }
-    }, [debounceSearch, abaInfo.OnuList]);
+    }, [debounceSearch]);
+
+
     //useEffect para o response do fetch
     useEffect(() => {
         //interface para mensagem de erro
@@ -102,7 +105,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                 const onulist: OnuInfo[] = data
                 const requestInfo: ponRequest = { olt: abaInfo.request?.olt!, slot: Number(onulist[0].slot), pon: Number(onulist[0]!.pon) }
                 updateAba({ ...abaInfo!, OnuList: onulist, request: requestInfo }) //atualizando aba atual com OnUlIST
-                setrequestPonInput({slot:requestInfo.slot,pon:requestInfo.pon})
+                setrequestPonInput({ slot: requestInfo.slot, pon: requestInfo.pon })
                 toast("Busca realizada com sucesso!!", {
                     description: 'Onus carregadas na tabela...',
                 })
@@ -120,16 +123,42 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             })
         }
     }, [error])
-    
-    
+
+    useEffect(() => {
+        console.log('🔁 abaInfo mudou:');
+        console.log(abaInfo);
+    }, [abaInfo]);
+
+    useEffect(() => {
+        console.log('⌨️ requestSerialInput mudou:');
+        console.log(requestSerialInput);
+    }, [requestSerialInput]);
+
+    useEffect(() => {
+        console.log('🔍 debounceSearch mudou:');
+        console.log(debounceSearch);
+    }, [debounceSearch]);
+
+    useEffect(() => {
+        console.log('📦 requestPonInput mudou:');
+        console.log(requestPonInput);
+    }, [requestPonInput]);
+
+    useEffect(() => {
+        console.log('📊 filteredOnulistSearch mudou:');
+        console.log(filteredOnulistSearch);
+    }, [filteredOnulistSearch]);
+
+
+
 
     return (
         <main className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
             <div className='flex gap-3 justify-center w-fit justify-items-end self-start ml-auto'>
                 <IconButton className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
-                {/*@ts-ignore*/ }
-                { guardRequestPon(abaInfo.request)&&
-                 <LoaderButton isLoading={loading} variant={'outline'} text='Atualizar' onClick={handleClickPonRequest}/>}
+                {/*@ts-ignore*/}
+                {guardRequestPon(abaInfo.request) &&
+                    <LoaderButton isLoading={loading} variant={'outline'} text='Atualizar' onClick={handleClickPonRequest} />}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button className='w-fit' variant={'outline'}>
@@ -158,7 +187,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                     <Button className='self-end w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalSerial(false)}><X size={10} /></Button>
                     <DialogTitle className="text-xl font-bold">Buscar Pon por Serial de uma Onu</DialogTitle>
                     <DialogDescription className="text-sm text-muted-foreground">
-                    Carregue as informações da Pon <br /> Procurando pelo Serial de uma Onu.
+                        Carregue as informações da Pon <br /> Procurando pelo Serial de uma Onu.
                     </DialogDescription>
                     <Input
                         value={requestSerialInput}
