@@ -49,6 +49,7 @@ function App() {
           </TabBar>
           {/*Função que retorna qual component deve ser renderizado*/}
           {renderScreen()}
+      
         </div>
         <Toaster />
       </AbasProvider>

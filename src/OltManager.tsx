@@ -99,7 +99,7 @@ const OltManager = () => {
             ) : <div className='flex-1 flex col-end-3 justify-center items-center'>
                 <p>Sem abas abertas...</p>
             </div>}
-
+            <p className='col-start-2 text-end pr-5 pb-1'>Beta-1.0</p>
 
         </div>
     )
