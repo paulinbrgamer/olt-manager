@@ -69,7 +69,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
         
         
     }, [abaInfo.filter.state])
-    //carregando a lista de onus filtradas por state no filteredOnulistSearch
+    //carregando a lista de onus filtradas por state no filteredOnulistSearch toda vez que a lista atualiza
     useEffect(() => {
         setFilteredOnulistSearch(stateFilter);
         
@@ -89,7 +89,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             setFilteredOnulistSearch(stateFilter);
             updateAba({ ...abaInfo!, filter: { ...abaInfo.filter, search: debounceSearch } })
         }
-    }, [debounceSearch,abaInfo.filter.state]);
+    }, [debounceSearch,abaInfo.filter.state,abaInfo.OnuList ]);
 
 
     //useEffect para o response do fetch
