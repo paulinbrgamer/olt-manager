@@ -1,0 +1,53 @@
+import App from "../../App"
+import AbasProvider from "../../context/olt-abas-provider"
+import { ThemeProvider } from "../../context/theme-provider"
+import { getByLabelText, getByPlaceholderText, getByText, render, screen } from "@testing-library/react"
+import userEvent from '@testing-library/user-event'
+
+
+describe("OLT-MANAGER Search Olts",()=>{
+    it("busca deve inicia vazia",()=>{
+        render(
+            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+                <AbasProvider>
+                    <App />
+                </AbasProvider>
+            </ThemeProvider>
+        )
+        const search = screen.getByLabelText('searchOlt')
+        expect(search).toHaveValue('')
+    })
+    it("Grupo de Olts deve aparecer quando search for vazio",()=>{
+        render(
+            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+                <AbasProvider>
+                    <App />
+                </AbasProvider>
+            </ThemeProvider>
+        )
+        const search = screen.getByLabelText('searchOlt')
+        expect(search).toHaveValue('')
+        
+        const zteGroup = screen.getByLabelText('ZTE-GROUP')
+        const hwGroup = screen.getByLabelText('HW-GROUP')
+        expect(zteGroup).toBeInTheDocument()
+        expect(hwGroup).toBeInTheDocument()
+    })
+    it("Grupo de Olts Não deve aparecer quando search tiver algum digito",async()=>{
+        render(
+            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+                <AbasProvider>
+                    <App />
+                </AbasProvider>
+            </ThemeProvider>
+        )
+        const search = screen.getByLabelText('searchOlt')
+        await userEvent.type(search,' ')
+        
+        const zteGroup = screen.queryByLabelText('ZTE-GROUP')
+        const hwGroup = screen.queryByLabelText('HW-GROUP')
+        expect(zteGroup).not.toBeInTheDocument()
+        expect(hwGroup).not.toBeInTheDocument()
+    })
+   
+})
