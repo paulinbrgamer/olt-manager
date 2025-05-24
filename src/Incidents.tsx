@@ -2,7 +2,7 @@ import React from 'react'
 
 const Incidents = () => {
   return (
-    <div>
+    <div aria-label="screen-incidents">
         
     </div>
   )
