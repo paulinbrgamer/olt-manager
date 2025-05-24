@@ -13,7 +13,6 @@ type tabSelect = "OLTs" | "Incidentes"
 function App() {
   const [tabSelected, settabSelected] = useState<tabSelect>("OLTs")
 
-
   const handleClickTab = (tab: tabSelect) => {
     settabSelected(tab)
   }
@@ -35,10 +34,10 @@ function App() {
           {/*Barra lateral  */}
           <TabBar className={"w-[60px]"}>
             {/*Bottoes da tab */}
-            <Button className={`${tabSelected == "OLTs" && "bg-accent"} w-10 h-8`} onClick={() => handleClickTab("OLTs")} variant="ghost">
+            <Button aria-label='btn-Olt' className={`${tabSelected == "OLTs" && "bg-accent"} w-10 h-8`} onClick={() => handleClickTab("OLTs")} variant="ghost">
               <SquareTerminal className={`!w-5 !h-5 ${tabSelected === "OLTs" ? "text-sky-400" : "text-foreground"}`} />
             </Button>
-            <Button className={`${tabSelected == "Incidentes" && "bg-accent"} w-10 h-8`} onClick={() => handleClickTab("Incidentes")} variant="ghost">
+            <Button aria-label='btn-Incidents' className={`${tabSelected == "Incidentes" && "bg-accent"} w-10 h-8`} onClick={() => handleClickTab("Incidentes")} variant="ghost">
               <TriangleAlert className={`!w-5 !h-5 ${tabSelected === "Incidentes" ? "text-sky-400" : "text-foreground"}`} />
             </Button>
 
