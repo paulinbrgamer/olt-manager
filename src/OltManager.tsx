@@ -37,7 +37,7 @@ const OltManager = () => {
                 {search && (
                     <div className='w-full overflow-y-scroll gap-1 flex flex-col noscroll'>
                         {filteredOlts.map(oltItem =>
-                            <IconButton
+                            <IconButton ariaLabel='Aba-OLT-btn'
                                 onClick={() => handleClickSelectOlt(oltItem)}
                                 className='justify-start'
                                 variant={"ghost"}

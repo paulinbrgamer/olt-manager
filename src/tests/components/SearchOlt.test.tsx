@@ -49,5 +49,20 @@ describe("OLT-MANAGER Search Olts",()=>{
         expect(zteGroup).not.toBeInTheDocument()
         expect(hwGroup).not.toBeInTheDocument()
     })
-   
+    it("Deve abrir uma aba ao selecionar OLT",async()=>{
+        render(
+            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+                <AbasProvider>
+                    <App />
+                </AbasProvider>
+            </ThemeProvider>
+        )
+        const search = screen.getByLabelText('searchOlt')
+        await userEvent.type(search,' ')
+        const queryOlts = screen.queryAllByLabelText('Aba-OLT-btn')
+        await userEvent.click(queryOlts[0])
+        
+        expect(screen.getByLabelText(/header/i)).toBeInTheDocument()       
+        expect(screen.getByLabelText(/Dashboard/i)).toBeInTheDocument()       
+    })
 })

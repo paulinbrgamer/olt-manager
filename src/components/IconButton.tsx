@@ -5,11 +5,12 @@ interface ButtonInterface {
   text : string,
   Icon : ReactNode
   variant?: "link" | "default" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined,
-  className?: any
+  className?: any,
+  ariaLabel? : string
 }
-const IconButton : React.FC<ButtonInterface> = ({Icon,onClick,text,variant,className}) => {
+const IconButton : React.FC<ButtonInterface> = ({Icon,onClick,text,variant,className,ariaLabel}) => {
   return (
-    <Button className={className}  onClick={onClick} variant={variant} >
+    <Button aria-label={ariaLabel} className={className}  onClick={onClick} variant={variant} >
       {Icon}
       <span className='truncate'>{text}</span>
     </Button>

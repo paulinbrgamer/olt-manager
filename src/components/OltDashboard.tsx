@@ -159,7 +159,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
 
 
     return (
-        <main className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
+        <main aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' Dashboard'} className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
             <div className='flex gap-3 justify-center w-fit justify-items-end self-start ml-auto'>
                 <IconButton className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
                 {/*@ts-ignore*/}

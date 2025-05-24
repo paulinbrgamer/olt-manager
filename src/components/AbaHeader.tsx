@@ -35,7 +35,7 @@ const AbaHeader: React.FC<Props> = ({ abaInfo }) => {
   };
 
   return (
-    <div
+    <div aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' header'}
       onClick={() => setcurrentAbaInfo(abaInfo.id)}
       className={`flex items-center gap-2 px-2 cursor-pointer 
               flex-1 min-w-0 max-w-[240px] shrink hover:opacity-70 
