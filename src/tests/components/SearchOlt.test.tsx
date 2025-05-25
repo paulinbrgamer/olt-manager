@@ -49,7 +49,7 @@ describe("OLT-MANAGER Search Olts",()=>{
         expect(zteGroup).not.toBeInTheDocument()
         expect(hwGroup).not.toBeInTheDocument()
     })
-    it("Deve abrir uma aba ao selecionar OLT",async()=>{
+    it("Deve abrir e selecionar uma aba ao selecionar OLT",async()=>{
         render(
             <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
                 <AbasProvider>

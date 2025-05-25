@@ -5,6 +5,7 @@ import type { Request } from "@/interfaces/request"
 import type oltInterface from "@/interfaces/olt-interface"
 import OltDashboard from "@/components/OltDashboard"
 import type { filter } from "@/interfaces/filter"
+import { getAbaFromList } from "@/utils/getAbaFromList"
 
 interface  Props {
   children: ReactNode
@@ -15,7 +16,7 @@ export interface AbasContextInterface {
   removeAba(id:string):void,
   createAba(oltObj:oltInterface): string,
   currentAbaInfo : string | null,
-  setcurrentAbaInfo(abaInfo : string | null):void,
+  setcurrentAbaInfo(abaInfoIdSelect : string | null):void,
   updateAba(abaInfo : abaInterface): void
 
 }
@@ -23,10 +24,18 @@ export interface AbasContextInterface {
 const AbasContext = createContext<AbasContextInterface | null>(null)
 
 const AbasProvider : React.FC<Props> = ({children}) => {
-  const [currentAbaInfo, setcurrentAbaInfo] = useState<string | null>(null) //id da tab atual
+  const [currentAbaInfo, setcurrentAbaId] = useState<string | null>(null) //id da tab atual
 
   const [abaslist, setAbasList] = useState<abaInterface[] >([])   //listagem das abas
   
+  //update current aba
+  const setcurrentAbaInfo = (abaInfoIdSelect : string | null)=>{
+    if (abaInfoIdSelect){
+        setcurrentAbaId(abaInfoIdSelect)
+    }else{
+      setcurrentAbaId(null)
+    }
+  }
   //update aba
   const updateAba = (AbaUpdate: abaInterface) => {
     setAbasList(prev => {
@@ -68,7 +77,9 @@ const AbasProvider : React.FC<Props> = ({children}) => {
       dashboard : <OltDashboard key={idG} abaInfoId={idG}/>
 
     }
+    
     setAbasList(prev=>[...prev,newAbba])
+    setcurrentAbaInfo(idG)
     return idG
   }
 

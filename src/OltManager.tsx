@@ -23,7 +23,6 @@ const OltManager = () => {
     } //função para atualizar estado do search
     const handleClickSelectOlt = (oltItem: oltInterface) => {
         const idnewAba = createAba(oltItem)
-        setcurrentAbaInfo(idnewAba)
     }
     return (
         <div aria-label="screen-olt" className='grid grid-cols-[260px_2fr] grid-rows-[30px_1fr]  w-full '>
