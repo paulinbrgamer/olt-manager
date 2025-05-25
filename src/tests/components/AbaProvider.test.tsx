@@ -172,7 +172,7 @@ describe("AbasProvider Deleção de Abas", () => {
         </>
     }
     it("Deve retornar a abaslist completa se não encontrar item a ser deletado", async () => {
-        
+
         render(
             <AbasProvider>
                 <NotExistentId />
@@ -199,5 +199,72 @@ describe("AbasProvider Deleção de Abas", () => {
         expect(screen.getByLabelText("size-list").textContent).toBe("1")
         await userEvent.click(btn)
         expect(screen.getByLabelText("size-list").textContent).toBe("0")
+    })
+})
+describe("AbasProvider Atualização de Aba", () => {
+    const NotExistentId = ({ shouldUpdateId = false }) => {
+        const context = useAbas()
+        const [abaNova, setabaNova] = useState<string | null>(null)
+        const [jsonInfo, setJsonInfo] = useState("")
+
+        useEffect(() => {
+            if (abaNova) {
+                const aba = getAbaFromList(abaNova, context.abaslist)
+                setJsonInfo(JSON.stringify(aba))
+            }
+        }, [abaNova, context.abaslist])
+
+        const handleCreate = () => {
+            const newId = context.createAba({ id: 1, model: 'ZTE', location: 'Castanhal' })
+            setabaNova(newId)
+        }
+
+        const handleUpdate = () => {
+            const original = JSON.parse(jsonInfo)
+            const id = shouldUpdateId ? "Invalid" : original.id
+            context.updateAba({
+                ...original,
+                id,
+                filter: {
+                    ...original.filter,
+                    search: "Updated search"
+                }
+            })
+        }
+
+        return (
+            <>
+                <button onClick={handleCreate}>Criar</button>
+                <span aria-label="size-list">{jsonInfo}</span>
+                <button onClick={handleUpdate}>update</button>
+            </>
+        )
+    }
+
+    it("Não deve atualizar nada se ID não existir", async () => {
+        render(
+            <AbasProvider>
+                <NotExistentId shouldUpdateId={true} />
+            </AbasProvider>
+        )
+        await userEvent.click(screen.getByText("Criar"))
+        const antes = screen.getByLabelText("size-list").textContent!
+        await userEvent.click(screen.getByText("update"))
+        const depois = screen.getByLabelText("size-list").textContent!
+        expect(depois).toBe(antes)
+    })
+
+    it("Deve atualizar a aba se o ID existir", async () => {
+        render(
+            <AbasProvider>
+                <NotExistentId shouldUpdateId={false} />
+            </AbasProvider>
+        )
+        await userEvent.click(screen.getByText("Criar"))
+        const antes = screen.getByLabelText("size-list").textContent!
+        await userEvent.click(screen.getByText("update"))
+        const depois = screen.getByLabelText("size-list").textContent!
+        expect(depois).not.toBe(antes)
+        expect(JSON.parse(depois).filter.search).toBe("Updated search")
     })
 })
