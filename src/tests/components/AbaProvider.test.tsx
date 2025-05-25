@@ -2,37 +2,45 @@ import AbasProvider, { type AbasContextInterface } from "../../context/olt-abas-
 import { ThemeProvider } from "../../context/theme-provider"
 import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
-import AbaProviderTest from "./AbaProviderTest"
-import { vi } from "vitest"
+import { useAbas } from '@/context/olt-abas-provider'
+import type { abaInterface } from "@/interfaces/abas"
+
+const AbaProviderTest = ({ aba }: { aba?: abaInterface }) => {
+    const context = useAbas()
+
+
+
+    return (
+        <div>
+            <span>Abas Iniciais : {context.abaslist.length}</span>
+            <span>Current Aba : {context.currentAbaInfo}</span>
+        </div>
+    )
+}
+
+export default AbaProviderTest
+
 describe("AbaProvider Testes", () => {
     it("Lista de abas deve inicializar vazio", async () => {
-        const callback = vi.fn()
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AbasProvider>
-                <AbaProviderTest callback={callback} />
+                <AbaProviderTest />
             </AbasProvider>
         </ThemeProvider>)
+        const sizeAbasInit = screen.getByText('Abas Iniciais : 0')
+        expect(sizeAbasInit).toBeInTheDocument()
 
-        expect(callback).toHaveBeenCalled()
-        const context : AbasContextInterface = callback.mock.calls[0][0]
-        expect(context.abaslist).toStrictEqual([])
-        
-        
+
     })
     it("Aba atual deve ser nula ao inicializar", async () => {
-        const callback = vi.fn()
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AbasProvider>
-                <AbaProviderTest callback={callback} />
+                <AbaProviderTest />
             </AbasProvider>
         </ThemeProvider>)
-
-        expect(callback).toHaveBeenCalled()
-        const context : AbasContextInterface = callback.mock.calls[0][0]
-        
-        expect(context.currentAbaInfo).toBe(null)
-        
-        
-    })
     
+        const currentAbaValue = screen.getByText('Current Aba :')
+        expect(currentAbaValue).toBeInTheDocument()
+    })
+
 })
