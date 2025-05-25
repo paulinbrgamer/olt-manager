@@ -52,7 +52,7 @@ const AbasProvider : React.FC<Props> = ({children}) => {
       id: idG,
       request: {olt:oltObj} as Request,
       OnuList : [],
-      filter : {search:'',state:""} as filter,
+      filter : {search:"",state:""} as filter,
       incident : [],
       dashboard : <OltDashboard key={idG} abaInfoId={idG}/>
 
