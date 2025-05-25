@@ -40,10 +40,21 @@ const AbasProvider : React.FC<Props> = ({children}) => {
   
   //função para remover aba passando o id da mesma
   const removeAba = (id: string) => {
-    setAbasList(prev => prev.filter(aba => aba.id !== id));
+    if (!id) {
+      throw new Error("ID inválido para remoção.");
+    }
   
-
+    setAbasList(prev => {
+      const exists = prev.some(aba => aba.id === id);
+  
+      if (exists) {
+        return prev.filter(aba => aba.id !== id);
+      }else{
+        return prev
+      }
+    });
   };
+  
   
   //função para crair aba passando o id da OLT , retorna o id criado 
   const createAba = (oltObj:oltInterface)=>{
