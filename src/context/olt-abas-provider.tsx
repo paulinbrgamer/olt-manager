@@ -10,7 +10,7 @@ interface  Props {
   children: ReactNode
 }
 //interface para o context
-interface AbasContextInterface {
+export interface AbasContextInterface {
   abaslist: abaInterface[] ,
   removeAba(id:string):void,
   createAba(oltObj:oltInterface): string,
