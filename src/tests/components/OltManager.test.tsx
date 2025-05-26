@@ -1,4 +1,3 @@
-import { log } from "console"
 import App from "../../App"
 import AbasProvider from "../../context/olt-abas-provider"
 import { ThemeProvider } from "../../context/theme-provider"
@@ -14,7 +13,7 @@ const renderApp = () => {
         </ThemeProvider>
     )
 }
-describe("OLT-MANAGER Inicialização",()=>{
+describe("OLT-MANAGER Inicialização", () => {
     it("Deve Não ter aba e dashboard ao inicializar", async () => {
         renderApp()
         const search = screen.getByLabelText('searchOlt')
@@ -61,7 +60,7 @@ describe("OLT-MANAGER Seleção de OLT", () => {
         const queryOlts = screen.queryAllByLabelText(/Aba-OLT-btn/i)
 
         await userEvent.click(queryOlts[0])
-        
+
         expect(screen.getByLabelText(queryOlts[0].textContent + ' header')).toBeInTheDocument()
         expect(screen.getByLabelText(queryOlts[0].textContent + ' Dashboard')).toBeInTheDocument()
     })
@@ -75,6 +74,9 @@ describe("OLT-MANAGER Seleção de OLT", () => {
         expect(screen.queryByLabelText(queryOlts[0].textContent + ' header')).not.toBeInTheDocument()
         expect(screen.queryByLabelText(queryOlts[0].textContent + ' Dashboard')).not.toBeInTheDocument()
     })
+
+})
+describe("OLT-MANAGER Dinamica de Abas", () => {
     it("Deve fechar Aba ao apertar no X", async () => {
         renderApp()
         const search = screen.getByLabelText('searchOlt')
@@ -88,6 +90,36 @@ describe("OLT-MANAGER Seleção de OLT", () => {
         await userEvent.click(closeBtn)
         expect(screen.queryByLabelText(queryOlts[0].textContent + ' header')).not.toBeInTheDocument()
         expect(screen.queryByLabelText(queryOlts[0].textContent + ' Dashboard')).not.toBeInTheDocument()
+
+    })
+    it("Deve selecionar Aba posterior ao apertar no X na aba atual", async () => {
+        renderApp()
+        const search = screen.getByLabelText('searchOlt')
+        await userEvent.type(search, ' ')
+        const queryOlts = screen.queryAllByLabelText(/Aba-OLT-btn/i)
+
+        await userEvent.click(queryOlts[0])
+        await userEvent.click(queryOlts[1])
+        const closeBtn = screen.getByLabelText(queryOlts[0].textContent + ' close')
+        await userEvent.click(closeBtn)
+        expect(screen.queryByLabelText(queryOlts[1].textContent + ' header')).toBeInTheDocument()
+        expect(screen.queryByLabelText(queryOlts[1].textContent + ' Dashboard')).toBeInTheDocument()
+
+
+    })
+    it("Deve selecionar Aba anterior ao apertar no X na aba atual e não haver posterior", async () => {
+        renderApp()
+        const search = screen.getByLabelText('searchOlt')
+        await userEvent.type(search, ' ')
+        const queryOlts = screen.queryAllByLabelText(/Aba-OLT-btn/i)
+
+        await userEvent.click(queryOlts[0])
+        await userEvent.click(queryOlts[1])
+        const closeBtn = screen.getByLabelText(queryOlts[1].textContent + ' close')
+        await userEvent.click(closeBtn)
+        expect(screen.queryByLabelText(queryOlts[0].textContent + ' header')).toBeInTheDocument()
+        expect(screen.queryByLabelText(queryOlts[0].textContent + ' Dashboard')).toBeInTheDocument()
+
 
     })
     it("Deve ser capaz de selecionar Aba nova ao clicar novamente em uma OLT", async () => {
