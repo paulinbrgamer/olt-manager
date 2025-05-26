@@ -14,7 +14,7 @@ const renderApp = () => {
     )
 }
 describe("OLT-MANAGER Search Olts", () => {
-    it("busca deve inicia vazia", () => {
+    it("busca deve inicia vazia ao ser renderizado", () => {
         render(
             <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
                 <AbasProvider>
@@ -93,7 +93,7 @@ describe("OLT-MANAGER Seleção de OLT", () => {
         expect(screen.queryByLabelText(queryOlts[1].textContent + ' header')).toBeInTheDocument()
         expect(screen.queryByLabelText(queryOlts[1].textContent + ' Dashboard')).toBeInTheDocument()
     })
-    it(" deve ser capaz de selecionar outra e voltar ao clickar na Aba da primeira", async () => {
+    it(" deve ser capaz de selecionar outra Aba e voltar ao clicar na primeira", async () => {
         renderApp()
         const search = screen.getByLabelText('searchOlt')
         await userEvent.type(search, ' ')
