@@ -52,7 +52,7 @@ const OltManager = () => {
 
                         <Accordion type="single" collapsible className="w-full ">
                             <AccordionItem aria-label='ZTE-GROUP' value="item-1">
-                                <AccordionTrigger className='hover:bg-accent pl-2 cursor-pointer'>ZTE</AccordionTrigger>
+                                <AccordionTrigger className=' pl-2 cursor-pointer'>ZTE</AccordionTrigger>
                                 <AccordionContent className='w-full overflow-y-scroll gap-1 flex flex-col scroll-container h-52 '>
                                     {filteredOlts.map((oltzte) => {
                                         if (oltzte.model === "ZTE") {
@@ -69,7 +69,7 @@ const OltManager = () => {
                                 </AccordionContent>
                             </AccordionItem>
                             <AccordionItem aria-label='HW-GROUP' value="item-2">
-                                <AccordionTrigger className='hover:bg-accent pl-2 cursor-pointer'>Huawei</AccordionTrigger>
+                                <AccordionTrigger className=' pl-2 cursor-pointer'>Huawei</AccordionTrigger>
                                 <AccordionContent className='w-full overflow-y-scroll gap-1 flex flex-col scroll-container h-52 '>
                                     {filteredOlts.map((olthw) => {
                                         if (olthw.model === "HW") {

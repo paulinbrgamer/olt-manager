@@ -57,7 +57,7 @@ const AbaHeader: React.FC<Props> = ({ abaInfo }) => {
       </div>
 
       {/* Botão de fechar sempre visível */}
-      <Button onClick={handleDelete} variant="ghost" size="sm" className="shrink-0">
+      <Button aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' close'} onClick={handleDelete} variant="ghost" size="sm" className="shrink-0">
         <X className="text-red-500 h-4 w-4" />
       </Button>
     </div>

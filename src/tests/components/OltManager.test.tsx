@@ -1,3 +1,4 @@
+import { log } from "console"
 import App from "../../App"
 import AbasProvider from "../../context/olt-abas-provider"
 import { ThemeProvider } from "../../context/theme-provider"
@@ -60,6 +61,7 @@ describe("OLT-MANAGER Seleção de OLT", () => {
         const queryOlts = screen.queryAllByLabelText(/Aba-OLT-btn/i)
 
         await userEvent.click(queryOlts[0])
+        
         expect(screen.getByLabelText(queryOlts[0].textContent + ' header')).toBeInTheDocument()
         expect(screen.getByLabelText(queryOlts[0].textContent + ' Dashboard')).toBeInTheDocument()
     })
@@ -72,6 +74,21 @@ describe("OLT-MANAGER Seleção de OLT", () => {
         await userEvent.click(queryOlts[1])
         expect(screen.queryByLabelText(queryOlts[0].textContent + ' header')).not.toBeInTheDocument()
         expect(screen.queryByLabelText(queryOlts[0].textContent + ' Dashboard')).not.toBeInTheDocument()
+    })
+    it("Deve fechar Aba ao apertar no X", async () => {
+        renderApp()
+        const search = screen.getByLabelText('searchOlt')
+        await userEvent.type(search, ' ')
+        const queryOlts = screen.queryAllByLabelText(/Aba-OLT-btn/i)
+
+        await userEvent.click(queryOlts[0])
+        const closeBtn = screen.getByLabelText(queryOlts[0].textContent + ' close')
+        expect(screen.queryByLabelText(queryOlts[0].textContent + ' header')).toBeInTheDocument()
+        expect(screen.queryByLabelText(queryOlts[0].textContent + ' Dashboard')).toBeInTheDocument()
+        await userEvent.click(closeBtn)
+        expect(screen.queryByLabelText(queryOlts[0].textContent + ' header')).not.toBeInTheDocument()
+        expect(screen.queryByLabelText(queryOlts[0].textContent + ' Dashboard')).not.toBeInTheDocument()
+
     })
     it("Deve ser capaz de selecionar Aba nova ao clicar novamente em uma OLT", async () => {
         renderApp()
