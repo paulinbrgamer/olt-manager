@@ -15,14 +15,15 @@ import {
 } from "@/components/ui/accordion"
 import { filterBySearch } from './utils/filterBySearch'
 const OltManager = () => {
-    const [search, setSearch] = useState<string>('')
-    const { abaslist, createAba, setcurrentAbaInfo, currentAbaInfo } = useAbas()
+    const [search, setSearch] = useState<string>('') //state que guarda a pesquisa de OLT
+    const { abaslist, createAba,currentAbaInfo } = useAbas()
     const filteredOlts = filterBySearch(olts,search,['model','location']) /*variavel que guarda o filtro do teclado */
+    
     const handleText = (event: any) => {
         setSearch(event.target.value)
     } //função para atualizar estado do search
     const handleClickSelectOlt = (oltItem: oltInterface) => {
-        const idnewAba = createAba(oltItem)
+        createAba(oltItem)
     }
     return (
         <div aria-label="screen-olt" className='grid grid-cols-[260px_2fr] grid-rows-[30px_1fr]  w-full '>
@@ -35,8 +36,8 @@ const OltManager = () => {
                 {/*Container de Olts*/}
                 {search && (
                     <div className='w-full overflow-y-scroll gap-1 flex flex-col noscroll'>
-                        {filteredOlts.map(oltItem =>
-                            <IconButton ariaLabel='Aba-OLT-btn'
+                        {filteredOlts.map((oltItem,idx) =>
+                            <IconButton ariaLabel={`Aba-OLT-btn-${idx}`}
                                 onClick={() => handleClickSelectOlt(oltItem)}
                                 className='justify-start'
                                 variant={"ghost"}
@@ -89,7 +90,6 @@ const OltManager = () => {
                     </div>
 
                 )}
-
 
             </aside>
             <header className="flex h-11 bg-primary-foreground overflow-hidden min-w-0">

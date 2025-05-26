@@ -23,7 +23,7 @@ interface Props {
 }
 const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
     const { updateAba, abaslist } = useAbas() //context api
-    const abaInfo: abaInterface = (getAbaFromList(abaInfoId!, abaslist))// inicialização da informação da abaLocal
+    const abaInfo: abaInterface = getAbaFromList(abaInfoId!, abaslist)!// inicialização da informação da abaLocal
     const stateFilter = filterBySearch(abaInfo.OnuList, abaInfo.filter.state, ['phaseState']) //variavel com as onusFiltradas por state
     const [modalSerial, setmodalSerial] = useState<boolean>(false) //state para modal
     const [requestSerialInput, setrequestSerialInput] = useState<string>('') //state para pegar o input do serial do modal

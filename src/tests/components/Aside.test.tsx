@@ -4,7 +4,7 @@ import { ThemeProvider } from "../../context/theme-provider"
 import { render, screen } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
 
-describe("APP ABA LATERAL TEST", () => {
+describe("ABA LATERAL TESTE", () => {
     it("Deve trocar para Incidents ao clicar no botão de incidents", async () => {
         render(
             <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
