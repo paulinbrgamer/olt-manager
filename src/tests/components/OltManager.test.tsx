@@ -13,26 +13,25 @@ const renderApp = () => {
         </ThemeProvider>
     )
 }
+describe("OLT-MANAGER Inicialização",()=>{
+    it("Deve Não ter aba e dashboard ao inicializar", async () => {
+        renderApp()
+        const search = screen.getByLabelText('searchOlt')
+        await userEvent.type(search, ' ')
+        const queryOlts = screen.queryAllByLabelText(/Aba-OLT-btn/i)
+
+        expect(screen.queryByLabelText(queryOlts[0].textContent + ' header')).not.toBeInTheDocument()
+        expect(screen.queryByLabelText(queryOlts[0].textContent + ' Dashboard')).not.toBeInTheDocument()
+    })
+})
 describe("OLT-MANAGER Search Olts", () => {
     it("busca deve inicia vazia ao ser renderizado", () => {
-        render(
-            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-                <AbasProvider>
-                    <App />
-                </AbasProvider>
-            </ThemeProvider>
-        )
+        renderApp()
         const search = screen.getByLabelText('searchOlt')
         expect(search).toHaveValue('')
     })
     it("Grupo de Olts deve aparecer quando search for vazio", () => {
-        render(
-            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-                <AbasProvider>
-                    <App />
-                </AbasProvider>
-            </ThemeProvider>
-        )
+        renderApp()
         const search = screen.getByLabelText('searchOlt')
         expect(search).toHaveValue('')
 
@@ -42,13 +41,7 @@ describe("OLT-MANAGER Search Olts", () => {
         expect(hwGroup).toBeInTheDocument()
     })
     it("Grupo de Olts Não deve aparecer quando search tiver algum digito", async () => {
-        render(
-            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-                <AbasProvider>
-                    <App />
-                </AbasProvider>
-            </ThemeProvider>
-        )
+        renderApp()
         const search = screen.getByLabelText('searchOlt')
         await userEvent.type(search, ' ')
 
