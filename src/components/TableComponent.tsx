@@ -10,7 +10,8 @@ import type { abaInterface } from "@/interfaces/abas";
 import type {  stateOnu } from "@/interfaces/filter";
 interface Props {
   onuList: OnuInfo[];
-  abaInfoId:string | undefined
+  abaInfoId:string | undefined,
+  ariaLabel?: string
 }
 const signalColor = (signal: number) => {
   if (signal >= -24) return "text-green-500";
@@ -33,9 +34,9 @@ const StateComponent = ({ state }: { state: string }) => {
   );
 };
 
-const TableComponent: React.FC<Props> = React.memo(({ onuList ,abaInfoId}) => {
+const TableComponent: React.FC<Props> = React.memo(({ onuList ,abaInfoId,ariaLabel}) => {
   const {updateAba,abaslist} = useAbas()
-  const abaInfo: abaInterface = (getAbaFromList(abaInfoId!, abaslist))
+  const abaInfo: abaInterface = getAbaFromList(abaInfoId!, abaslist)
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualized = useVirtualizer({
     count: onuList?.length,
@@ -46,7 +47,7 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList ,abaInfoId}) => {
     updateAba({...abaInfo,filter:{...abaInfo.filter,state:newstate}})
   }
   return (
-    <div className="h-full flex flex-col border rounded-md overflow-hidden">
+    <div className="h-full flex flex-col border rounded-md overflow-hidden" aria-label={ariaLabel}>
       {/* Cabeçalho */}
       <div className="grid grid-cols-[0.1fr_2fr_1.5fr_1fr_80px_3fr] text-sm font-medium bg-tablerow text-textrow px-4 py-3 border-b transition-all  duration-35 hover:bg-accent/60  ease-in">
         <div className="w-[100px]">ID</div>

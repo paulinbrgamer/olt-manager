@@ -1,4 +1,4 @@
-import {  TriangleAlert, X } from 'lucide-react'
+import { TriangleAlert, X } from 'lucide-react'
 import { Button } from './ui/button'
 import TableComponent from './TableComponent'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger, } from '@radix-ui/react-dropdown-menu'
@@ -23,6 +23,10 @@ interface Props {
 }
 const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
     const { updateAba, abaslist } = useAbas() //context api
+    //retorna texto caso não encontre informações de Aba com o id fornecido
+    if(!getAbaFromList(abaInfoId!, abaslist)){
+        return <p>Id invalido de aba</p>
+    }
     const abaInfo: abaInterface = getAbaFromList(abaInfoId!, abaslist)!// inicialização da informação da abaLocal
     const stateFilter = filterBySearch(abaInfo.OnuList, abaInfo.filter.state, ['phaseState']) //variavel com as onusFiltradas por state
     const [modalSerial, setmodalSerial] = useState<boolean>(false) //state para modal
@@ -66,13 +70,13 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
     //carregando a lista de onus filtradas por state no filteredOnulistSearch
     useEffect(() => {
         setFilteredOnulistSearch(stateFilter);
-        
-        
+
+
     }, [abaInfo.filter.state])
     //carregando a lista de onus filtradas por state no filteredOnulistSearch toda vez que a lista atualiza
     useEffect(() => {
         setFilteredOnulistSearch(stateFilter);
-        
+
     }, [abaInfo.OnuList])
 
     //useEffect para atualizar a onuList conforme o imput do debounce mudar e também quando o filtro se alterar
@@ -89,7 +93,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
             setFilteredOnulistSearch(stateFilter);
             updateAba({ ...abaInfo!, filter: { ...abaInfo.filter, search: debounceSearch } })
         }
-    }, [debounceSearch,abaInfo.filter.state,abaInfo.OnuList ]);
+    }, [debounceSearch, abaInfo.filter.state, abaInfo.OnuList]);
 
 
     //useEffect para o response do fetch
@@ -160,14 +164,15 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
 
     return (
         <main aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' Dashboard'} className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
+            {/*Div com elementos de interação com a Tabela de Onus */}
             <div className='flex gap-3 justify-center w-fit justify-items-end self-start ml-auto'>
-                <IconButton className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
+                <IconButton ariaLabel='Incidents-btn' className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
                 {/*@ts-ignore*/}
                 {guardRequestPon(abaInfo.request) &&
                     <LoaderButton isLoading={loading} variant={'outline'} text='Atualizar' onClick={handleClickPonRequest} />}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button className='w-fit' variant={'outline'}>
+                        <Button aria-label='load-Pon' className='w-fit' variant={'outline'}>
                             <p>Carregar Pon</p>
                         </Button>
                     </DropdownMenuTrigger>
@@ -184,7 +189,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                     </DropdownMenuContent>
 
                 </DropdownMenu>
-                <SearchInput value={searchFilter} onChange={(e: ChangeEvent<HTMLInputElement>) => setsearchFilter(e.target.value)} placeholder='Procurar Onu...' />
+                <SearchInput ariaLabel='search-Onu' value={searchFilter} onChange={(e: ChangeEvent<HTMLInputElement>) => setsearchFilter(e.target.value)} placeholder='Procurar Onu...' />
             </div>
             <Dialog open={modalSerial} onOpenChange={setmodalSerial}>
                 <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
@@ -247,7 +252,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                     <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickPonRequest} variant='outline' text='Buscar' />
                 </DialogContent>
             </Dialog>
-            <TableComponent onuList={filteredOnulistSearch!} abaInfoId={abaInfoId} />
+            <TableComponent ariaLabel='table-Onus' onuList={filteredOnulistSearch!} abaInfoId={abaInfoId} />
         </main>
     )
 }
