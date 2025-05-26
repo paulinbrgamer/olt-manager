@@ -40,7 +40,7 @@ const AbaProviderTest = ({ olt }: { olt?: oltInterface }) => {
 export default AbaProviderTest
 
 describe("AbasProvider Testes Inicialização", () => {
-    it("Lista de abas deve inicializar vazia", async () => {
+    it("Lista de abas Deve iniciar vazia ao instanciar Provider", async () => {
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AbasProvider>
                 <AbaProviderTest />
@@ -51,7 +51,7 @@ describe("AbasProvider Testes Inicialização", () => {
 
 
     })
-    it("Aba atual deve ser nula ao inicializar", async () => {
+    it("Aba atual deve ser nula ao inicializar Provider", async () => {
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AbasProvider>
                 <AbaProviderTest olt={{ id: 1, model: 'ZTE', location: 'Castanhal' }} />
@@ -79,7 +79,7 @@ describe("AbasProvider Criação de Abas", () => {
         expect(sizeAbasInit).toBeInTheDocument()
 
     })
-    it("Deve retornar ID igual ao objeto criado no abaslist", async () => {
+    it("Deve retornar ID igual ao adicionado na lista de abas quando chamar createAba()", async () => {
         const oltObj: oltInterface = { id: 1, model: 'ZTE', location: 'Castanhal' }
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AbasProvider>
@@ -95,7 +95,7 @@ describe("AbasProvider Criação de Abas", () => {
 
 
     })
-    it("Deve ter Onulist vazia", async () => {
+    it("Deve ter Onulist vazia ao criar Aba com createAba()", async () => {
         const oltObj: oltInterface = { id: 1, model: 'ZTE', location: 'Castanhal' }
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AbasProvider>
@@ -111,7 +111,7 @@ describe("AbasProvider Criação de Abas", () => {
 
 
     })
-    it("Deve ter id do request Olt igual ao que foi passado na criação", async () => {
+    it("Deve ter id do request Olt igual ao que foi passado na criação da Aba", async () => {
         const oltObj: oltInterface = { id: 1, model: 'ZTE', location: 'Castanhal' }
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AbasProvider>
@@ -127,7 +127,7 @@ describe("AbasProvider Criação de Abas", () => {
 
 
     })
-    it("Deve ter filter search vazio na criação", async () => {
+    it("Deve ter filter search vazio ao ser criada Aba", async () => {
         const oltObj: oltInterface = { id: 1, model: 'ZTE', location: 'Castanhal' }
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AbasProvider>
@@ -143,7 +143,7 @@ describe("AbasProvider Criação de Abas", () => {
 
 
     })
-    it("Deve ter filter state vazio na criação", async () => {
+    it("Deve ter filter state vazio ao ser criada Aba", async () => {
         const oltObj: oltInterface = { id: 1, model: 'ZTE', location: 'Castanhal' }
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AbasProvider>
@@ -171,7 +171,7 @@ describe("AbasProvider Deleção de Abas", () => {
             <button onClick={() => setabaNova(context.createAba({ id: 1, model: 'ZTE', location: 'Castanhal' }))}>Criar</button>
         </>
     }
-    it("Deve retornar a abaslist completa se não encontrar item a ser deletado", async () => {
+    it("Deve retornar a abaslist completa se não encontrar item a ser deletado ao chamar remove()", async () => {
 
         render(
             <AbasProvider>
@@ -186,7 +186,7 @@ describe("AbasProvider Deleção de Abas", () => {
         await userEvent.click(btn)
         expect(screen.getByLabelText("size-list").textContent).toBe("1")
     })
-    it("Deve remover item que encontrar com o id passado", async () => {
+    it("Deve remover item que encontrar com o id passado ao chamar função remove()", async () => {
         render(
             <AbasProvider>
                 <NotExistentId />
@@ -241,7 +241,7 @@ describe("AbasProvider Atualização de Aba", () => {
         )
     }
 
-    it("Não deve atualizar nada se ID não existir", async () => {
+    it("Não deve atualizar nada se ID não existir ao chamar update()", async () => {
         render(
             <AbasProvider>
                 <NotExistentId shouldUpdateId={true} />
@@ -254,7 +254,7 @@ describe("AbasProvider Atualização de Aba", () => {
         expect(depois).toBe(antes)
     })
 
-    it("Deve atualizar a aba se o ID existir", async () => {
+    it("Deve atualizar a aba se o ID existir ao chamar update()", async () => {
         render(
             <AbasProvider>
                 <NotExistentId shouldUpdateId={false} />
