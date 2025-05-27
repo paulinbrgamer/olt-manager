@@ -134,30 +134,30 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
         }
     }, [error])
 
-    useEffect(() => {
-        console.log('🔁 abaInfo mudou:');
-        console.log(abaInfo);
-    }, [abaInfo]);
+    // useEffect(() => {
+    //     console.log('🔁 abaInfo mudou:');
+    //     console.log(abaInfo);
+    // }, [abaInfo]);
 
-    useEffect(() => {
-        console.log('⌨️ requestSerialInput mudou:');
-        console.log(requestSerialInput);
-    }, [requestSerialInput]);
+    // useEffect(() => {
+    //     console.log('⌨️ requestSerialInput mudou:');
+    //     console.log(requestSerialInput);
+    // }, [requestSerialInput]);
 
-    useEffect(() => {
-        console.log('🔍 debounceSearch mudou:');
-        console.log(debounceSearch);
-    }, [debounceSearch]);
+    // useEffect(() => {
+    //     console.log('🔍 debounceSearch mudou:');
+    //     console.log(debounceSearch);
+    // }, [debounceSearch]);
 
-    useEffect(() => {
-        console.log('📦 requestPonInput mudou:');
-        console.log(requestPonInput);
-    }, [requestPonInput]);
+    // useEffect(() => {
+    //     console.log('📦 requestPonInput mudou:');
+    //     console.log(requestPonInput);
+    // }, [requestPonInput]);
 
-    useEffect(() => {
-        console.log('📊 filteredOnulistSearch mudou:');
-        console.log(filteredOnulistSearch);
-    }, [filteredOnulistSearch]);
+    // useEffect(() => {
+    //     console.log('📊 filteredOnulistSearch mudou:');
+    //     console.log(filteredOnulistSearch);
+    // }, [filteredOnulistSearch]);
 
 
 
@@ -252,7 +252,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                     <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickPonRequest} variant='outline' text='Buscar' />
                 </DialogContent>
             </Dialog>
-            <TableComponent ariaLabel='table-Onus' onuList={filteredOnulistSearch!} abaInfoId={abaInfoId} />
+            <TableComponent onuList={filteredOnulistSearch!} abaInfoId={abaInfoId} />
         </main>
     )
 }

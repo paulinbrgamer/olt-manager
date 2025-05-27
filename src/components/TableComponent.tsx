@@ -47,7 +47,7 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList ,abaInfoId,ariaLab
     updateAba({...abaInfo,filter:{...abaInfo.filter,state:newstate}})
   }
   return (
-    <div className="h-full flex flex-col border rounded-md overflow-hidden" aria-label={ariaLabel}>
+    <div className="h-full flex flex-col border rounded-md overflow-hidden" aria-label={'table-Onus' }>
       {/* Cabeçalho */}
       <div className="grid grid-cols-[0.1fr_2fr_1.5fr_1fr_80px_3fr] text-sm font-medium bg-tablerow text-textrow px-4 py-3 border-b transition-all  duration-35 hover:bg-accent/60  ease-in">
         <div className="w-[100px]">ID</div>
@@ -99,6 +99,7 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList ,abaInfoId,ariaLab
             const onu = onuList[virtualItem.index];
             return (
               <div
+                aria-label="row"
                 key={virtualItem.key}
                 className="grid grid-cols-[0.1fr_2fr_1.5fr_1fr_80px_3fr]  items-center px-4 py-3 border-b text-sm absolute w-full bg-tablerow transition-all  duration-35  hover:bg-accent/20  ease-in"
                 style={{
@@ -139,7 +140,6 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList ,abaInfoId,ariaLab
           })}
         </div>
       </div>
-
       <p className="text-center text-sm text-muted-foreground p-2">
         Resultados encontrados: {onuList?.length}
       </p>
