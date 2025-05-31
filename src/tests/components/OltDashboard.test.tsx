@@ -130,18 +130,52 @@ describe("OLT-DASHBOARD Renderizar OnusList", () => {
     it('Deve exibir 0 Onus caso pesquisa não corresponda a nenhuma Onu', async () => {
         renderDash(false);
         const searchInput = screen.getByLabelText('search-Onu');
-      
+
         // Digita o texto na barra de busca
         await userEvent.type(searchInput, 'Invalid-Name');
-      
+
         // Aguarda a lista atualizar após debounce + render
         await waitFor(() => {
-          const rows = screen.queryAllByLabelText('row');
-          expect(rows.length).toBe(0); // ou o valor esperado com base no mock
-          
+            const rows = screen.queryAllByLabelText('row');
+            expect(rows.length).toBe(0); // ou o valor esperado com base no mock
+
         }, { timeout: 1000 });
         console.log(prettyDOM(screen.queryByLabelText('table-onus')!));
 
-      });
-      
+    });
+    it('Deve filtrar Onus pelo nome', async () => {
+        renderDash(false);
+        const searchInput = screen.getByLabelText('search-Onu');
+
+        // Digita o texto na barra de busca
+        await userEvent.type(searchInput, '22:');
+
+        // Aguarda a lista atualizar após debounce + render
+        await waitFor(() => {
+            const rows = screen.queryAllByLabelText('row');
+            expect(rows.length).toBe(1); // ou o valor esperado com base no mock
+            rows.forEach(e=>console.log(prettyDOM(e))
+            )
+        }, { timeout: 1000 });
+        
+
+    });
+    it('Deve filtrar Onus pelo serial', async () => {
+        renderDash(false);
+        const searchInput = screen.getByLabelText('search-Onu');
+
+        // Digita o texto na barra de busca
+        await userEvent.type(searchInput, 'ZTEGD5F24A76');
+
+        // Aguarda a lista atualizar após debounce + render
+        await waitFor(() => {
+            const rows = screen.queryAllByLabelText('row');
+            expect(rows.length).toBe(1); // ou o valor esperado com base no mock
+            rows.forEach(e=>console.log(prettyDOM(e))
+            )
+        }, { timeout: 1000 });
+        
+
+    });
+
 })
