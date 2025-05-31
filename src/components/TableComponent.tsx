@@ -7,10 +7,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { useAbas } from "@/context/olt-abas-provider";
 import { getAbaFromList } from "@/utils/getAbaFromList";
 import type { abaInterface } from "@/interfaces/abas";
-import type {  stateOnu } from "@/interfaces/filter";
+import type { stateOnu } from "@/interfaces/filter";
 interface Props {
   onuList: OnuInfo[];
-  abaInfoId:string | undefined,
+  abaInfoId: string | undefined,
   ariaLabel?: string
 }
 const signalColor = (signal: number) => {
@@ -34,8 +34,8 @@ const StateComponent = ({ state }: { state: string }) => {
   );
 };
 
-const TableComponent: React.FC<Props> = React.memo(({ onuList ,abaInfoId,ariaLabel}) => {
-  const {updateAba,abaslist} = useAbas()
+const TableComponent: React.FC<Props> = React.memo(({ onuList, abaInfoId, ariaLabel }) => {
+  const { updateAba, abaslist } = useAbas()
   const abaInfo: abaInterface = getAbaFromList(abaInfoId!, abaslist)
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualized = useVirtualizer({
@@ -43,11 +43,11 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList ,abaInfoId,ariaLab
     getScrollElement: () => parentRef.current,
     estimateSize: () => 55,
   });
-  const handleSelect = (newstate:stateOnu)=>{
-    updateAba({...abaInfo,filter:{...abaInfo.filter,state:newstate}})
+  const handleSelect = (newstate: stateOnu) => {
+    updateAba({ ...abaInfo, filter: { ...abaInfo.filter, state: newstate } })
   }
   return (
-    <div className="h-full flex flex-col border rounded-md overflow-hidden" aria-label={'table-Onus' }>
+    <div className="h-full flex flex-col border rounded-md overflow-hidden" aria-label={'table-Onus'}>
       {/* Cabeçalho */}
       <div className="grid grid-cols-[0.1fr_2fr_1.5fr_1fr_80px_3fr] text-sm font-medium bg-tablerow text-textrow px-4 py-3 border-b transition-all  duration-35 hover:bg-accent/60  ease-in">
         <div className="w-[100px]">ID</div>
@@ -57,24 +57,24 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList ,abaInfoId,ariaLab
           <p>Status</p>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant={'ghost'} size={'icon'} className="rounded-full h-5"><Filter size={16} /></Button>
+              <Button aria-label="filter-btn" variant={'ghost'} size={'icon'} className="rounded-full h-5"><Filter size={16} /></Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-fit border rounded-md bg-background z-10 data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
               <DropdownMenuGroup>
-                <DropdownMenuItem onSelect={()=>handleSelect("working")} >
-                  <Button className='w-full text-start' variant={'ghost'}>{<StateComponent state="working"/>}</Button>
+                <DropdownMenuItem onSelect={() => handleSelect("working")} >
+                  <Button aria-label="filter-working" className='w-full text-start' variant={'ghost'}>{<StateComponent state="working" />}</Button>
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={()=>handleSelect("LOS")} >
-                <Button className='w-full text-start' variant={'ghost'}>{<StateComponent state="LOS"/>}</Button>
+                <DropdownMenuItem onSelect={() => handleSelect("LOS")} >
+                  <Button aria-label="filter-LOS" className='w-full text-start' variant={'ghost'}>{<StateComponent state="LOS" />}</Button>
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={()=>handleSelect("DyingGasp")}  >
-                <Button className='w-full text-start' variant={'ghost'}>{<StateComponent state="DyingGasp"/>}</Button>
+                <DropdownMenuItem onSelect={() => handleSelect("DyingGasp")}  >
+                  <Button aria-label="filter-DyingGasp" className='w-full text-start' variant={'ghost'}>{<StateComponent state="DyingGasp" />}</Button>
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={()=>handleSelect("OffLine")}  >
-                <Button className='w-full text-start' variant={'ghost'}>{<StateComponent state="OffLine"/>}</Button>
+                <DropdownMenuItem onSelect={() => handleSelect("OffLine")}  >
+                  <Button aria-label="filter-OffLine" className='w-full text-start' variant={'ghost'}>{<StateComponent state="OffLine" />}</Button>
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={()=>handleSelect("")} >
-                <Button className='w-full text-start' variant={'ghost'}>{<X/>}</Button>
+                <DropdownMenuItem onSelect={() => handleSelect("")} >
+                  <Button aria-label="filter-X" className='w-full text-start' variant={'ghost'}>{<X />}</Button>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
 
@@ -87,7 +87,7 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList ,abaInfoId,ariaLab
       </div>
 
       {/* Lista virtualizada */}
-      <div ref={parentRef} className="overflow-auto flex-1 h-[700px] relative noscroll">  
+      <div ref={parentRef} className="overflow-auto flex-1 h-[700px] relative noscroll">
         <div
           style={{
             height: `${rowVirtualized.getTotalSize()}px`,
