@@ -3,7 +3,7 @@ import {type abaInterface } from "@/interfaces/abas"
 import generateId from "@/utils/generateId"
 import type { Request } from "@/interfaces/request"
 import type oltInterface from "@/interfaces/olt-interface"
-import OltDashboard from "@/components/OltDashboard"
+import PonScreen from "@/components/PonScreen"
 import type { filter } from "@/interfaces/filter"
 import { getAbaFromList } from "@/utils/getAbaFromList"
 
@@ -74,7 +74,7 @@ const AbasProvider : React.FC<Props> = ({children}) => {
       OnuList : [],
       filter : {search:"",state:""} as filter,
       incident : [],
-      dashboard : <OltDashboard key={idG} abaInfoId={idG}/>
+      dashboard : <PonScreen key={idG} abaInfoId={idG}/>
 
     }
     

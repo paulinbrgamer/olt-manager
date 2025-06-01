@@ -5,7 +5,7 @@ import { useAbas } from '@/context/olt-abas-provider'
 import type { abaInterface } from "@/interfaces/abas"
 import { useEffect, useLayoutEffect, useState } from "react"
 import { getAbaFromList } from "@/utils/getAbaFromList"
-import OltDashboard from "@/components/OltDashboard"
+import OltDashboard from "@/components/PonScreen"
 import { prettyDOM } from '@testing-library/react'
 import type { OnuInfo } from "@/interfaces/onu-interface"
 

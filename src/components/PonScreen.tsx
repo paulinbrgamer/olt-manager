@@ -21,7 +21,7 @@ import { filterBySearch } from '@/utils/filterBySearch'
 interface Props {
     abaInfoId?: string
 }
-const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
+const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
     const { updateAba, abaslist } = useAbas() //context api
     //retorna texto caso não encontre informações de Aba com o id fornecido
     if(!getAbaFromList(abaInfoId!, abaslist)){
@@ -257,4 +257,4 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
     )
 }
 
-export default OltDashboard
+export default PonScreen
