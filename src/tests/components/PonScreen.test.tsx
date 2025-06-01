@@ -5,7 +5,7 @@ import { useAbas } from '@/context/olt-abas-provider'
 import type { abaInterface } from "@/interfaces/abas"
 import { useEffect, useLayoutEffect, useState } from "react"
 import { getAbaFromList } from "@/utils/getAbaFromList"
-import OltDashboard from "@/components/PonScreen"
+import PonScreen from "@/components/PonScreen"
 import { prettyDOM } from '@testing-library/react'
 import type { OnuInfo } from "@/interfaces/onu-interface"
 
@@ -160,9 +160,9 @@ const MockRender = ({ falseId, mock }: { falseId: boolean, mock: OnuInfo[] }) =>
     }, [abaslist[0]])
 
     if (infoId && !falseId) {
-        return <OltDashboard abaInfoId={infoId} />
+        return <PonScreen abaInfoId={infoId} />
     } else if (falseId) {
-        return <OltDashboard abaInfoId={'invalido'} />
+        return <PonScreen abaInfoId={'invalido'} />
     }
 }
 const renderDash = (falseId: boolean, mock: OnuInfo[]) => {
@@ -172,7 +172,7 @@ const renderDash = (falseId: boolean, mock: OnuInfo[]) => {
         </AbasProvider>
     )
 }
-describe("OLT-DASHBOARD renderização basica", () => {
+describe("PonScreen renderização basica", () => {
 
     it('Deve renderizar Id de aba invalida caso não encontre o ID passado por Props', () => {
         renderDash(true, Mockonu)
@@ -192,7 +192,7 @@ describe("OLT-DASHBOARD renderização basica", () => {
 
 })
 
-describe("OLT-DASHBOARD Filtrar por nome e serial", () => {
+describe("PonScreen Filtrar por nome e serial", () => {
     it('Deve renderizar todas os onus registradas na Aba', () => {
         renderDash(false,Mockonu)
         expect(screen.queryByLabelText('Incidents-btn')).toBeInTheDocument()
@@ -259,7 +259,7 @@ describe("OLT-DASHBOARD Filtrar por nome e serial", () => {
 
 })
 
-describe("OLT-DASHBOARD Filtrar por state,", () => {
+describe("PonScreen Filtrar por state,", () => {
     it('Deve filtrar Onus pelo state Working', async () => {
         renderDash(false, MockonuFilter);
         const stateFilter = screen.getByLabelText('filter-btn');
@@ -331,7 +331,7 @@ describe("OLT-DASHBOARD Filtrar por state,", () => {
         }, { timeout: 1000 });
     });
 })
-describe("OLT-DASHBOARD Filtrar por state e nome/serial", () => {
+describe("PonScreen Filtrar por state e nome/serial", () => {
   it('Deve filtrar pelo state "LOS" e nome "jose"', async () => {
     renderDash(false, MockonuFilter);
     
