@@ -1,15 +1,15 @@
 import { EllipsisVertical, Filter, Signal, X } from "lucide-react";
 import { Button } from "./ui/button";
 import type { OnuInfo } from "@/interfaces/onu-interface";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { useAbas } from "@/context/olt-abas-provider";
 import { getAbaFromList } from "@/utils/getAbaFromList";
 import type { abaInterface } from "@/interfaces/abas";
 import type { stateOnu } from "@/interfaces/filter";
+import { filterBySearch } from "@/utils/filterBySearch";
 interface Props {
-  onuList: OnuInfo[];
   abaInfoId: string | undefined,
   ariaLabel?: string
 }
@@ -34,18 +34,46 @@ const StateComponent = ({ state }: { state: string }) => {
   );
 };
 
-const OnusTable: React.FC<Props> = React.memo(({ onuList, abaInfoId, ariaLabel }) => {
+const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
   const { updateAba, abaslist } = useAbas()
-  const abaInfo: abaInterface = getAbaFromList(abaInfoId!, abaslist)
+  const abaInfo: abaInterface = getAbaFromList(abaInfoId!, abaslist)!
+  const stateFilter = filterBySearch(abaInfo.OnuList, abaInfo.filter.state, ['phaseState']) //variavel com as onusFiltradas por state
+  
   const parentRef = useRef<HTMLDivElement>(null);
+  const [filteredOnulistSearch, setFilteredOnulistSearch] = useState<OnuInfo[]>([])//state para guardar as onus filtradas
+
   const rowVirtualized = useVirtualizer({
-    count: onuList?.length,
+    count: filteredOnulistSearch!.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 55,
   });
   const handleSelect = (newstate: stateOnu) => {
     updateAba({ ...abaInfo, filter: { ...abaInfo.filter, state: newstate } })
   }
+  //carregando a lista de onus filtradas por state no filteredOnulistSearch
+  useEffect(() => {
+    setFilteredOnulistSearch(stateFilter);
+
+
+  }, [abaInfo.filter.state])
+  //carregando a lista de onus filtradas por state no filteredOnulistSearch toda vez que a lista atualiza
+  useEffect(() => {
+    setFilteredOnulistSearch(stateFilter);
+
+  }, [abaInfo.OnuList])
+  //useEffect para atualizar a onuList conforme o imput do debounce mudar e também quando o filtro se alterar
+  useEffect(() => {
+
+    //verifica se  tem algo digitado e faz o filtro setando as onusFiltradas e atualizando o estado da aba.
+    if (abaInfo.filter.search) {
+      const result = filterBySearch(stateFilter, abaInfo.filter.search, ['name', 'serialNumber']);
+      setFilteredOnulistSearch(result);
+
+    } else {
+      //caso o que for digitado seja vazio, retorna as onusFiltradas por state e atualiza o search da aba.
+      setFilteredOnulistSearch(stateFilter);
+    }
+  }, [abaInfo.filter.state, abaInfo.OnuList,abaInfo.filter.search]);
   return (
     <div className="h-full flex flex-col border rounded-md overflow-hidden" aria-label={'table-Onus'}>
       {/* Cabeçalho */}
@@ -96,7 +124,7 @@ const OnusTable: React.FC<Props> = React.memo(({ onuList, abaInfoId, ariaLabel }
           }}
         >
           {rowVirtualized.getVirtualItems().map((virtualItem) => {
-            const onu = onuList[virtualItem.index];
+            const onu = filteredOnulistSearch![virtualItem.index];
             return (
               <div
                 aria-label="row"
@@ -141,7 +169,7 @@ const OnusTable: React.FC<Props> = React.memo(({ onuList, abaInfoId, ariaLabel }
         </div>
       </div>
       <p className="text-center text-sm text-muted-foreground p-2">
-        Resultados encontrados: {onuList?.length}
+        Resultados encontrados: {filteredOnulistSearch?.length}
       </p>
     </div>
   );

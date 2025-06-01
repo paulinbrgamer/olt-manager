@@ -28,7 +28,6 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
         return <p>Id invalido de aba</p>
     }
     const abaInfo: abaInterface = getAbaFromList(abaInfoId!, abaslist)!// inicialização da informação da abaLocal
-    const stateFilter = filterBySearch(abaInfo.OnuList, abaInfo.filter.state, ['phaseState']) //variavel com as onusFiltradas por state
     const [modalSerial, setmodalSerial] = useState<boolean>(false) //state para modal
     const [requestSerialInput, setrequestSerialInput] = useState<string>('') //state para pegar o input do serial do modal
     const [searchFilter, setsearchFilter] = useState<string>(abaInfo.filter.search)// state para receber o filtro
@@ -37,7 +36,6 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
     const [requestPonInput, setrequestPonInput] = useState<{ slot: number | undefined, pon: number | undefined }>(guardRequestPon(abaInfo.request) ? { pon: abaInfo.request?.pon, slot: abaInfo.request.slot } : { pon: undefined, slot: undefined }) //state para pegar slot e pon
     const [modalPon, setmodalPon] = useState<boolean>(false)//state para controlar o modal da pon 
     const { data, loading, fetchData, error } = useLazyFetch() // fetch hook
-    const [filteredOnulistSearch, setFilteredOnulistSearch] = useState<OnuInfo[]>()//state para guardar as onus filtradas
 
     const handleClickSerialOnu = async () => {
         if (requestSerialInput.length < 1) {
@@ -67,35 +65,19 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
             toast('Slot ou Pon invalido!!')
         }
     }
-    //carregando a lista de onus filtradas por state no filteredOnulistSearch
-    useEffect(() => {
-        setFilteredOnulistSearch(stateFilter);
-
-
-    }, [abaInfo.filter.state])
-    //carregando a lista de onus filtradas por state no filteredOnulistSearch toda vez que a lista atualiza
-    useEffect(() => {
-        setFilteredOnulistSearch(stateFilter);
-
-    }, [abaInfo.OnuList])
-
+    
     //useEffect para atualizar a onuList conforme o imput do debounce mudar e também quando o filtro se alterar
     useEffect(() => {
 
         //verifica se  tem algo digitado e faz o filtro setando as onusFiltradas e atualizando o estado da aba.
         if (debounceSearch) {
-            const result = filterBySearch(stateFilter, debounceSearch, ['name', 'serialNumber']);
-            setFilteredOnulistSearch(result);
             updateAba({ ...abaInfo!, filter: { ...abaInfo.filter, search: debounceSearch } })
 
         } else {
             //caso o que for digitado seja vazio, retorna as onusFiltradas por state e atualiza o search da aba.
-            setFilteredOnulistSearch(stateFilter);
             updateAba({ ...abaInfo!, filter: { ...abaInfo.filter, search: debounceSearch } })
         }
-    }, [debounceSearch, abaInfo.filter.state, abaInfo.OnuList]);
-
-
+    }, [debounceSearch]);
     //useEffect para o response do fetch
     useEffect(() => {
         //interface para mensagem de erro
@@ -133,35 +115,6 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
             })
         }
     }, [error])
-
-    // useEffect(() => {
-    //     console.log('🔁 abaInfo mudou:');
-    //     console.log(abaInfo);
-    // }, [abaInfo]);
-
-    // useEffect(() => {
-    //     console.log('⌨️ requestSerialInput mudou:');
-    //     console.log(requestSerialInput);
-    // }, [requestSerialInput]);
-
-    // useEffect(() => {
-    //     console.log('🔍 debounceSearch mudou:');
-    //     console.log(debounceSearch);
-    // }, [debounceSearch]);
-
-    // useEffect(() => {
-    //     console.log('📦 requestPonInput mudou:');
-    //     console.log(requestPonInput);
-    // }, [requestPonInput]);
-
-    // useEffect(() => {
-    //     console.log('📊 filteredOnulistSearch mudou:');
-    //     console.log(filteredOnulistSearch);
-    // }, [filteredOnulistSearch]);
-
-
-
-
     return (
         <main aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' Dashboard'} className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
             {/*Div com elementos de interação com a Tabela de Onus */}
@@ -252,7 +205,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
                     <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickPonRequest} variant='outline' text='Buscar' />
                 </DialogContent>
             </Dialog>
-            <OnusTable onuList={filteredOnulistSearch!} abaInfoId={abaInfoId} />
+            <OnusTable abaInfoId={abaInfoId} />
         </main>
     )
 }
