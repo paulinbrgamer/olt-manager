@@ -34,7 +34,7 @@ const StateComponent = ({ state }: { state: string }) => {
   );
 };
 
-const TableComponent: React.FC<Props> = React.memo(({ onuList, abaInfoId, ariaLabel }) => {
+const OnusTable: React.FC<Props> = React.memo(({ onuList, abaInfoId, ariaLabel }) => {
   const { updateAba, abaslist } = useAbas()
   const abaInfo: abaInterface = getAbaFromList(abaInfoId!, abaslist)
   const parentRef = useRef<HTMLDivElement>(null);
@@ -147,4 +147,4 @@ const TableComponent: React.FC<Props> = React.memo(({ onuList, abaInfoId, ariaLa
   );
 });
 
-export default TableComponent;
+export default OnusTable;

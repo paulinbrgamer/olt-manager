@@ -1,6 +1,6 @@
 import { TriangleAlert, X } from 'lucide-react'
 import { Button } from './ui/button'
-import TableComponent from './TableComponent'
+import OnusTable from './OnusTable'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger, } from '@radix-ui/react-dropdown-menu'
 import { Dialog, DialogContent, DialogDescription, DialogTitle, Overlay } from '@radix-ui/react-dialog'
 import { Input } from './ui/input'
@@ -252,7 +252,7 @@ const OltDashboard: React.FC<Props> = ({ abaInfoId }) => {
                     <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickPonRequest} variant='outline' text='Buscar' />
                 </DialogContent>
             </Dialog>
-            <TableComponent onuList={filteredOnulistSearch!} abaInfoId={abaInfoId} />
+            <OnusTable onuList={filteredOnulistSearch!} abaInfoId={abaInfoId} />
         </main>
     )
 }
