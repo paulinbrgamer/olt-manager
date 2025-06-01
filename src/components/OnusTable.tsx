@@ -38,7 +38,6 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
   const { updateAba, abaslist } = useAbas()
   const abaInfo: abaInterface = getAbaFromList(abaInfoId!, abaslist)!
   const stateFilter = filterBySearch(abaInfo.OnuList, abaInfo.filter.state, ['phaseState']) //variavel com as onusFiltradas por state
-  
   const parentRef = useRef<HTMLDivElement>(null);
   const [filteredOnulistSearch, setFilteredOnulistSearch] = useState<OnuInfo[]>([])//state para guardar as onus filtradas
 
@@ -47,7 +46,7 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
     getScrollElement: () => parentRef.current,
     estimateSize: () => 55,
   });
-  const handleSelect = (newstate: stateOnu) => {
+  const handleSelectFilter = (newstate: stateOnu) => {
     updateAba({ ...abaInfo, filter: { ...abaInfo.filter, state: newstate } })
   }
   //carregando a lista de onus filtradas por state no filteredOnulistSearch
@@ -74,6 +73,7 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
       setFilteredOnulistSearch(stateFilter);
     }
   }, [abaInfo.filter.state, abaInfo.OnuList,abaInfo.filter.search]);
+  
   return (
     <div className="h-full flex flex-col border rounded-md overflow-hidden" aria-label={'table-Onus'}>
       {/* Cabeçalho */}
@@ -89,19 +89,19 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-fit border rounded-md bg-background z-10 data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
               <DropdownMenuGroup>
-                <DropdownMenuItem onSelect={() => handleSelect("working")} >
+                <DropdownMenuItem onSelect={() => handleSelectFilter("working")} >
                   <Button aria-label="filter-working" className='w-full text-start' variant={'ghost'}>{<StateComponent state="working" />}</Button>
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleSelect("LOS")} >
+                <DropdownMenuItem onSelect={() => handleSelectFilter("LOS")} >
                   <Button aria-label="filter-LOS" className='w-full text-start' variant={'ghost'}>{<StateComponent state="LOS" />}</Button>
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleSelect("DyingGasp")}  >
+                <DropdownMenuItem onSelect={() => handleSelectFilter("DyingGasp")}  >
                   <Button aria-label="filter-DyingGasp" className='w-full text-start' variant={'ghost'}>{<StateComponent state="DyingGasp" />}</Button>
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleSelect("OffLine")}  >
+                <DropdownMenuItem onSelect={() => handleSelectFilter("OffLine")}  >
                   <Button aria-label="filter-OffLine" className='w-full text-start' variant={'ghost'}>{<StateComponent state="OffLine" />}</Button>
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleSelect("")} >
+                <DropdownMenuItem onSelect={() => handleSelectFilter("")} >
                   <Button aria-label="filter-X" className='w-full text-start' variant={'ghost'}>{<X />}</Button>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
