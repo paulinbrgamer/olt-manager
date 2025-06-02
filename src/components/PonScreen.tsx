@@ -18,6 +18,7 @@ import { getAbaFromList } from '@/utils/getAbaFromList'
 import { Label } from './ui/label'
 import { useDebounce } from './useDebounce';
 import { filterBySearch } from '@/utils/filterBySearch'
+import handleKeyDown from '@/utils/onKeyDown'
 interface Props {
     abaInfoId?: string
 }
@@ -154,6 +155,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
                         Carregue as informações da Pon <br /> Procurando pelo Serial de uma Onu.
                     </DialogDescription>
                     <Input
+                        onKeyDown={(e)=>handleKeyDown(e,handleClickSerialOnu)}
                         value={requestSerialInput}
                         onChange={(e) => setrequestSerialInput(e.target.value)}
                         type="text"
@@ -189,6 +191,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
 
                     <Label htmlFor="pon" className="mt-4 block">Pon</Label>
                     <Input
+                    onKeyDown={(e)=>handleKeyDown(e,handleClickPonRequest)}
                         id="pon"
                         type="number"
                         placeholder="Ex: 7"
