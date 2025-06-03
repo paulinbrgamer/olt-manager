@@ -87,7 +87,7 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
           <p>Status</p>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button aria-label="filter-btn" variant={'ghost'} size={'icon'} className={`rounded-full h-5 ${abaInfo.filter.state != ' ' ? 'bg-accent' : ''}`}><Filter size={16} /></Button>
+              <Button aria-label="filter-btn" variant={'ghost'} size={'icon'} className={`rounded-full h-5 ${abaInfo.filter.state != "" ? 'bg-accent' : ''}`}><Filter size={16} /></Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-fit border rounded-md bg-background z-10 data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
               <DropdownMenuGroup>
@@ -105,7 +105,7 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
                     <DropdownMenuItem onSelect={() => handleSelectFilter("OffLine")}  >
                       <Button aria-label="filter-OffLine" className='w-full text-start' variant={'ghost'}>{<StateComponent state="OffLine" />}</Button>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onSelect={() => handleSelectFilter(" ")} >
+                    <DropdownMenuItem onSelect={() => handleSelectFilter("")} >
                       <Button aria-label="filter-X" className='w-full text-start' variant={'ghost'}>{<X />}</Button>
                     </DropdownMenuItem></>
                 ):(
@@ -116,7 +116,7 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
                     <DropdownMenuItem onSelect={() => handleSelectFilter("online")}  >
                       <Button aria-label="filter-OffLine" className='w-full text-start' variant={'ghost'}>{<StateComponent state="online" />}</Button>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onSelect={() => handleSelectFilter(" ")} >
+                    <DropdownMenuItem onSelect={() => handleSelectFilter("")} >
                       <Button aria-label="filter-X" className='w-full text-start' variant={'ghost'}>{<X />}</Button>
                     </DropdownMenuItem>
                   </>
