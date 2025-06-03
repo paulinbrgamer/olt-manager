@@ -50,6 +50,12 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
                     body: requestSerial
                 })
             }
+            if (abaInfo!.request?.olt.model == 'HW') {
+                fetchData('http://localhost:3031/hw/pon_route', {
+                    method: 'POST',
+                    body: requestSerial
+                })
+            }
         }
     }
     const handleClickPonRequest = async () => {
@@ -57,6 +63,12 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
             const requestPon = { olt: abaInfo!.request!.olt.id, slot: requestPonInput.slot, pon: requestPonInput.pon }
             if (abaInfo!.request?.olt.model == 'ZTE') {
                 fetchData('http://localhost:3031/zte/pon_route', {
+                    method: 'POST',
+                    body: requestPon
+                })
+            }
+            if (abaInfo!.request?.olt.model == 'HW') {
+                fetchData('http://localhost:3031/hw/pon_route', {
                     method: 'POST',
                     body: requestPon
                 })

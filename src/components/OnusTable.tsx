@@ -22,8 +22,10 @@ const signalColor = (signal: number) => {
 const StateComponent = ({ state }: { state: string }) => {
   const stateStyles = {
     working: "bg-green-200/10 text-green-500",
+    online: "bg-green-200/10 text-green-500",
     DyingGasp: "bg-gray-200/10 text-gray-500",
     OffLine: "bg-red-200/10 text-red-500",
+    offline: "bg-red-200/10 text-red-500",
     LOS: "bg-red-200/10 text-red-500",
   };
 
@@ -72,8 +74,8 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
       //caso o que for digitado seja vazio, retorna as onusFiltradas por state e atualiza o search da aba.
       setFilteredOnulistSearch(stateFilter);
     }
-  }, [abaInfo.filter.state, abaInfo.OnuList,abaInfo.filter.search]);
-  
+  }, [abaInfo.filter.state, abaInfo.OnuList, abaInfo.filter.search]);
+
   return (
     <div className="h-full flex flex-col border rounded-md overflow-hidden" aria-label={'table-Onus'}>
       {/* Cabeçalho */}
@@ -85,25 +87,41 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
           <p>Status</p>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button aria-label="filter-btn" variant={'ghost'} size={'icon'} className={`rounded-full h-5 ${abaInfo.filter.state!=''?'bg-accent':''}`}><Filter size={16} /></Button>
+              <Button aria-label="filter-btn" variant={'ghost'} size={'icon'} className={`rounded-full h-5 ${abaInfo.filter.state != ' ' ? 'bg-accent' : ''}`}><Filter size={16} /></Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-fit border rounded-md bg-background z-10 data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
               <DropdownMenuGroup>
-                <DropdownMenuItem onSelect={() => handleSelectFilter("working")} >
-                  <Button aria-label="filter-working" className='w-full text-start' variant={'ghost'}>{<StateComponent state="working" />}</Button>
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleSelectFilter("LOS")} >
-                  <Button aria-label="filter-LOS" className='w-full text-start' variant={'ghost'}>{<StateComponent state="LOS" />}</Button>
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleSelectFilter("DyingGasp")}  >
-                  <Button aria-label="filter-DyingGasp" className='w-full text-start' variant={'ghost'}>{<StateComponent state="DyingGasp" />}</Button>
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleSelectFilter("OffLine")}  >
-                  <Button aria-label="filter-OffLine" className='w-full text-start' variant={'ghost'}>{<StateComponent state="OffLine" />}</Button>
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleSelectFilter("")} >
-                  <Button aria-label="filter-X" className='w-full text-start' variant={'ghost'}>{<X />}</Button>
-                </DropdownMenuItem>
+                {abaInfo.request?.olt.model == "ZTE" ? (
+                  <>
+                    <DropdownMenuItem onSelect={() => handleSelectFilter("working")} >
+                      <Button aria-label="filter-working" className='w-full text-start' variant={'ghost'}>{<StateComponent state="working" />}</Button>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => handleSelectFilter("LOS")} >
+                      <Button aria-label="filter-LOS" className='w-full text-start' variant={'ghost'}>{<StateComponent state="LOS" />}</Button>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => handleSelectFilter("DyingGasp")}  >
+                      <Button aria-label="filter-DyingGasp" className='w-full text-start' variant={'ghost'}>{<StateComponent state="DyingGasp" />}</Button>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => handleSelectFilter("OffLine")}  >
+                      <Button aria-label="filter-OffLine" className='w-full text-start' variant={'ghost'}>{<StateComponent state="OffLine" />}</Button>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => handleSelectFilter(" ")} >
+                      <Button aria-label="filter-X" className='w-full text-start' variant={'ghost'}>{<X />}</Button>
+                    </DropdownMenuItem></>
+                ):(
+                  <>
+                    <DropdownMenuItem onSelect={() => handleSelectFilter("offline")}  >
+                      <Button aria-label="filter-OffLine" className='w-full text-start' variant={'ghost'}>{<StateComponent state="offline" />}</Button>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => handleSelectFilter("online")}  >
+                      <Button aria-label="filter-OffLine" className='w-full text-start' variant={'ghost'}>{<StateComponent state="online" />}</Button>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => handleSelectFilter(" ")} >
+                      <Button aria-label="filter-X" className='w-full text-start' variant={'ghost'}>{<X />}</Button>
+                    </DropdownMenuItem>
+                  </>
+                )}
+
               </DropdownMenuGroup>
 
             </DropdownMenuContent>
@@ -154,10 +172,16 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
                   )}
                 </div>
                 <div className="flex justify-end gap-2 items-center text-textrow">
-                  {onu.lastDown !== "N/A" ? (
-                    <span>{onu.lastDown!.split(" ").slice(2).join(" ")}</span>
+                  {onu.lastDown && onu.lastDown !== "N/A" ? (
+                    <span>
+                      {abaInfo?.request?.olt?.model !== "HW"
+                        ? onu.lastDown.split(" ").length > 2
+                          ? onu.lastDown.split(" ").slice(2).join(" ")
+                          : onu.lastDown
+                        : onu.lastDown}
+                    </span>
                   ) : (
-                    <p>N/A</p>
+                    <span>N/A</span>
                   )}
                   <Button variant="ghost" size="icon">
                     <EllipsisVertical />

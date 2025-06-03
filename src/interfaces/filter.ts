@@ -4,4 +4,4 @@ export interface filter{
     state :stateOnu,
 
 }
-export type stateOnu = "working" | "LOS" | "DyingGasp" | "OffLine" | ""
+export type stateOnu = "working" | "LOS" | "DyingGasp" | "OffLine" | "offline" | "online" |" "

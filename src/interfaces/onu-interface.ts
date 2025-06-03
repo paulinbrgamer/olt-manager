@@ -18,4 +18,15 @@ export interface OnuInfo {
     lastDown?: string | null;
     signal?: number | null;
   }
-  
+export interface OnuInfoHw {
+  id: number | null;
+  slot: string | null;
+  pon: string | null;
+  phaseState: string | null;
+  lastDown: string | null;
+  serialNumber: string | null;
+  type: string | null;
+  onuDistance: number | null;
+  signal: number | null;
+  name: string | null;
+}
