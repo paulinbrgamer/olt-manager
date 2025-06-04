@@ -159,22 +159,24 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
             </div>
             <Dialog open={modalSerial} onOpenChange={setmodalSerial}>
                 <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
-                <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[10%] mr-[15%]  px-5 pb-5 pt-2 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
+                <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[10%] mr-[15%] w-[340px]  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
                           data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
-                    <Button className='self-end w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalSerial(false)}><X size={10} /></Button>
-                    <DialogTitle className="text-xl font-bold">Buscar Pon por Serial de uma Onu</DialogTitle>
-                    <DialogDescription className="text-sm text-muted-foreground">
-                        Carregue as informações da Pon <br /> Procurando pelo Serial de uma Onu.
-                    </DialogDescription>
+                    <div className='flex flex-row justify-between items-start mb-4 gap-4'>
+                    <DialogTitle className="text-xl font-bold ">Buscar Pon por Serial de uma Onu</DialogTitle>
+                    <Button className='self-start w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalSerial(false)}><X size={10} /></Button>
+                    </div>
+                    <Label className='mb-1'>
+                        Serial:
+                    </Label>
                     <Input
                         onKeyDown={(e)=>handleKeyDown(e,handleClickSerialOnu)}
                         value={requestSerialInput}
                         onChange={(e) => setrequestSerialInput(e.target.value)}
                         type="text"
-                        className="mt-4 w-full "
+                        className="mt-2 w-full "
                         placeholder="Ex: ZTEG12345678"
                     />
-                    <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickSerialOnu} variant='outline' text='Buscar' />
+                    <LoaderButton className='mt-6' isLoading={loading} onClick={handleClickSerialOnu} variant='outline' text='Buscar' />
                 </DialogContent>
             </Dialog>
             <Dialog open={modalPon} onOpenChange={setmodalPon}>
