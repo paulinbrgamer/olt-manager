@@ -25,7 +25,7 @@ interface Props {
 const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
     const { updateAba, abaslist } = useAbas() //context api
     //retorna texto caso não encontre informações de Aba com o id fornecido
-    if(!getAbaFromList(abaInfoId!, abaslist)){
+    if (!getAbaFromList(abaInfoId!, abaslist)) {
         return <p>Id invalido de aba</p>
     }
     const abaInfo: abaInterface = getAbaFromList(abaInfoId!, abaslist)!// inicialização da informação da abaLocal
@@ -78,7 +78,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
             toast('Slot ou Pon invalido!!')
         }
     }
-    
+
     //useEffect para atualizar a onuList conforme o imput do debounce mudar e também quando o filtro se alterar
     useEffect(() => {
 
@@ -159,17 +159,17 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
             </div>
             <Dialog open={modalSerial} onOpenChange={setmodalSerial}>
                 <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
-                <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[10%] mr-[15%] w-[340px]  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
+                <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[10%] mr-[15%] max-w-[340px]  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
                           data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
                     <div className='flex flex-row justify-between items-start mb-4 gap-4'>
-                    <DialogTitle className="text-xl font-bold ">Buscar Pon por Serial de uma Onu</DialogTitle>
-                    <Button className='self-start w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalSerial(false)}><X size={10} /></Button>
+                        <DialogTitle className="text-xl font-bold ">Buscar Pon por Serial de uma Onu</DialogTitle>
+                        <Button className='self-start w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalSerial(false)}><X size={10} /></Button>
                     </div>
                     <Label className='mb-1'>
                         Serial:
                     </Label>
                     <Input
-                        onKeyDown={(e)=>handleKeyDown(e,handleClickSerialOnu)}
+                        onKeyDown={(e) => handleKeyDown(e, handleClickSerialOnu)}
                         value={requestSerialInput}
                         onChange={(e) => setrequestSerialInput(e.target.value)}
                         type="text"
@@ -181,10 +181,12 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
             </Dialog>
             <Dialog open={modalPon} onOpenChange={setmodalPon}>
                 <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
-                <DialogContent className="z-50  absolute bg-sidebar border self-center mt-[10%] mr-[15%]  px-5 pb-5 pt-2 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
+                <DialogContent className="z-50  absolute bg-sidebar border self-center mt-[10%] mr-[15%] max-w[340px]  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
                           data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
-                    <Button className='self-end w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalPon(false)}><X size={10} /></Button>
-                    <DialogTitle className="text-xl font-bold text-start">Carregar informações de Pon</DialogTitle>
+                    <div className='flex flex-row justify-between items-start mb-2 gap-4'>
+                        <DialogTitle className="text-xl font-bold text-start">Carregar informações de Pon</DialogTitle>
+                        <Button className='self-start w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalPon(false)}><X size={10} /></Button>
+                    </div>
                     <DialogDescription className="text-sm text-muted-foreground  text-start ">
                         Carregue as informações digitando o Slot e Pon.
                     </DialogDescription>
@@ -205,7 +207,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
 
                     <Label htmlFor="pon" className="mt-4 block">Pon</Label>
                     <Input
-                    onKeyDown={(e)=>handleKeyDown(e,handleClickPonRequest)}
+                        onKeyDown={(e) => handleKeyDown(e, handleClickPonRequest)}
                         id="pon"
                         type="number"
                         placeholder="Ex: 7"
