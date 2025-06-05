@@ -138,23 +138,29 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
                     <LoaderButton isLoading={loading} variant={'outline'} text='Atualizar' onClick={handleClickPonRequest} />}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button aria-label='load-Pon' className='w-fit' variant={'outline'}>
+                        <Button aria-label="load-Pon" className="w-fit" variant="outline">
                             <p>Carregar Pon</p>
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='w-40 border rounded-sm bg-background z-10 data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
+
+                    <DropdownMenuContent
+                        className="w-40 border rounded-md bg-popover text-popover-foreground z-10 shadow-md data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2"
+                    >
                         <DropdownMenuGroup>
                             <DropdownMenuItem onSelect={() => setmodalPon(true)}>
-                                <Button className='w-full text-start' variant={'ghost'}>Buscar por Pon</Button>
+                                <Button className="w-full text-start" variant="ghost">
+                                    Buscar por Pon
+                                </Button>
                             </DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => setmodalSerial(true)}>
-                                <Button className='w-full text-start' variant={'ghost'}>Buscar por Serial</Button>
+                                <Button className="w-full text-start" variant="ghost">
+                                    Buscar por Serial
+                                </Button>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
-
                     </DropdownMenuContent>
-
                 </DropdownMenu>
+
                 <SearchInput ariaLabel='search-Onu' value={searchFilter} onChange={(e: ChangeEvent<HTMLInputElement>) => setsearchFilter(e.target.value)} placeholder='Procurar Onu...' />
             </div>
             <Dialog open={modalSerial} onOpenChange={setmodalSerial}>
