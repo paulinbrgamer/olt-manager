@@ -85,7 +85,7 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
     <>
       <Dialog open={modalDetails} onOpenChange={setmodalDetails}>
         <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
-        <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[5%] mr-[15%] w-fit  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
+        <DialogContent className="z-50 absolute bg-sidebar border self-center  tall  mr-[15%] w-fit  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
                           data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
 
           <div className='flex flex-row justify-between items-start mb-4 gap-4'>
