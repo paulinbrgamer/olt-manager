@@ -17,7 +17,6 @@ import LoaderButton from './LoaderButton'
 import { getAbaFromList } from '@/utils/getAbaFromList'
 import { Label } from './ui/label'
 import { useDebounce } from './useDebounce';
-import { filterBySearch } from '@/utils/filterBySearch'
 import handleKeyDown from '@/utils/onKeyDown'
 interface Props {
     abaInfoId?: string

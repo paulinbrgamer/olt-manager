@@ -94,6 +94,7 @@ const AbasProvider : React.FC<Props> = ({children}) => {
 //custon hook para uasr o contexto
 export const useAbas  = () =>{
   const context = useContext(AbasContext)
+  console.log("useAbas called");
   if(context===null){
     throw new Error("useAbas must be used within a AbasProvider")
   }
