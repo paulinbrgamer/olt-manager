@@ -9,7 +9,6 @@ export interface abaInterface {
     OnuList : OnuInfo[] | []
     filter : filter,
     incident : string[] | []
-    dashboard?: ReactNode
 }
 export function isAbaInterface(obj: unknown): obj is abaInterface {
     if (typeof obj !== "object" || obj === null) return false

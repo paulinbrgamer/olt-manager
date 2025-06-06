@@ -14,11 +14,12 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion"
 import { filterBySearch } from './utils/filterBySearch'
+import PonScreen from './components/PonScreen'
 const OltManager = () => {
     const [search, setSearch] = useState<string>('') //state que guarda a pesquisa de OLT
-    const { abaslist, createAba,currentAbaInfo } = useAbas()
-    const filteredOlts = filterBySearch(olts,search,['model','location']) /*variavel que guarda o filtro do teclado */
-    
+    const { abaslist, createAba, currentAbaInfo } = useAbas()
+    const filteredOlts = filterBySearch(olts, search, ['model', 'location']) /*variavel que guarda o filtro do teclado */
+
     const handleText = (event: any) => {
         setSearch(event.target.value)
     } //função para atualizar estado do search
@@ -36,7 +37,7 @@ const OltManager = () => {
                 {/*Container de Olts*/}
                 {search && (
                     <div className='w-full overflow-y-scroll gap-1 flex flex-col noscroll'>
-                        {filteredOlts.map((oltItem,idx) =>
+                        {filteredOlts.map((oltItem, idx) =>
                             <IconButton ariaLabel={`Aba-OLT-btn-${idx}`}
                                 onClick={() => handleClickSelectOlt(oltItem)}
                                 className='justify-start'
@@ -97,10 +98,13 @@ const OltManager = () => {
             </header>
             {/*Conteudo principal renderizado da tab atual*/}
             {currentAbaInfo && abaslist.length > 0 ? (
-                abaslist.find(e => e.id === currentAbaInfo)?.dashboard ?? null
-            ) : <div className='flex-1 flex col-end-3 justify-center items-center'>
-                <p>Sem abas abertas...</p>
-            </div>}
+                <PonScreen abaInfoId={currentAbaInfo} key={currentAbaInfo} />
+            ) : (
+                <div className='flex-1 flex col-end-3 justify-center items-center'>
+                    <p>Sem abas abertas...</p>
+                </div>
+            )}
+
             <p className='col-start-2 text-end pr-5 pb-1'>Beta-1.0</p>
 
         </div>

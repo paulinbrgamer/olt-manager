@@ -74,7 +74,6 @@ const AbasProvider : React.FC<Props> = ({children}) => {
       OnuList : [],
       filter : {search:"",state:""} as filter,
       incident : [],
-      dashboard : <PonScreen key={idG} abaInfoId={idG}/>
 
     }
     
