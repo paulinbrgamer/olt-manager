@@ -3,9 +3,7 @@ import {type abaInterface } from "@/interfaces/abas"
 import generateId from "@/utils/generateId"
 import type { Request } from "@/interfaces/request"
 import type oltInterface from "@/interfaces/olt-interface"
-import PonScreen from "@/components/PonScreen"
 import type { filter } from "@/interfaces/filter"
-import { getAbaFromList } from "@/utils/getAbaFromList"
 
 interface  Props {
   children: ReactNode
