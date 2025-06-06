@@ -1,5 +1,5 @@
 import AbasProvider from "../../context/olt-abas-provider"
-import { render, screen, waitFor, } from "@testing-library/react"
+import { queryByLabelText, render, screen, waitFor, } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
 import { useAbas } from '@/context/olt-abas-provider'
 import type { abaInterface } from "@/interfaces/abas"
@@ -391,3 +391,18 @@ describe("PonScreen Filtrar por state e nome/serial", () => {
     }, { timeout: 1000 });
   });
 });
+
+describe("PonScreen Detalhes de ONU", () => {
+    it('Deve exibir detalhes da ONU', async () => {
+      renderDash(false, MockonuFilter);
+      
+      const dropdownOptions = screen.getByLabelText('dropdown-onu-1')
+      await userEvent.click(dropdownOptions)
+      const detailBtn = screen.getByText("Detalhes")
+      await userEvent.click(detailBtn)
+      expect(screen.getByLabelText("table-details")).toBeInTheDocument()
+      
+    });
+  
+  
+  });

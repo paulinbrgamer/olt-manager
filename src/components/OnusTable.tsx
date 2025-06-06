@@ -203,7 +203,7 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
                     )}
                     <DropdownMenu >
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
+                        <Button aria-label={`dropdown-onu-${onu.id}`} variant="ghost" size="icon">
                           <EllipsisVertical />
                         </Button>
                       </DropdownMenuTrigger>

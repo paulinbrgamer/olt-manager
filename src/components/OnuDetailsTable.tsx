@@ -1,4 +1,4 @@
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { Table,  TableRow, TableBody, TableCell } from "@/components/ui/table";
 import type { OnuInfo, OnuInfoHw } from "@/interfaces/onu-interface";
 
 interface Props {
@@ -45,11 +45,11 @@ interface Props {
       ];
 
   return (
-    <Table>
+    <Table aria-label="table-details">
 
       <TableBody>
         {entries.map((item, index) => (
-          <TableRow key={index} className="grid grid-cols-[3fr_4fr] ">
+          <TableRow aria-label={`row-id${index}`} key={index} className="grid grid-cols-[3fr_4fr] ">
             <TableCell className="font-medium text-primary/50 border-r-1">{item.label}</TableCell>
             <TableCell className="text-primary/80 ">{item.value ?? "N/A"}</TableCell>
           </TableRow>
