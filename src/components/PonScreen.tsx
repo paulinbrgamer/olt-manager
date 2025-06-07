@@ -35,6 +35,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
     //@ts-ignore
     const [requestPonInput, setrequestPonInput] = useState<{ slot: number | undefined, pon: number | undefined }>(guardRequestPon(abaInfo.request) ? { pon: abaInfo.request?.pon, slot: abaInfo.request.slot } : { pon: undefined, slot: undefined }) //state para pegar slot e pon
     const [modalPon, setmodalPon] = useState<boolean>(false)//state para controlar o modal da pon 
+
     const { data, loading, fetchData, error } = useLazyFetch() // fetch hook
 
     const handleClickSerialOnu = async () => {
@@ -131,13 +132,15 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
         <main aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' Dashboard'} className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
             {/*Div com elementos de interação com a Tabela de Onus */}
             <div className='flex gap-3 justify-center w-fit justify-items-end self-start ml-auto'>
-                <IconButton ariaLabel='Incidents-btn' className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
+            <IconButton ariaLabel='Incidents-btn' className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
+
+                
                 {/*@ts-ignore*/}
                 {guardRequestPon(abaInfo.request) &&
-                    <LoaderButton isLoading={loading} variant={'outline'} text='Atualizar' onClick={handleClickPonRequest} />}
+                    <LoaderButton isLoading={loading}  text='Atualizar' onClick={handleClickPonRequest} />}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button aria-label="load-Pon" className="w-fit" variant="outline">
+                        <Button aria-label="load-Pon" className="w-fit" >
                             <p>Carregar Pon</p>
                         </Button>
                     </DropdownMenuTrigger>
@@ -166,13 +169,16 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
                 <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
                 <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[10%] mr-[15%] max-w-[340px]  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
                           data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
-                    <div className='flex flex-row justify-between items-start mb-4 gap-4'>
-                        <DialogTitle className="text-xl font-bold ">Buscar Pon por Serial de uma Onu</DialogTitle>
+                    <div className='flex flex-row justify-between items-start  gap-4'>
+                        <DialogTitle className="text-xl font-bold text-primary ">Buscar Pon </DialogTitle>
                         <Button className='self-start w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalSerial(false)}><X size={10} /></Button>
                     </div>
-                    <Label className='mb-1'>
-                        Serial:
-                    </Label>
+                    <DialogDescription className='mb-2'>
+                        Encontrar por Serial de uma Onu
+                    </DialogDescription>
+                    <DialogDescription className='text-primary'>
+                    Serial:
+                    </DialogDescription>
                     <Input
                         onKeyDown={(e) => handleKeyDown(e, handleClickSerialOnu)}
                         value={requestSerialInput}
@@ -181,7 +187,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
                         className="mt-2 w-full "
                         placeholder="Ex: ZTEG12345678"
                     />
-                    <LoaderButton className='mt-6' isLoading={loading} onClick={handleClickSerialOnu} variant='outline' text='Buscar' />
+                    <LoaderButton className='mt-6 text-primary font-medium' isLoading={loading} onClick={handleClickSerialOnu} variant='outline' text='Buscar' />
                 </DialogContent>
             </Dialog>
             <Dialog open={modalPon} onOpenChange={setmodalPon}>
@@ -189,13 +195,13 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
                 <DialogContent className="z-50  absolute bg-sidebar border self-center mt-[10%] mr-[15%] max-w[340px]  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
                           data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
                     <div className='flex flex-row justify-between items-start mb-2 gap-4'>
-                        <DialogTitle className="text-xl font-bold text-start">Carregar informações de Pon</DialogTitle>
+                        <DialogTitle className="text-xl font-bold text-start text-primary">Carregar informações de Pon</DialogTitle>
                         <Button className='self-start w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalPon(false)}><X size={10} /></Button>
                     </div>
                     <DialogDescription className="text-sm text-muted-foreground  text-start ">
                         Carregue as informações digitando o Slot e Pon.
                     </DialogDescription>
-                    <Label className='mt-4' htmlFor={'slot'}>Slot</Label>
+                    <Label className='mt-4 text-primary' htmlFor={'slot'}>Slot</Label>
                     <Input
                         id="slot"
                         type="number"
@@ -210,7 +216,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
                         }
                     />
 
-                    <Label htmlFor="pon" className="mt-4 block">Pon</Label>
+                    <Label htmlFor="pon" className="mt-4 text-primary">Pon</Label>
                     <Input
                         onKeyDown={(e) => handleKeyDown(e, handleClickPonRequest)}
                         id="pon"
@@ -226,9 +232,11 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
                         }
                     />
 
-                    <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickPonRequest} variant='outline' text='Buscar' />
+                    <LoaderButton className='mt-4 text-primary' isLoading={loading} onClick={handleClickPonRequest} variant='outline' text='Buscar' />
                 </DialogContent>
             </Dialog>
+
+            
             <OnusTable abaInfoId={abaInfoId} />
         </main>
     )

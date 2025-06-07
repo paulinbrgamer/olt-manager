@@ -12,6 +12,12 @@ import { filterBySearch } from "@/utils/filterBySearch";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, Overlay } from "@radix-ui/react-dialog";
 import { Table, TableHead, TableHeader, TableRow } from "./ui/table";
 import OnuDetailsTable from "./OnuDetailsTable";
+import LoaderButton from "./LoaderButton";
+import SearchInput from "./SearchInput";
+import { Badge } from "./ui/badge";
+import { DialogFooter } from "./ui/dialog";
+import { useLazyFetch } from "./useLazyFetch";
+import { toast } from "sonner";
 interface Props {
   abaInfoId: string | undefined,
   ariaLabel?: string
@@ -47,14 +53,30 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
   const stateFilter = filterBySearch(abaInfo.OnuList, abaInfo.filter.state, ['phaseState']) //variavel com as onusFiltradas por state
   const parentRef = useRef<HTMLDivElement>(null);
   const [filteredOnulistSearch, setFilteredOnulistSearch] = useState<OnuInfo[]>([])//state para guardar as onus filtradas
-
+  const [modalOntEnable, setmodalOntEnable] = useState(false)
+  const [ontEnableInfo,setontEnableInfo] = useState<OnuInfo| null>(null)
+  const {loading,error,data,fetchData} = useLazyFetch()
   const rowVirtualized = useVirtualizer({
     count: filteredOnulistSearch!.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 55,
   });
+
   const handleSelectFilter = (newstate: stateOnu) => {
     updateAba({ ...abaInfo, filter: { ...abaInfo.filter, state: newstate } })
+  }
+  const handleEnableOnt = ()=>{
+    if(!ontEnableInfo){
+      toast("Ont Não selecionada")
+    }else{
+      const {slot,pon,serialNumber,name,id} = ontEnableInfo
+
+
+      fetchData('http://localhost:3031/hw/enable_ont',{
+        method: 'POST',
+        body: {olt:{...abaInfo.request?.olt},slot,pon,serialNumber,name,id}
+      })
+    }
   }
   //carregando a lista de onus filtradas por state no filteredOnulistSearch
   useEffect(() => {
@@ -83,16 +105,32 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
 
   return (
     <>
+      <Dialog open={modalOntEnable} onOpenChange={setmodalOntEnable}>
+        <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
+        <DialogContent className="z-50  absolute bg-sidebar border self-center mt-[10%] mr-[15%] max-w[380px]  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
+                          data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
+          <div className='flex flex-row justify-between items-start  gap-4'>
+            <DialogTitle className="text-xl font-bold text-start text-primary">Ativar ONT</DialogTitle>
+            <Button className='self-start w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalOntEnable(false)}><X size={10} /></Button>
+          </div>
+          <DialogDescription className="text-sm text-muted-foreground  text-start ">
+            Ative o acesso remoto a ONTs Huawei
+          </DialogDescription>
+          <Badge className="m-auto mt-4" variant="default">{ontEnableInfo?.name}</Badge>
+          <LoaderButton onClick={handleEnableOnt} isLoading={loading} className='mt-4' variant='outline' text='Ativar' />
+          <DialogFooter className="text-xs mt-4">Somente para ONTs*</DialogFooter>
+        </DialogContent>
+      </Dialog>
       <Dialog open={modalDetails} onOpenChange={setmodalDetails}>
         <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
         <DialogContent className="z-50 absolute bg-sidebar border self-center  tall  mr-[15%] w-fit  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
                           data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
 
           <div className='flex flex-row justify-between items-start mb-4 gap-4'>
-            <DialogTitle className="text-xl font-bold ">Detalhes da Onu</DialogTitle>
+            <DialogTitle className="text-xl font-bold text-primary">Detalhes da Onu</DialogTitle>
             <Button className='self-start w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalDetails(false)}><X size={10} /></Button>
           </div>
-          <OnuDetailsTable data={onuDetailTarget!}/>
+          <OnuDetailsTable data={onuDetailTarget!} />
         </DialogContent>
       </Dialog>
       <div className="h-full flex flex-col border rounded-md overflow-hidden" aria-label={'table-Onus'}>
@@ -209,11 +247,17 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
                       </DropdownMenuTrigger>
                       <Portal>
 
-                        <DropdownMenuContent className='w-20 border rounded-sm bg-popover text-popover-foreground z-[100] data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
+                        <DropdownMenuContent className='w-fit border rounded-sm bg-popover text-popover-foreground z-[100] data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
                           <DropdownMenuGroup>
-                            <DropdownMenuItem onSelect={()=>{setOnuDetailTarget(onu);setmodalDetails(true)}}>
+                            <DropdownMenuItem onSelect={() => { setOnuDetailTarget(onu); setmodalDetails(true) }}>
                               <Button className='w-full text-start' variant={'ghost'}>Detalhes</Button>
                             </DropdownMenuItem>
+                            {abaInfo.request?.olt.model == 'HW' && (
+                              <DropdownMenuItem>
+                                <Button  variant={'ghost'} onClick={() => {setmodalOntEnable(true);setontEnableInfo(onu)}} >Ativar ONT</Button>
+                              </DropdownMenuItem>
+
+                            )}
                           </DropdownMenuGroup>
 
                         </DropdownMenuContent>
