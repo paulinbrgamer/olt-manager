@@ -18,6 +18,7 @@ import { getAbaFromList } from '@/utils/getAbaFromList'
 import { Label } from './ui/label'
 import { useDebounce } from './useDebounce';
 import handleKeyDown from '@/utils/onKeyDown'
+import {motion} from "framer-motion"
 interface Props {
     abaInfoId?: string
 }
@@ -129,7 +130,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
         }
     }, [error])
     return (
-        <main aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' Dashboard'} className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
+        <motion.main initial={{opacity:0}} animate={{opacity:1}} transition={{duration:1}} aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' Dashboard'} className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
             {/*Div com elementos de interação com a Tabela de Onus */}
             <div className='flex gap-3 justify-center w-fit justify-items-end self-start ml-auto'>
             <IconButton ariaLabel='Incidents-btn' className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
@@ -238,7 +239,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
 
             
             <OnusTable abaInfoId={abaInfoId} />
-        </main>
+        </motion.main>
     )
 }
 
