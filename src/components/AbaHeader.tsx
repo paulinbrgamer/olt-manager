@@ -4,6 +4,7 @@ import type { abaInterface } from '@/interfaces/abas'
 import { X } from 'lucide-react'
 import { type ponRequest } from '@/interfaces/request'
 import { useAbas } from '@/context/olt-abas-provider'
+import {AnimatePresence, motion} from "framer-motion"
 interface Props {
   abaInfo: abaInterface,
 }
@@ -11,7 +12,7 @@ function isPonRequest(obj: any): obj is ponRequest {
   return obj && typeof obj.pon === 'number' && typeof obj.slot === 'number';
 }
 
-const AbaHeader: React.FC<Props> = ({ abaInfo }) => {
+const AbaHeader: React.FC<Props> = React.memo(({ abaInfo }) => {
   const { removeAba, abaslist, setcurrentAbaInfo, currentAbaInfo } = useAbas()
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -35,10 +36,11 @@ const AbaHeader: React.FC<Props> = ({ abaInfo }) => {
   };
 
   return (
-    <div aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' header'}
+
+    <motion.div  initial={{width:0}} animate={{width:250}} exit={{ width: 0,opacity:0 }} transition={{duration:0.18,ease:"easeOut"}} aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' header'}
       onClick={() => setcurrentAbaInfo(abaInfo.id)}
       className={`flex items-center gap-2 px-2 cursor-pointer 
-              flex-1 min-w-0 max-w-[240px] shrink hover:opacity-70 
+              hover:opacity-70  min-w-0 max-w-[240px] shrink
               ${currentAbaInfo === abaInfo.id
           ? "bg-background border-b-2 border-sky-600"
           : " border-border"}`}
@@ -60,9 +62,9 @@ const AbaHeader: React.FC<Props> = ({ abaInfo }) => {
       <Button aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' close'} onClick={handleDelete} variant="ghost" size="sm" className="shrink-0">
         <X className="text-red-500 h-4 w-4" />
       </Button>
-    </div>
+    </motion.div>
 
   )
-}
+})
 
 export default AbaHeader

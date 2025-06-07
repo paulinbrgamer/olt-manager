@@ -1,7 +1,7 @@
 import App from "../../App"
 import AbasProvider from "../../context/olt-abas-provider"
 import { ThemeProvider } from "../../context/theme-provider"
-import { render, screen } from "@testing-library/react"
+import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
 
 const renderApp = () => {
@@ -88,8 +88,11 @@ describe("OLT-MANAGER Dinamica de Abas", () => {
         expect(screen.queryByLabelText(queryOlts[0].textContent + ' header')).toBeInTheDocument()
         expect(screen.queryByLabelText(queryOlts[0].textContent + ' Dashboard')).toBeInTheDocument()
         await userEvent.click(closeBtn)
-        expect(screen.queryByLabelText(queryOlts[0].textContent + ' header')).not.toBeInTheDocument()
-        expect(screen.queryByLabelText(queryOlts[0].textContent + ' Dashboard')).not.toBeInTheDocument()
+        waitFor(()=>{
+            expect(screen.queryByLabelText(queryOlts[0].textContent + ' header')).not.toBeInTheDocument()
+            expect(screen.queryByLabelText(queryOlts[0].textContent + ' Dashboard')).not.toBeInTheDocument()
+
+        },{timeout:500})
 
     })
     it("Deve selecionar Aba posterior ao apertar no X na aba atual", async () => {

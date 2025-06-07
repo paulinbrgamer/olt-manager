@@ -7,7 +7,7 @@ import SearchInput from './components/SearchInput'
 import AbaHeader from './components/AbaHeader'
 import { useAbas } from './context/olt-abas-provider'
 import type oltInterface from './interfaces/olt-interface'
-import {motion} from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
     Accordion,
     AccordionContent,
@@ -29,7 +29,7 @@ const OltManager = () => {
     }
     return (
         <div aria-label="screen-olt" className='grid grid-cols-[auto_2fr] grid-rows-[30px_1fr]  w-full '>
-            <motion.aside initial={{width:0,x:0}} animate={{width:240}} className='bg-background grid-cols-1 p-4 pt-3 overflow-hidden  border-border border-r-1  flex flex-col justify-start items-center gap-5 h-screen '> {/*aside com as OLTs listadas */}
+            <motion.aside initial={{ width: 0, x: 0 }} animate={{ width: 240 }} className='bg-background grid-cols-1 p-4 pt-3 overflow-hidden  border-border border-r-1  flex flex-col justify-start items-center gap-5 h-screen '> {/*aside com as OLTs listadas */}
                 <div className='border-b pb-2 w-full flex gap-1.5 justify-center'>
                     <ServerCog className='text-sky-400' />
                     <p className='font-medium '>OLT MANAGER</p>
@@ -45,7 +45,9 @@ const OltManager = () => {
                                 variant={"ghost"}
                                 key={oltItem.id}
                                 text={oltItem.model + " " + oltItem.location}
-                                Icon={<Server color={oltItem.model == "HW" ? icons.red : icons.blue} />} />)}
+                                Icon={<Server color={oltItem.model == "HW" ? icons.red : icons.blue} />
+                                } />
+                        )}
                         {filteredOlts.length < 1 && <p className='text-sm text-center'>Sem resultados...</p>}
                     </div>
                 )}
@@ -95,7 +97,9 @@ const OltManager = () => {
 
             </motion.aside>
             <header className="flex h-11 bg-primary-foreground overflow-hidden min-w-0">
-                {abaslist?.map(aba => <AbaHeader key={aba.id} abaInfo={aba} />)}
+                <AnimatePresence initial={false}>
+                    {abaslist?.map(aba => <AbaHeader key={aba.id} abaInfo={aba} />)}
+                </AnimatePresence>
             </header>
             {/*Conteudo principal renderizado da tab atual*/}
             {currentAbaInfo && abaslist.length > 0 ? (
