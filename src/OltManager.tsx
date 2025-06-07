@@ -7,6 +7,7 @@ import SearchInput from './components/SearchInput'
 import AbaHeader from './components/AbaHeader'
 import { useAbas } from './context/olt-abas-provider'
 import type oltInterface from './interfaces/olt-interface'
+import {motion} from 'framer-motion'
 import {
     Accordion,
     AccordionContent,
@@ -27,8 +28,8 @@ const OltManager = () => {
         createAba(oltItem)
     }
     return (
-        <div aria-label="screen-olt" className='grid grid-cols-[260px_2fr] grid-rows-[30px_1fr]  w-full '>
-            <aside className='bg-background grid-cols-1 p-4 pt-3  border-border border-r-1  flex flex-col justify-start items-center gap-5 h-screen w-[260px] '> {/*aside com as OLTs listadas */}
+        <div aria-label="screen-olt" className='grid grid-cols-[auto_2fr] grid-rows-[30px_1fr]  w-full '>
+            <motion.aside initial={{width:0,x:0}} animate={{width:240}} className='bg-background grid-cols-1 p-4 pt-3 overflow-hidden  border-border border-r-1  flex flex-col justify-start items-center gap-5 h-screen '> {/*aside com as OLTs listadas */}
                 <div className='border-b pb-2 w-full flex gap-1.5 justify-center'>
                     <ServerCog className='text-sky-400' />
                     <p className='font-medium '>OLT MANAGER</p>
@@ -92,7 +93,7 @@ const OltManager = () => {
 
                 )}
 
-            </aside>
+            </motion.aside>
             <header className="flex h-11 bg-primary-foreground overflow-hidden min-w-0">
                 {abaslist?.map(aba => <AbaHeader key={aba.id} abaInfo={aba} />)}
             </header>
@@ -104,7 +105,6 @@ const OltManager = () => {
                     <p>Sem abas abertas...</p>
                 </div>
             )}
-
             <p className='col-start-2 text-end pr-5 pb-1'>Beta-1.0</p>
 
         </div>
