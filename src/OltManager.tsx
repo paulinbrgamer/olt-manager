@@ -7,7 +7,7 @@ import SearchInput from './components/SearchInput'
 import AbaHeader from './components/AbaHeader'
 import { useAbas } from './context/olt-abas-provider'
 import type oltInterface from './interfaces/olt-interface'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, Reorder } from 'framer-motion'
 import {
     Accordion,
     AccordionContent,
@@ -18,7 +18,7 @@ import { filterBySearch } from './utils/filterBySearch'
 import PonScreen from './components/PonScreen'
 const OltManager = () => {
     const [search, setSearch] = useState<string>('') //state que guarda a pesquisa de OLT
-    const { abaslist, createAba, currentAbaInfo } = useAbas()
+    const { abaslist, createAba, currentAbaInfo,setAbasList } = useAbas()
     const filteredOlts = filterBySearch(olts, search, ['model', 'location']) /*variavel que guarda o filtro do teclado */
 
     const handleText = (event: any) => {
@@ -96,11 +96,12 @@ const OltManager = () => {
                 )}
 
             </motion.aside>
-            <header className="flex h-11 bg-primary-foreground overflow-hidden min-w-0">
+            <Reorder.Group axis={'x'} values={abaslist} onReorder={setAbasList} className="flex h-11 bg-primary-foreground overflow-hidden min-w-0 gap-2p-2 ">
                 <AnimatePresence initial={false}>
                     {abaslist?.map(aba => <AbaHeader key={aba.id} abaInfo={aba} />)}
                 </AnimatePresence>
-            </header>
+
+            </Reorder.Group >
             {/*Conteudo principal renderizado da tab atual*/}
             {currentAbaInfo && abaslist.length > 0 ? (
                 <PonScreen abaInfoId={currentAbaInfo} key={currentAbaInfo} />

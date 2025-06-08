@@ -4,7 +4,7 @@ import type { abaInterface } from '@/interfaces/abas'
 import { X } from 'lucide-react'
 import { type ponRequest } from '@/interfaces/request'
 import { useAbas } from '@/context/olt-abas-provider'
-import {AnimatePresence, motion} from "framer-motion"
+import { motion, Reorder } from "framer-motion"
 interface Props {
   abaInfo: abaInterface,
 }
@@ -36,8 +36,9 @@ const AbaHeader: React.FC<Props> = React.memo(({ abaInfo }) => {
   };
 
   return (
+    <Reorder.Item value={abaInfo} key={abaInfo.id + 'item'}
+      initial={{ width: 0 }} animate={{ width: 250 }} exit={{ width: 0, opacity: 0 }} transition={{ duration: 0.18, ease: "easeOut" }} aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' header'}
 
-    <motion.div  initial={{width:0}} animate={{width:250}} exit={{ width: 0,opacity:0 }} transition={{duration:0.18,ease:"easeOut"}} aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' header'}
       onClick={() => setcurrentAbaInfo(abaInfo.id)}
       className={`flex items-center gap-2 px-2 cursor-pointer 
               hover:opacity-70  min-w-0 max-w-[240px] shrink
@@ -59,11 +60,14 @@ const AbaHeader: React.FC<Props> = React.memo(({ abaInfo }) => {
       </div>
 
       {/* Botão de fechar sempre visível */}
-      <Button aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' close'} onClick={handleDelete} variant="ghost" size="sm" className="shrink-0">
+      <Button
+        aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' close'}
+        onClick={handleDelete}
+        variant="ghost" size="sm"
+        className="shrink-0">
         <X className="text-red-500 h-4 w-4" />
       </Button>
-    </motion.div>
-
+    </Reorder.Item>
   )
 })
 

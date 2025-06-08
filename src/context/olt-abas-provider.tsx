@@ -16,7 +16,7 @@ export interface AbasContextInterface {
   currentAbaInfo : string | null,
   setcurrentAbaInfo(abaInfoIdSelect : string | null):void,
   updateAba(abaInfo : abaInterface): void
-
+  setAbasList(newAbalist :any ):void
 }
 //criação do contexto
 const AbasContext = createContext<AbasContextInterface | null>(null)
@@ -83,7 +83,7 @@ const AbasProvider : React.FC<Props> = ({children}) => {
 
   
   return (
-    <AbasContext.Provider value={{abaslist,removeAba,createAba,currentAbaInfo,setcurrentAbaInfo,updateAba}}>
+    <AbasContext.Provider value={{abaslist,removeAba,createAba,currentAbaInfo,setcurrentAbaInfo,updateAba,setAbasList}}>
     {children}
     </AbasContext.Provider>
   )
