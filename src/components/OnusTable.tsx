@@ -54,8 +54,8 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
   const parentRef = useRef<HTMLDivElement>(null);
   const [filteredOnulistSearch, setFilteredOnulistSearch] = useState<OnuInfo[]>([])//state para guardar as onus filtradas
   const [modalOntEnable, setmodalOntEnable] = useState(false)
-  const [ontEnableInfo,setontEnableInfo] = useState<OnuInfo| null>(null)
-  const {loading,error,data,fetchData} = useLazyFetch()
+  const [ontEnableInfo, setontEnableInfo] = useState<OnuInfo | null>(null)
+  const { loading, error, data, fetchData } = useLazyFetch()
   const rowVirtualized = useVirtualizer({
     count: filteredOnulistSearch!.length,
     getScrollElement: () => parentRef.current,
@@ -65,16 +65,16 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
   const handleSelectFilter = (newstate: stateOnu) => {
     updateAba({ ...abaInfo, filter: { ...abaInfo.filter, state: newstate } })
   }
-  const handleEnableOnt = ()=>{
-    if(!ontEnableInfo){
+  const handleEnableOnt = () => {
+    if (!ontEnableInfo) {
       toast("Ont Não selecionada")
-    }else{
-      const {slot,pon,serialNumber,name,id} = ontEnableInfo
+    } else {
+      const { slot, pon, serialNumber, name, id } = ontEnableInfo
 
 
-      fetchData('http://localhost:3031/hw/enable_ont',{
+      fetchData('http://localhost:3031/hw/enable_ont', {
         method: 'POST',
-        body: {olt:{...abaInfo.request?.olt},slot,pon,serialNumber,name,id}
+        body: { olt: { ...abaInfo.request?.olt }, slot, pon, serialNumber, name, id }
       })
     }
   }
@@ -145,7 +145,7 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
               <DropdownMenuTrigger asChild>
                 <Button aria-label="filter-btn" variant={'ghost'} size={'icon'} className={`rounded-full h-5 ${abaInfo.filter.state != "" ? 'bg-accent' : ''}`}><Filter size={16} /></Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className='w-fit border rounded-md bg-background z-10 data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
+              <DropdownMenuContent className='w-fit mt-3 border rounded-md bg-background z-10 data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
                 <DropdownMenuGroup>
                   {abaInfo.request?.olt.model == "ZTE" ? (
                     <>
@@ -247,14 +247,14 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
                       </DropdownMenuTrigger>
                       <Portal>
 
-                        <DropdownMenuContent className='w-fit border rounded-sm bg-popover text-popover-foreground z-[100] data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
+                        <DropdownMenuContent className='w-fit p-1 border rounded-sm bg-sidebar-accent text-popover-foreground z-[100] data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
                           <DropdownMenuGroup>
-                            <DropdownMenuItem onSelect={() => { setOnuDetailTarget(onu); setmodalDetails(true) }}>
-                              <Button className='w-full text-start' variant={'ghost'}>Detalhes</Button>
+                            <DropdownMenuItem className="dropdown-item" onSelect={() => { setOnuDetailTarget(onu); setmodalDetails(true) }}>
+                              Detalhes
                             </DropdownMenuItem>
                             {abaInfo.request?.olt.model == 'HW' && (
-                              <DropdownMenuItem>
-                                <Button  variant={'ghost'} onClick={() => {setmodalOntEnable(true);setontEnableInfo(onu)}} >Ativar ONT</Button>
+                              <DropdownMenuItem className="dropdown-item" onClick={() => { setmodalOntEnable(true); setontEnableInfo(onu) }}>
+                                Ativar ONT
                               </DropdownMenuItem>
 
                             )}
