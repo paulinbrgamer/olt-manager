@@ -23,7 +23,9 @@ display: none; /* Chrome, Edge, Safari */
 .scroll-container:hover::-webkit-scrollbar-thumb {
   border-radius: 4px; /* Arredondamento */
 }
-
+.dropdown-item{
+  @apply p-2 px-3 rounded-md hover:bg-primary/20 transition-all ease-in-out cursor-pointer text-start text-sm font-medium
+}
 
 @custom-variant dark (&:is(.dark *));
 

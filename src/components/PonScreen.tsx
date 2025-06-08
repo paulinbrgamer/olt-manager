@@ -1,7 +1,7 @@
 import { TriangleAlert, X } from 'lucide-react'
 import { Button } from './ui/button'
 import OnusTable from './OnusTable'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger, } from '@radix-ui/react-dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger, } from '@radix-ui/react-dropdown-menu'
 import { Dialog, DialogContent, DialogDescription, DialogTitle, Overlay } from '@radix-ui/react-dialog'
 import { Input } from './ui/input'
 import React, { useEffect, useState, type ChangeEvent, } from 'react'
@@ -18,7 +18,7 @@ import { getAbaFromList } from '@/utils/getAbaFromList'
 import { Label } from './ui/label'
 import { useDebounce } from './useDebounce';
 import handleKeyDown from '@/utils/onKeyDown'
-import {motion} from "framer-motion"
+import { motion } from "framer-motion"
 interface Props {
     abaInfoId?: string
 }
@@ -130,35 +130,31 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
         }
     }, [error])
     return (
-        <motion.main initial={{opacity:0}} animate={{opacity:1}} transition={{duration:1}} aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' Dashboard'} className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
+        <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' Dashboard'} className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
             {/*Div com elementos de interação com a Tabela de Onus */}
             <div className='flex gap-3 justify-center w-fit justify-items-end self-start ml-auto'>
-            <IconButton ariaLabel='Incidents-btn' className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
+                <IconButton ariaLabel='Incidents-btn' className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
 
-                
+
                 {/*@ts-ignore*/}
                 {guardRequestPon(abaInfo.request) &&
-                    <LoaderButton isLoading={loading}  text='Atualizar' onClick={handleClickPonRequest} />}
+                    <LoaderButton isLoading={loading} text='Atualizar' onClick={handleClickPonRequest} />}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button aria-label="load-Pon" className="w-fit" >
+                        <Button variant={'outline'} aria-label="load-Pon" className="w-fit text-primary" >
                             <p>Carregar Pon</p>
                         </Button>
                     </DropdownMenuTrigger>
 
                     <DropdownMenuContent
-                        className="w-40 border rounded-md bg-popover text-popover-foreground z-10 shadow-md data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2"
+                        className="w-50 mt-3 p-1 border rounded-md bg-sidebar-accent text-popover-foreground z-10 shadow-md data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2"
                     >
                         <DropdownMenuGroup>
-                            <DropdownMenuItem onSelect={() => setmodalPon(true)}>
-                                <Button className="w-full text-start" variant="ghost">
-                                    Buscar por Pon
-                                </Button>
+                            <DropdownMenuItem className='dropdown-item' onSelect={() => setmodalPon(true)}>
+                                Buscar por Pon
                             </DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => setmodalSerial(true)}>
-                                <Button className="w-full text-start" variant="ghost">
-                                    Buscar por Serial
-                                </Button>
+                            <DropdownMenuItem className='dropdown-item' onSelect={() => setmodalSerial(true)}>
+                                Buscar por Serial
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
@@ -178,7 +174,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
                         Encontrar por Serial de uma Onu
                     </DialogDescription>
                     <DialogDescription className='text-primary'>
-                    Serial:
+                        Serial:
                     </DialogDescription>
                     <Input
                         onKeyDown={(e) => handleKeyDown(e, handleClickSerialOnu)}
@@ -237,7 +233,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
                 </DialogContent>
             </Dialog>
 
-            
+
             <OnusTable abaInfoId={abaInfoId} />
         </motion.main>
     )
