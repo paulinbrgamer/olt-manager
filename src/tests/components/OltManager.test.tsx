@@ -1,15 +1,17 @@
+import useAbas from "@/context/useAbas"
 import App from "../../App"
-import AbasProvider from "../../context/olt-abas-provider"
+
 import { ThemeProvider } from "../../context/theme-provider"
 import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
-
+beforeEach(() => {
+    useAbas.getState().reset()
+  })
+  
 const renderApp = () => {
     render(
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <AbasProvider>
                 <App />
-            </AbasProvider>
         </ThemeProvider>
     )
 }

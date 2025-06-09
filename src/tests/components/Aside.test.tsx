@@ -1,5 +1,4 @@
 import App from "../../App"
-import AbasProvider from "../../context/olt-abas-provider"
 import { ThemeProvider } from "../../context/theme-provider"
 import { render, screen } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
@@ -8,9 +7,7 @@ describe("ABA LATERAL TESTE", () => {
     it("Deve trocar para Incidents ao clicar no botão de incidents", async () => {
         render(
             <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-                <AbasProvider>
                     <App />
-                </AbasProvider>
             </ThemeProvider>
         )
         const incidentsBtn = screen.getByLabelText('btn-Incidents')
@@ -25,9 +22,7 @@ describe("ABA LATERAL TESTE", () => {
     it("Deve trocar para incidente, e logo após mudar para OLTs novamente", async () => {
         render(
             <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-                <AbasProvider>
                     <App />
-                </AbasProvider>
             </ThemeProvider>
         )
         const incidentsBtn = screen.getByLabelText('btn-Incidents')

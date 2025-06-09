@@ -4,23 +4,20 @@ import type { OnuInfo, OnuInfoHw } from "@/interfaces/onu-interface";
 import React, { useEffect, useRef, useState } from "react";
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger, Portal } from "@radix-ui/react-dropdown-menu";
-import { useAbas } from "@/context/olt-abas-provider";
+import useAbas from "@/context/useAbas";
 import { getAbaFromList } from "@/utils/getAbaFromList";
 import type { abaInterface } from "@/interfaces/abas";
 import type { stateOnu } from "@/interfaces/filter";
 import { filterBySearch } from "@/utils/filterBySearch";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, Overlay } from "@radix-ui/react-dialog";
-import { Table, TableHead, TableHeader, TableRow } from "./ui/table";
 import OnuDetailsTable from "./OnuDetailsTable";
 import LoaderButton from "./LoaderButton";
-import SearchInput from "./SearchInput";
 import { Badge } from "./ui/badge";
 import { DialogFooter } from "./ui/dialog";
 import { useLazyFetch } from "./useLazyFetch";
 import { toast } from "sonner";
 interface Props {
   abaInfoId: string | undefined,
-  ariaLabel?: string
 }
 const signalColor = (signal: number) => {
   if (signal >= -24) return "text-green-500";
@@ -45,7 +42,7 @@ const StateComponent = ({ state }: { state: string }) => {
   );
 };
 
-const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
+const OnusTable: React.FC<Props> = React.memo(({ abaInfoId }) => {
   const [modalDetails, setmodalDetails] = useState(false)
   const [onuDetailTarget, setOnuDetailTarget] = useState<OnuInfo | OnuInfoHw | null>(null)
   const { updateAba, abaslist } = useAbas()
@@ -55,7 +52,7 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId, ariaLabel }) => {
   const [filteredOnulistSearch, setFilteredOnulistSearch] = useState<OnuInfo[]>([])//state para guardar as onus filtradas
   const [modalOntEnable, setmodalOntEnable] = useState(false)
   const [ontEnableInfo, setontEnableInfo] = useState<OnuInfo | null>(null)
-  const { loading, error, data, fetchData } = useLazyFetch()
+  const { loading, fetchData } = useLazyFetch()
   const rowVirtualized = useVirtualizer({
     count: filteredOnulistSearch!.length,
     getScrollElement: () => parentRef.current,

@@ -1,12 +1,15 @@
-import { useAbas } from '@/context/olt-abas-provider'
 import { isAbaInterface, type abaInterface } from "@/interfaces/abas"
 import type oltInterface from "@/interfaces/olt-interface"
 import { useEffect, useState } from "react"
 import { getAbaFromList } from "@/utils/getAbaFromList"
-import AbasProvider from "../../context/olt-abas-provider"
 import { ThemeProvider } from "../../context/theme-provider"
 import { render, screen, } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
+import useAbas from "@/context/useAbas"
+beforeEach(() => {
+    useAbas.getState().reset()
+  })
+  
 const AbaProviderTest = ({ olt }: { olt?: oltInterface }) => {
     const context = useAbas()
     const [abaNova, setabaNova] = useState<string | null>(null)
@@ -34,9 +37,7 @@ describe("Função GetAbaFromList Testes", () => {
     it("Deve retornar null quando não encontrar Aba", async () => {
         const oltObj: oltInterface = { id: 1, model: 'ZTE', location: 'Castanhal' }
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <AbasProvider>
                 <AbaProviderTest olt={oltObj} />
-            </AbasProvider>
         </ThemeProvider>)
 
         const createBtn = screen.getByText('Criar Erro')
@@ -50,9 +51,7 @@ describe("Função GetAbaFromList Testes", () => {
     it("Deve retornar Aba quando encontrar Aba", async () => {
         const oltObj: oltInterface = { id: 1, model: 'ZTE', location: 'Castanhal' }
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <AbasProvider>
                 <AbaProviderTest olt={oltObj} />
-            </AbasProvider>
         </ThemeProvider>)
 
         const createBtn = screen.getByText('Criar')

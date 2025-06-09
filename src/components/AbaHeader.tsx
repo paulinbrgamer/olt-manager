@@ -3,8 +3,8 @@ import { Button } from './ui/button'
 import type { abaInterface } from '@/interfaces/abas'
 import { X } from 'lucide-react'
 import { type ponRequest } from '@/interfaces/request'
-import { useAbas } from '@/context/olt-abas-provider'
-import { motion, Reorder } from "framer-motion"
+import useAbas from '@/context/useAbas'
+import { Reorder } from "framer-motion"
 interface Props {
   abaInfo: abaInterface,
 }

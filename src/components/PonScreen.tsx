@@ -1,12 +1,12 @@
 import { TriangleAlert, X } from 'lucide-react'
 import { Button } from './ui/button'
 import OnusTable from './OnusTable'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger, } from '@radix-ui/react-dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger, } from '@radix-ui/react-dropdown-menu'
 import { Dialog, DialogContent, DialogDescription, DialogTitle, Overlay } from '@radix-ui/react-dialog'
 import { Input } from './ui/input'
 import React, { useEffect, useState, type ChangeEvent, } from 'react'
 import { useLazyFetch } from './useLazyFetch'
-import { useAbas } from '@/context/olt-abas-provider'
+import useAbas from '@/context/useAbas'
 import { toast } from 'sonner'
 import type { OnuInfo } from '@/interfaces/onu-interface'
 import SearchInput from './SearchInput'
@@ -130,7 +130,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
         }
     }, [error])
     return (
-        <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' Dashboard'} className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
+        <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' Dashboard'} className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
             {/*Div com elementos de interação com a Tabela de Onus */}
             <div className='flex gap-3 justify-center w-fit justify-items-end self-start ml-auto'>
                 <IconButton ariaLabel='Incidents-btn' className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />

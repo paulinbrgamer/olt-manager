@@ -1,7 +1,6 @@
-import AbasProvider from "../../context/olt-abas-provider"
-import { queryByLabelText, render, screen, waitFor, } from "@testing-library/react"
+import {  render, screen, waitFor, } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
-import { useAbas } from '@/context/olt-abas-provider'
+import useAbas from "@/context/useAbas"
 import type { abaInterface } from "@/interfaces/abas"
 import { useEffect, useLayoutEffect, useState } from "react"
 import { getAbaFromList } from "@/utils/getAbaFromList"
@@ -9,6 +8,7 @@ import PonScreen from "@/components/PonScreen"
 import { prettyDOM } from '@testing-library/react'
 import type { OnuInfo } from "@/interfaces/onu-interface"
 
+  
 const Mockonu = [{
     slot: "1",
     pon: "3",
@@ -134,6 +134,7 @@ beforeEach(() => {
         configurable: true,
         value: 700,
     });
+    useAbas.getState().reset()
 
     // mock do ResizeObserver, necessário para bibliotecas como react-virtual
     global.ResizeObserver = class {
@@ -167,9 +168,7 @@ const MockRender = ({ falseId, mock }: { falseId: boolean, mock: OnuInfo[] }) =>
 }
 const renderDash = (falseId: boolean, mock: OnuInfo[]) => {
     render(
-        <AbasProvider>
             <MockRender mock={mock} falseId={falseId} />
-        </AbasProvider>
     )
 }
 describe("PonScreen renderização basica", () => {

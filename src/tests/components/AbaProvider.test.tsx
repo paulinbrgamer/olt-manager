@@ -1,13 +1,15 @@
-import AbasProvider from "../../context/olt-abas-provider"
 import { ThemeProvider } from "../../context/theme-provider"
 import { render, screen, } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
-import { useAbas } from '@/context/olt-abas-provider'
+import useAbas from "@/context/useAbas"
 import type { abaInterface } from "@/interfaces/abas"
 import type oltInterface from "@/interfaces/olt-interface"
 import { useEffect, useState } from "react"
 import { getAbaFromList } from "@/utils/getAbaFromList"
-
+beforeEach(() => {
+    useAbas.getState().reset()
+  })
+  
 const AbaProviderTest = ({ olt }: { olt?: oltInterface }) => {
     const context = useAbas()
     const [abaNova, setabaNova] = useState<string | null>(null)
@@ -42,9 +44,7 @@ export default AbaProviderTest
 describe("AbasProvider Testes Inicialização", () => {
     it("Lista de abas Deve iniciar vazia ao instanciar Provider", async () => {
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <AbasProvider>
-                <AbaProviderTest />
-            </AbasProvider>
+            <AbaProviderTest />
         </ThemeProvider>)
         const sizeAbasInit = screen.getByText('Abas Iniciais : 0')
         expect(sizeAbasInit).toBeInTheDocument()
@@ -53,9 +53,7 @@ describe("AbasProvider Testes Inicialização", () => {
     })
     it("Aba atual deve ser nula ao inicializar Provider", async () => {
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <AbasProvider>
-                <AbaProviderTest olt={{ id: 1, model: 'ZTE', location: 'Castanhal' }} />
-            </AbasProvider>
+            <AbaProviderTest olt={{ id: 1, model: 'ZTE', location: 'Castanhal' }} />
         </ThemeProvider>)
 
         const currentAbaValue = screen.getByText('Current Aba :')
@@ -67,9 +65,7 @@ describe("AbasProvider Criação de Abas", () => {
     it("Deve criar aba ao chamar função createAba()", async () => {
         const oltObj: oltInterface = { id: 1, model: 'ZTE', location: 'Castanhal' }
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <AbasProvider>
-                <AbaProviderTest olt={oltObj} />
-            </AbasProvider>
+            <AbaProviderTest olt={oltObj} />
         </ThemeProvider>)
 
         const createBtn = screen.getByText('Criar')
@@ -82,9 +78,9 @@ describe("AbasProvider Criação de Abas", () => {
     it("Deve retornar ID igual ao adicionado na lista de abas quando chamar createAba()", async () => {
         const oltObj: oltInterface = { id: 1, model: 'ZTE', location: 'Castanhal' }
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <AbasProvider>
-                <AbaProviderTest olt={oltObj} />
-            </AbasProvider>
+
+            <AbaProviderTest olt={oltObj} />
+
         </ThemeProvider>)
         const createBtn = screen.getByText('Criar')
         expect(createBtn).toBeInTheDocument()
@@ -98,9 +94,9 @@ describe("AbasProvider Criação de Abas", () => {
     it("Deve ter Onulist vazia ao criar Aba com createAba()", async () => {
         const oltObj: oltInterface = { id: 1, model: 'ZTE', location: 'Castanhal' }
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <AbasProvider>
-                <AbaProviderTest olt={oltObj} />
-            </AbasProvider>
+
+            <AbaProviderTest olt={oltObj} />
+
         </ThemeProvider>)
 
         const createBtn = screen.getByText('Criar')
@@ -114,9 +110,9 @@ describe("AbasProvider Criação de Abas", () => {
     it("Deve ter id do request Olt igual ao que foi passado na criação da Aba", async () => {
         const oltObj: oltInterface = { id: 1, model: 'ZTE', location: 'Castanhal' }
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <AbasProvider>
-                <AbaProviderTest olt={oltObj} />
-            </AbasProvider>
+
+            <AbaProviderTest olt={oltObj} />
+
         </ThemeProvider>)
 
         const createBtn = screen.getByText('Criar')
@@ -130,9 +126,9 @@ describe("AbasProvider Criação de Abas", () => {
     it("Deve ter filter search vazio ao ser criada Aba", async () => {
         const oltObj: oltInterface = { id: 1, model: 'ZTE', location: 'Castanhal' }
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <AbasProvider>
-                <AbaProviderTest olt={oltObj} />
-            </AbasProvider>
+
+            <AbaProviderTest olt={oltObj} />
+
         </ThemeProvider>)
 
         const createBtn = screen.getByText('Criar')
@@ -146,9 +142,9 @@ describe("AbasProvider Criação de Abas", () => {
     it("Deve ter filter state vazio ao ser criada Aba", async () => {
         const oltObj: oltInterface = { id: 1, model: 'ZTE', location: 'Castanhal' }
         render(<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <AbasProvider>
-                <AbaProviderTest olt={oltObj} />
-            </AbasProvider>
+
+            <AbaProviderTest olt={oltObj} />
+
         </ThemeProvider>)
 
         const createBtn = screen.getByText('Criar')
@@ -174,9 +170,9 @@ describe("AbasProvider Deleção de Abas", () => {
     it("Deve retornar a abaslist completa se não encontrar item a ser deletado ao chamar remove()", async () => {
 
         render(
-            <AbasProvider>
-                <NotExistentId />
-            </AbasProvider>
+
+            <NotExistentId />
+
         )
         const btn = screen.getByText('Delete')
         const create = screen.getByText('Criar')
@@ -188,9 +184,9 @@ describe("AbasProvider Deleção de Abas", () => {
     })
     it("Deve remover item que encontrar com o id passado ao chamar função remove()", async () => {
         render(
-            <AbasProvider>
-                <NotExistentId />
-            </AbasProvider>
+
+            <NotExistentId />
+
         )
         const btn = screen.getByText('Delete Valid')
         const create = screen.getByText('Criar')
@@ -243,9 +239,9 @@ describe("AbasProvider Atualização de Aba", () => {
 
     it("Não deve atualizar nada se ID não existir ao chamar update()", async () => {
         render(
-            <AbasProvider>
-                <NotExistentId shouldUpdateId={true} />
-            </AbasProvider>
+
+            <NotExistentId shouldUpdateId={true} />
+
         )
         await userEvent.click(screen.getByText("Criar"))
         const antes = screen.getByLabelText("size-list").textContent!
@@ -256,9 +252,9 @@ describe("AbasProvider Atualização de Aba", () => {
 
     it("Deve atualizar a aba se o ID existir ao chamar update()", async () => {
         render(
-            <AbasProvider>
-                <NotExistentId shouldUpdateId={false} />
-            </AbasProvider>
+
+            <NotExistentId shouldUpdateId={false} />
+
         )
         await userEvent.click(screen.getByText("Criar"))
         const antes = screen.getByLabelText("size-list").textContent!
