@@ -52,7 +52,7 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId }) => {
   const [filteredOnulistSearch, setFilteredOnulistSearch] = useState<OnuInfo[]>([])//state para guardar as onus filtradas
   const [modalOntEnable, setmodalOntEnable] = useState(false)
   const [ontEnableInfo, setontEnableInfo] = useState<OnuInfo | null>(null)
-  const { loading, fetchData } = useLazyFetch()
+  const { loading, fetchData, data, error } = useLazyFetch()
   const rowVirtualized = useVirtualizer({
     count: filteredOnulistSearch!.length,
     getScrollElement: () => parentRef.current,
@@ -99,6 +99,14 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId }) => {
       setFilteredOnulistSearch(stateFilter);
     }
   }, [abaInfo.filter.state, abaInfo.OnuList, abaInfo.filter.search]);
+  useEffect(() => {
+    if (data) {
+      //@ts-ignore
+      toast(data.message);
+      setmodalOntEnable(false)
+    }
+
+  }, [data])
 
   return (
     <>
@@ -249,7 +257,7 @@ const OnusTable: React.FC<Props> = React.memo(({ abaInfoId }) => {
                             <DropdownMenuItem className="dropdown-item" onSelect={() => { setOnuDetailTarget(onu); setmodalDetails(true) }}>
                               Detalhes
                             </DropdownMenuItem>
-                            {abaInfo.request?.olt.model == 'HW' && (
+                            {abaInfo.request?.olt.model == 'HW' && onu.type == "EG8145V5" && (
                               <DropdownMenuItem className="dropdown-item" onClick={() => { setmodalOntEnable(true); setontEnableInfo(onu) }}>
                                 Ativar ONT
                               </DropdownMenuItem>
