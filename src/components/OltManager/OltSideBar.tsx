@@ -1,6 +1,3 @@
-import { Server, ServerCog } from 'lucide-react'
-import IconButton from '../../components/IconButton'
-import { icons } from '../../constants/colors'
 import SearchInput from '../../components/SearchInput'
 import { motion } from 'framer-motion'
 import {
@@ -14,9 +11,11 @@ import olts from '@/constants/olts'
 import { useState } from 'react'
 import useAbas from '@/context/useAbas'
 import type oltInterface from '@/interfaces/olt-interface'
+import OltList from './OltList'
+import { ServerCog } from 'lucide-react'
 const OltSideBar = () => {
     const [search, setSearch] = useState<string>('') //state que guarda a pesquisa de OLT
-    const {createAba} = useAbas()
+    const { createAba } = useAbas()
     const filteredOlts = filterBySearch(olts, search, ['model', 'location']) /*variavel que guarda o filtro do teclado */
     const handleText = (event: any) => {
         setSearch(event.target.value)
@@ -33,55 +32,21 @@ const OltSideBar = () => {
             <SearchInput ariaLabel='searchOlt' placeholder='Pesquisar Olt...' onChange={handleText} value={search} />
             {/*Container de Olts*/}
             {search && (
-                <div className='w-full overflow-y-scroll gap-1 flex flex-col noscroll'>
-                    {filteredOlts.map((oltItem, idx) =>
-                        <IconButton ariaLabel={`Aba-OLT-btn-${idx}`}
-                            onClick={() => handleClickSelectOlt(oltItem)}
-                            className='justify-start'
-                            variant={"ghost"}
-                            key={oltItem.id}
-                            text={oltItem.model + " " + oltItem.location}
-                            Icon={<Server color={oltItem.model == "HW" ? icons.red : icons.blue} />
-                            } />
-                    )}
-                    {filteredOlts.length < 1 && <p className='text-sm text-center'>Sem resultados...</p>}
-                </div>
+                <OltList filteredOlts={filteredOlts} onClick={handleClickSelectOlt} />
             )}
             {!search && (
                 <div className='w-full gap-1 flex flex-col scroll-container'>
-
                     <Accordion type="single" collapsible className="w-full ">
                         <AccordionItem aria-label='ZTE-GROUP' value="item-1">
                             <AccordionTrigger className=' pl-2 cursor-pointer'>ZTE</AccordionTrigger>
                             <AccordionContent className='w-full overflow-y-scroll gap-1 flex flex-col scroll-container h-52 '>
-                                {filteredOlts.map((oltzte) => {
-                                    if (oltzte.model === "ZTE") {
-                                        return (<IconButton
-                                            onClick={() => handleClickSelectOlt(oltzte)}
-                                            className='justify-start'
-                                            variant={"ghost"}
-                                            key={oltzte.id + 'group'}
-                                            text={oltzte.model + " " + oltzte.location}
-                                            Icon={<Server color={icons.blue} />} />)
-                                    }
-                                })}
-
+                                {<OltList onClick={handleClickSelectOlt} filteredOlts={filteredOlts.filter((olt)=>olt.model=='ZTE')}/>  }
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem aria-label='HW-GROUP' value="item-2">
                             <AccordionTrigger className=' pl-2 cursor-pointer'>Huawei</AccordionTrigger>
                             <AccordionContent className='w-full overflow-y-scroll gap-1 flex flex-col scroll-container h-52 '>
-                                {filteredOlts.map((olthw) => {
-                                    if (olthw.model === "HW") {
-                                        return (<IconButton
-                                            onClick={() => handleClickSelectOlt(olthw)}
-                                            className='justify-start'
-                                            variant={"ghost"}
-                                            key={olthw.id + 'group'}
-                                            text={olthw.model + " " + olthw.location}
-                                            Icon={<Server color={icons.red} />} />)
-                                    }
-                                })}
+                                 {<OltList onClick={handleClickSelectOlt} filteredOlts={filteredOlts.filter((olt)=>olt.model=='HW')}/>  }
 
                             </AccordionContent>
                         </AccordionItem>
