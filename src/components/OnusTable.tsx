@@ -14,7 +14,7 @@ import OnuDetailsTable from "./OnuDetailsTable";
 import LoaderButton from "./LoaderButton";
 import { Badge } from "./ui/badge";
 import { DialogFooter } from "./ui/dialog";
-import { useLazyFetch } from "./useLazyFetch";
+import { useLazyFetch } from "../utils/useLazyFetch";
 import { toast } from "sonner";
 interface Props {
   abaInfoId: string | undefined,

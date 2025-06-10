@@ -1,12 +1,12 @@
 import { Server, ServerCog } from 'lucide-react'
-import IconButton from './components/IconButton'
-import { icons } from './constants/colors'
-import olts from './constants/olts'
+import IconButton from '../components/IconButton'
+import { icons } from '../constants/colors'
+import olts from '../constants/olts'
 import {  useState } from 'react'
-import SearchInput from './components/SearchInput'
-import AbaHeader from './components/AbaHeader'
-import useAbas from './context/useAbas'
-import type oltInterface from './interfaces/olt-interface'
+import SearchInput from '../components/SearchInput'
+import Tab from '../components/Tab'
+import useAbas from '../context/useAbas'
+import type oltInterface from '../interfaces/olt-interface'
 import { AnimatePresence, motion, Reorder } from 'framer-motion'
 import {
     Accordion,
@@ -14,13 +14,12 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
-import { filterBySearch } from './utils/filterBySearch'
-import PonScreen from './components/PonScreen'
+import { filterBySearch } from '../utils/filterBySearch'
+import PonScreen from '../components/PonScreen'
 const OltManager = () => {
     const [search, setSearch] = useState<string>('') //state que guarda a pesquisa de OLT
     const { abaslist, createAba, currentAbaInfo,setAbasList } = useAbas()
     const filteredOlts = filterBySearch(olts, search, ['model', 'location']) /*variavel que guarda o filtro do teclado */
-
     const handleText = (event: any) => {
         setSearch(event.target.value)
     } //função para atualizar estado do search
@@ -98,7 +97,7 @@ const OltManager = () => {
             </motion.aside>
             <Reorder.Group axis={'x'} values={abaslist} onReorder={setAbasList} className="flex h-11 bg-primary-foreground overflow-hidden min-w-0 gap-2p-2 ">
                 <AnimatePresence initial={false}>
-                    {abaslist?.map(aba => <AbaHeader key={aba.id} abaInfo={aba} />)}
+                    {abaslist?.map(aba => <Tab key={aba.id} abaInfo={aba} />)}
                 </AnimatePresence>
 
             </Reorder.Group >

@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { Dialog, DialogContent, DialogDescription, DialogTitle, Overlay } from '@radix-ui/react-dialog'
 import { Input } from './ui/input'
 import React, { useEffect, useState, type ChangeEvent, } from 'react'
-import { useLazyFetch } from './useLazyFetch'
+import { useLazyFetch } from '../utils/useLazyFetch'
 import useAbas from '@/context/useAbas'
 import { toast } from 'sonner'
 import type { OnuInfo } from '@/interfaces/onu-interface'
@@ -16,7 +16,7 @@ import guardRequestPon, { type ponRequest } from '@/interfaces/request'
 import LoaderButton from './LoaderButton'
 import { getAbaFromList } from '@/utils/getAbaFromList'
 import { Label } from './ui/label'
-import { useDebounce } from './useDebounce';
+import { useDebounce } from '../utils/useDebounce';
 import handleKeyDown from '@/utils/onKeyDown'
 import { motion } from "framer-motion"
 interface Props {

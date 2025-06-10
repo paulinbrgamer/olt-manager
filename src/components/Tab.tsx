@@ -12,7 +12,7 @@ function isPonRequest(obj: any): obj is ponRequest {
   return obj && typeof obj.pon === 'number' && typeof obj.slot === 'number';
 }
 
-const AbaHeader: React.FC<Props> = React.memo(({ abaInfo }) => {
+const Tab: React.FC<Props> = React.memo(({ abaInfo }) => {
   const { removeAba, abaslist, setcurrentAbaInfo, currentAbaInfo } = useAbas()
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -71,4 +71,4 @@ const AbaHeader: React.FC<Props> = React.memo(({ abaInfo }) => {
   )
 })
 
-export default AbaHeader
+export default Tab
