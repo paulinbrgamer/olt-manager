@@ -24,7 +24,7 @@ const OltSideBar = () => {
         createAba(oltItem)
     }
     return (
-        <motion.aside initial={{ width: 0, x: 0 }} animate={{ width: 240 }} className='bg-background grid-cols-1 p-4 pt-3 overflow-hidden  border-border border-r-1  flex flex-col justify-start items-center gap-5 h-screen '> {/*aside com as OLTs listadas */}
+        <motion.aside initial={{ width: 0, x: 0 }} animate={{ width: 240 }} className='bg-background grid-cols-1 p-4 pt-3 overflow-hidden  border-border border-r-1  flex flex-col justify-start items-center gap-5 h-screen '> 
             <div className='border-b pb-2 w-full flex gap-1.5 justify-center'>
                 <ServerCog className='text-sky-400' />
                 <p className='font-medium '>OLT MANAGER</p>
