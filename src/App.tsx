@@ -1,9 +1,5 @@
 import { Toaster } from 'sonner';
-import { Github, SquareTerminal, TriangleAlert } from "lucide-react"
-import { ModeToggle } from "./components/mode-toggle"
-import SideBar from "./components/SideBar"
 import { ThemeProvider } from "./context/theme-provider"
-import { Button } from "./components/ui/button"
 import { useState } from "react"
 import OltManager from "./pages/OltManager"
 import Incidents from "./pages/Incidents"
