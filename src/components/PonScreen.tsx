@@ -78,25 +78,7 @@ const PonScreen: React.FC = () => {
             toast('Slot ou Pon invalido!!')
         }
     }
-    useEffect(() => {
-        if (guardRequestPon(abaInfo.request)) {
-            //@ts-ignore
-            setrequestPonInput({ pon: abaInfo.request?.pon, slot: abaInfo.request.slot })
-
-        }
-        else {
-            setrequestPonInput({ pon: undefined, slot: undefined })
-        }
-
-    }, [abaInfo.request])
-    useEffect(() => {
-        setsearchFilter(abaInfo.filter.search)
-
-    }, [abaInfo.filter.search])
-    useEffect(() => {
-        setrequestSerialInput('')
-
-    }, [abaInfo])
+    
 
     //useEffect para atualizar a onuList conforme o imput do debounce mudar e também quando o filtro se alterar
     useEffect(() => {

@@ -3,7 +3,6 @@ import useAbas from '../context/useAbas'
 import PonScreen from '../components/PonScreen'
 import OltSideBar from '@/components/OltManager/OltSideBar'
 import TabGroup from '@/components/OltManager/TabGroup'
-import { useEffect } from 'react'
 const OltManager = () => {
     const { abaslist, currentAbaInfo } = useAbas()
 
@@ -15,7 +14,7 @@ const OltManager = () => {
             
             {/*Conteudo principal renderizado da tab atual*/}
             {currentAbaInfo && abaslist.length > 0 ? (
-                <PonScreen/>
+                <PonScreen key={currentAbaInfo}/>
             ) : (
                 <div className='flex-1 flex col-end-3 justify-center items-center flex-col'>
                     <p>👈 Selecione uma Olt para abrir uma aba</p>
