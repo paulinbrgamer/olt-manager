@@ -17,7 +17,7 @@ import { DialogFooter } from "./ui/dialog";
 import { useLazyFetch } from "../utils/useLazyFetch";
 import { toast } from "sonner";
 interface Props {
-  abaInfoId: string | undefined,
+  currentAbaInfo: string | undefined,
 }
 const signalColor = (signal: number) => {
   if (signal >= -24) return "text-green-500";
@@ -42,11 +42,11 @@ const StateComponent = ({ state }: { state: string }) => {
   );
 };
 
-const OnusTable: React.FC<Props> = React.memo(({ abaInfoId }) => {
+const OnusTable: React.FC = React.memo(() => {
   const [modalDetails, setmodalDetails] = useState(false)
   const [onuDetailTarget, setOnuDetailTarget] = useState<OnuInfo | OnuInfoHw | null>(null)
-  const { updateAba, abaslist } = useAbas()
-  const abaInfo: abaInterface = getAbaFromList(abaInfoId!, abaslist)!
+  const { updateAba, abaslist,currentAbaInfo } = useAbas()
+  const abaInfo: abaInterface = getAbaFromList(currentAbaInfo!, abaslist)!
   const stateFilter = filterBySearch(abaInfo.OnuList, abaInfo.filter.state, ['phaseState']) //variavel com as onusFiltradas por state
   const parentRef = useRef<HTMLDivElement>(null);
   const [filteredOnulistSearch, setFilteredOnulistSearch] = useState<OnuInfo[]>([])//state para guardar as onus filtradas

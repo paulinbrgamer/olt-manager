@@ -19,22 +19,21 @@ import { Label } from './ui/label'
 import { useDebounce } from '../utils/useDebounce';
 import handleKeyDown from '@/utils/onKeyDown'
 import { motion } from "framer-motion"
-interface Props {
-    abaInfoId?: string
-}
-const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
-    const { updateAba, abaslist } = useAbas() //context api
+
+const PonScreen: React.FC = () => {
+    const { updateAba, abaslist, currentAbaInfo } = useAbas() //context api
+
+    let abaInfo: abaInterface = getAbaFromList(currentAbaInfo!, abaslist)!// inicialização da informação da abaLocal
     //retorna texto caso não encontre informações de Aba com o id fornecido
-    if (!getAbaFromList(abaInfoId!, abaslist)) {
+    if (!abaInfo) {
         return <p>Id invalido de aba</p>
     }
-    const abaInfo: abaInterface = getAbaFromList(abaInfoId!, abaslist)!// inicialização da informação da abaLocal
     const [modalSerial, setmodalSerial] = useState<boolean>(false) //state para modal
     const [requestSerialInput, setrequestSerialInput] = useState<string>('') //state para pegar o input do serial do modal
     const [searchFilter, setsearchFilter] = useState<string>(abaInfo.filter.search)// state para receber o filtro
     const debounceSearch = useDebounce(searchFilter, 200) //debouncer que recebe o state searchFilter
     //@ts-ignore
-    const [requestPonInput, setrequestPonInput] = useState<{ slot: number | undefined, pon: number | undefined }>(guardRequestPon(abaInfo.request) ? { pon: abaInfo.request?.pon, slot: abaInfo.request.slot } : { pon: undefined, slot: undefined }) //state para pegar slot e pon
+    const [requestPonInput, setrequestPonInput] = useState<{ slot: number | undefined, pon: number | undefined }>({ pon: abaInfo.request.pon, slot: abaInfo.request.slot }) //state para pegar slot e pon
     const [modalPon, setmodalPon] = useState<boolean>(false)//state para controlar o modal da pon 
 
     const { data, loading, fetchData, error } = useLazyFetch() // fetch hook
@@ -79,6 +78,25 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
             toast('Slot ou Pon invalido!!')
         }
     }
+    useEffect(() => {
+        if (guardRequestPon(abaInfo.request)) {
+            //@ts-ignore
+            setrequestPonInput({ pon: abaInfo.request?.pon, slot: abaInfo.request.slot })
+
+        }
+        else {
+            setrequestPonInput({ pon: undefined, slot: undefined })
+        }
+
+    }, [abaInfo.request])
+    useEffect(() => {
+        setsearchFilter(abaInfo.filter.search)
+
+    }, [abaInfo.filter.search])
+    useEffect(() => {
+        setrequestSerialInput('')
+
+    }, [abaInfo])
 
     //useEffect para atualizar a onuList conforme o imput do debounce mudar e também quando o filtro se alterar
     useEffect(() => {
@@ -234,7 +252,7 @@ const PonScreen: React.FC<Props> = ({ abaInfoId }) => {
             </Dialog>
 
 
-            <OnusTable abaInfoId={abaInfoId} />
+            <OnusTable />
         </motion.main>
     )
 }

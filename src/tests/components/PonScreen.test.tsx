@@ -1,4 +1,4 @@
-import {  render, screen, waitFor, } from "@testing-library/react"
+import { render, screen, waitFor, } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
 import useAbas from "@/context/useAbas"
 import type { abaInterface } from "@/interfaces/abas"
@@ -8,7 +8,7 @@ import PonScreen from "@/components/PonScreen"
 import { prettyDOM } from '@testing-library/react'
 import type { OnuInfo } from "@/interfaces/onu-interface"
 
-  
+
 const Mockonu = [{
     slot: "1",
     pon: "3",
@@ -51,84 +51,84 @@ const Mockonu = [{
 }]
 const MockonuFilter = [
     {
-    slot: "1",
-    pon: "3",
-    id: "1",
-    name: "18:monique.pimentel",
-    type: "RE880",
-    configuredSpeedMode: "auto",
-    currentSpeedMode: "GPON",
-    adminState: "enable",
-    phaseState: "working",
-    serialNumber: "ZTEGD5F24A76",
-    onuStatus: "enable",
-    omciBwProfile: "704kbps",
-    onuDistance: "2358",
-    onlineDuration: "14h 49m 04",
-    fec: "disable",
-    fecActualMode: "disable",
-    lastDown: "2025-05-17 15:08:06    2025-05-18 20:38:02 →  (DyingGasp)",
-    signal: -22.292,
-},
-{
-    slot: "1",
-    pon: "3",
-    id: "5",
-    name: "18:jose.neto",
-    type: "RE880",
-    configuredSpeedMode: "auto",
-    currentSpeedMode: "GPON",
-    adminState: "enable",
-    phaseState: "LOS",
-    serialNumber: "HWTC081367A8",
-    onuStatus: "enable",
-    omciBwProfile: "704kbps",
-    onuDistance: "2320",
-    onlineDuration: "123h 21m 31",
-    fec: "disable",
-    fecActualMode: "disable",
-    lastDown: "2025-05-10 12:11:14    2025-05-14 08:06:23 →  (DyingGasp)",
-    signal: -23.874,
-},{
-    slot: "1",
-    pon: "3",
-    id: "5",
-    name: "22:test.gasp",
-    type: "RE880",
-    configuredSpeedMode: "auto",
-    currentSpeedMode: "GPON",
-    adminState: "enable",
-    phaseState: "DyingGasp",
-    serialNumber: "ZTEGD5F24A76",
-    onuStatus: "enable",
-    omciBwProfile: "704kbps",
-    onuDistance: "2358",
-    onlineDuration: "14h 49m 04",
-    fec: "disable",
-    fecActualMode: "disable",
-    lastDown: "2025-05-17 15:08:06    2025-05-18 20:38:02 →  (DyingGasp)",
-    signal: -22.292,
-},
-{
-    slot: "1",
-    pon: "3",
-    id: "6",
-    name: "22:test.offline",
-    type: "RE880",
-    configuredSpeedMode: "auto",
-    currentSpeedMode: "GPON",
-    adminState: "enable",
-    phaseState: "OffLine",
-    serialNumber: "ZTEGD5F24A76",
-    onuStatus: "enable",
-    omciBwProfile: "704kbps",
-    onuDistance: "2358",
-    onlineDuration: "14h 49m 04",
-    fec: "disable",
-    fecActualMode: "disable",
-    lastDown: "2025-05-17 15:08:06    2025-05-18 20:38:02 →  (DyingGasp)",
-    signal: -22.292,
-}]
+        slot: "1",
+        pon: "3",
+        id: "1",
+        name: "18:monique.pimentel",
+        type: "RE880",
+        configuredSpeedMode: "auto",
+        currentSpeedMode: "GPON",
+        adminState: "enable",
+        phaseState: "working",
+        serialNumber: "ZTEGD5F24A76",
+        onuStatus: "enable",
+        omciBwProfile: "704kbps",
+        onuDistance: "2358",
+        onlineDuration: "14h 49m 04",
+        fec: "disable",
+        fecActualMode: "disable",
+        lastDown: "2025-05-17 15:08:06    2025-05-18 20:38:02 →  (DyingGasp)",
+        signal: -22.292,
+    },
+    {
+        slot: "1",
+        pon: "3",
+        id: "5",
+        name: "18:jose.neto",
+        type: "RE880",
+        configuredSpeedMode: "auto",
+        currentSpeedMode: "GPON",
+        adminState: "enable",
+        phaseState: "LOS",
+        serialNumber: "HWTC081367A8",
+        onuStatus: "enable",
+        omciBwProfile: "704kbps",
+        onuDistance: "2320",
+        onlineDuration: "123h 21m 31",
+        fec: "disable",
+        fecActualMode: "disable",
+        lastDown: "2025-05-10 12:11:14    2025-05-14 08:06:23 →  (DyingGasp)",
+        signal: -23.874,
+    }, {
+        slot: "1",
+        pon: "3",
+        id: "5",
+        name: "22:test.gasp",
+        type: "RE880",
+        configuredSpeedMode: "auto",
+        currentSpeedMode: "GPON",
+        adminState: "enable",
+        phaseState: "DyingGasp",
+        serialNumber: "ZTEGD5F24A76",
+        onuStatus: "enable",
+        omciBwProfile: "704kbps",
+        onuDistance: "2358",
+        onlineDuration: "14h 49m 04",
+        fec: "disable",
+        fecActualMode: "disable",
+        lastDown: "2025-05-17 15:08:06    2025-05-18 20:38:02 →  (DyingGasp)",
+        signal: -22.292,
+    },
+    {
+        slot: "1",
+        pon: "3",
+        id: "6",
+        name: "22:test.offline",
+        type: "RE880",
+        configuredSpeedMode: "auto",
+        currentSpeedMode: "GPON",
+        adminState: "enable",
+        phaseState: "OffLine",
+        serialNumber: "ZTEGD5F24A76",
+        onuStatus: "enable",
+        omciBwProfile: "704kbps",
+        onuDistance: "2358",
+        onlineDuration: "14h 49m 04",
+        fec: "disable",
+        fecActualMode: "disable",
+        lastDown: "2025-05-17 15:08:06    2025-05-18 20:38:02 →  (DyingGasp)",
+        signal: -22.292,
+    }]
 beforeEach(() => {
     Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
         configurable: true,
@@ -145,30 +145,30 @@ beforeEach(() => {
 });
 
 const MockRender = ({ falseId, mock }: { falseId: boolean, mock: OnuInfo[] }) => {
-    const { createAba, abaslist, updateAba } = useAbas()
+    const { createAba, abaslist, updateAba, setcurrentAbaInfo,currentAbaInfo } = useAbas()
     const [infoId, setinfoId] = useState<string | null>(null)
     useLayoutEffect(() => {
         setinfoId(createAba({ id: 1, location: "Castanhal", model: "ZTE" }))
     }, [])
     useEffect(() => {
-
+        if (falseId) {
+            setcurrentAbaInfo("Invalid")
+        }
         const upatingaba: abaInterface = { ...getAbaFromList(infoId!, abaslist)!, OnuList: mock }
         updateAba(upatingaba)
     }, [infoId])
     useEffect(() => {
-        console.log(abaslist[0]);
+        console.log(currentAbaInfo);
 
-    }, [abaslist[0]])
-
-    if (infoId && !falseId) {
-        return <PonScreen abaInfoId={infoId} />
-    } else if (falseId) {
-        return <PonScreen abaInfoId={'invalido'} />
+    }, [currentAbaInfo])
+    if(!currentAbaInfo){
+        return <>No abas</>
     }
+    return <PonScreen />
 }
 const renderDash = (falseId: boolean, mock: OnuInfo[]) => {
     render(
-            <MockRender mock={mock} falseId={falseId} />
+        <MockRender mock={mock} falseId={falseId} />
     )
 }
 describe("PonScreen renderização basica", () => {
@@ -193,7 +193,7 @@ describe("PonScreen renderização basica", () => {
 
 describe("PonScreen Filtrar por nome e serial", () => {
     it('Deve renderizar todas os onus registradas na Aba', () => {
-        renderDash(false,Mockonu)
+        renderDash(false, Mockonu)
         expect(screen.queryByLabelText('Incidents-btn')).toBeInTheDocument()
         expect(screen.queryByLabelText('load-Pon')).toBeInTheDocument()
         expect(screen.queryByLabelText('search-Onu')).toBeInTheDocument()
@@ -331,77 +331,77 @@ describe("PonScreen Filtrar por state,", () => {
     });
 })
 describe("PonScreen Filtrar por state e nome/serial", () => {
-  it('Deve filtrar pelo state "LOS" e nome "jose"', async () => {
-    renderDash(false, MockonuFilter);
-    
-    const searchInput = screen.getByLabelText('search-Onu');
-    const stateFilterBtn = screen.getByLabelText('filter-btn');
+    it('Deve filtrar pelo state "LOS" e nome "jose"', async () => {
+        renderDash(false, MockonuFilter);
 
-    // Ativa filtro de estado
-    await userEvent.click(stateFilterBtn);
-    const stateLOS = screen.getByLabelText("filter-LOS");
-    await userEvent.click(stateLOS);
+        const searchInput = screen.getByLabelText('search-Onu');
+        const stateFilterBtn = screen.getByLabelText('filter-btn');
 
-    // Digita o nome a ser pesquisado
-    await userEvent.type(searchInput, "jose");
+        // Ativa filtro de estado
+        await userEvent.click(stateFilterBtn);
+        const stateLOS = screen.getByLabelText("filter-LOS");
+        await userEvent.click(stateLOS);
 
-    await waitFor(() => {
-      const rows = screen.queryAllByLabelText('row');
-      expect(rows.length).toBe(1);
-      expect(rows[0]).toHaveTextContent("jose.neto");
-    }, { timeout: 1000 });
-  });
+        // Digita o nome a ser pesquisado
+        await userEvent.type(searchInput, "jose");
 
-  it('Deve filtrar pelo state "DyingGasp" e serial "ZTE"', async () => {
-    renderDash(false, MockonuFilter);
+        await waitFor(() => {
+            const rows = screen.queryAllByLabelText('row');
+            expect(rows.length).toBe(1);
+            expect(rows[0]).toHaveTextContent("jose.neto");
+        }, { timeout: 1000 });
+    });
 
-    const searchInput = screen.getByLabelText('search-Onu');
-    const stateFilterBtn = screen.getByLabelText('filter-btn');
+    it('Deve filtrar pelo state "DyingGasp" e serial "ZTE"', async () => {
+        renderDash(false, MockonuFilter);
 
-    await userEvent.click(stateFilterBtn);
-    const stateDyingGasp = screen.getByLabelText("filter-DyingGasp");
-    await userEvent.click(stateDyingGasp);
+        const searchInput = screen.getByLabelText('search-Onu');
+        const stateFilterBtn = screen.getByLabelText('filter-btn');
 
-    await userEvent.type(searchInput, "ZTE");
+        await userEvent.click(stateFilterBtn);
+        const stateDyingGasp = screen.getByLabelText("filter-DyingGasp");
+        await userEvent.click(stateDyingGasp);
 
-    await waitFor(() => {
-      const rows = screen.queryAllByLabelText('row');
-      expect(rows.length).toBe(1);
-      expect(rows[0]).toHaveTextContent("ZTEGD5F24A76");
-      expect(rows[0]).toHaveTextContent("DyingGasp");
-    }, { timeout: 1000 });
-  });
+        await userEvent.type(searchInput, "ZTE");
 
-  it('Deve retornar 0 quando não houver combinação entre state e nome', async () => {
-    renderDash(false, MockonuFilter);
+        await waitFor(() => {
+            const rows = screen.queryAllByLabelText('row');
+            expect(rows.length).toBe(1);
+            expect(rows[0]).toHaveTextContent("ZTEGD5F24A76");
+            expect(rows[0]).toHaveTextContent("DyingGasp");
+        }, { timeout: 1000 });
+    });
 
-    const searchInput = screen.getByLabelText('search-Onu');
-    const stateFilterBtn = screen.getByLabelText('filter-btn');
+    it('Deve retornar 0 quando não houver combinação entre state e nome', async () => {
+        renderDash(false, MockonuFilter);
 
-    await userEvent.click(stateFilterBtn);
-    const stateLOS = screen.getByLabelText("filter-LOS");
-    await userEvent.click(stateLOS);
+        const searchInput = screen.getByLabelText('search-Onu');
+        const stateFilterBtn = screen.getByLabelText('filter-btn');
 
-    await userEvent.type(searchInput, "monique"); // monique está no state "working", não "LOS"
+        await userEvent.click(stateFilterBtn);
+        const stateLOS = screen.getByLabelText("filter-LOS");
+        await userEvent.click(stateLOS);
 
-    await waitFor(() => {
-      const rows = screen.queryAllByLabelText('row');
-      expect(rows.length).toBe(0);
-    }, { timeout: 1000 });
-  });
+        await userEvent.type(searchInput, "monique"); // monique está no state "working", não "LOS"
+
+        await waitFor(() => {
+            const rows = screen.queryAllByLabelText('row');
+            expect(rows.length).toBe(0);
+        }, { timeout: 1000 });
+    });
 });
 
 describe("PonScreen Detalhes de ONU", () => {
     it('Deve exibir detalhes da ONU', async () => {
-      renderDash(false, MockonuFilter);
-      
-      const dropdownOptions = screen.getByLabelText('dropdown-onu-1')
-      await userEvent.click(dropdownOptions)
-      const detailBtn = screen.getByText("Detalhes")
-      await userEvent.click(detailBtn)
-      expect(screen.getByLabelText("table-details")).toBeInTheDocument()
-      
+        renderDash(false, MockonuFilter);
+
+        const dropdownOptions = screen.getByLabelText('dropdown-onu-1')
+        await userEvent.click(dropdownOptions)
+        const detailBtn = screen.getByText("Detalhes")
+        await userEvent.click(detailBtn)
+        expect(screen.getByLabelText("table-details")).toBeInTheDocument()
+
     });
-  
-  
-  });
+
+
+});
