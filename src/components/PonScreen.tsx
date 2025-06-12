@@ -1,16 +1,13 @@
-import { TriangleAlert, X } from 'lucide-react'
+import { X } from 'lucide-react'
 import { Button } from './ui/button'
 import OnusTable from './OnusTable'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger, } from '@radix-ui/react-dropdown-menu'
 import { Dialog, DialogContent, DialogDescription, DialogTitle, Overlay } from '@radix-ui/react-dialog'
 import { Input } from './ui/input'
-import React, { useEffect, useState, type ChangeEvent, } from 'react'
+import React, { useEffect, useState, } from 'react'
 import { useLazyFetch } from '../utils/useLazyFetch'
 import useAbas from '@/context/useAbas'
 import { toast } from 'sonner'
 import type { OnuInfo } from '@/interfaces/onu-interface'
-import SearchInput from './SearchInput'
-import IconButton from './IconButton'
 import type { abaInterface } from '@/interfaces/abas'
 import guardRequestPon, { type ponRequest } from '@/interfaces/request'
 import LoaderButton from './LoaderButton'
@@ -19,22 +16,22 @@ import { Label } from './ui/label'
 import { useDebounce } from '../utils/useDebounce';
 import handleKeyDown from '@/utils/onKeyDown'
 import { motion } from "framer-motion"
+import Options from './PonScreen/Options'
 
 const PonScreen: React.FC = () => {
     const { updateAba, abaslist, currentAbaInfo } = useAbas() //context api
-
     let abaInfo: abaInterface = getAbaFromList(currentAbaInfo!, abaslist)!// inicialização da informação da abaLocal
     //retorna texto caso não encontre informações de Aba com o id fornecido
     if (!abaInfo) {
         return <p>Id invalido de aba</p>
     }
     const [modalSerial, setmodalSerial] = useState<boolean>(false) //state para modal
+    const [modalPon, setmodalPon] = useState<boolean>(false)//state para controlar o modal da pon 
     const [requestSerialInput, setrequestSerialInput] = useState<string>('') //state para pegar o input do serial do modal
     const [searchFilter, setsearchFilter] = useState<string>(abaInfo.filter.search)// state para receber o filtro
     const debounceSearch = useDebounce(searchFilter, 200) //debouncer que recebe o state searchFilter
     //@ts-ignore
     const [requestPonInput, setrequestPonInput] = useState<{ slot: number | undefined, pon: number | undefined }>({ pon: abaInfo.request.pon, slot: abaInfo.request.slot }) //state para pegar slot e pon
-    const [modalPon, setmodalPon] = useState<boolean>(false)//state para controlar o modal da pon 
 
     const { data, loading, fetchData, error } = useLazyFetch() // fetch hook
 
@@ -78,7 +75,7 @@ const PonScreen: React.FC = () => {
             toast('Slot ou Pon invalido!!')
         }
     }
-    
+
 
     //useEffect para atualizar a onuList conforme o imput do debounce mudar e também quando o filtro se alterar
     useEffect(() => {
@@ -132,36 +129,15 @@ const PonScreen: React.FC = () => {
     return (
         <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' Dashboard'} className="col-end-3 flex-1 my-14 px-14 flex flex-col gap-8 max-w-full h-[700px] ">
             {/*Div com elementos de interação com a Tabela de Onus */}
-            <div className='flex gap-3 justify-center w-fit justify-items-end self-start ml-auto'>
-                <IconButton ariaLabel='Incidents-btn' className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
-
-
-                {/*@ts-ignore*/}
-                {guardRequestPon(abaInfo.request) &&
-                    <LoaderButton isLoading={loading} text='Atualizar' onClick={handleClickPonRequest} />}
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant={'outline'} aria-label="load-Pon" className="w-fit text-primary" >
-                            <p>Carregar Pon</p>
-                        </Button>
-                    </DropdownMenuTrigger>
-
-                    <DropdownMenuContent
-                        className="w-50 mt-3 p-1 border rounded-md bg-sidebar-accent text-popover-foreground z-10 shadow-md data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2"
-                    >
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem className='dropdown-item' onSelect={() => setmodalPon(true)}>
-                                Buscar por Pon
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className='dropdown-item' onSelect={() => setmodalSerial(true)}>
-                                Buscar por Serial
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-
-                <SearchInput ariaLabel='search-Onu' value={searchFilter} onChange={(e: ChangeEvent<HTMLInputElement>) => setsearchFilter(e.target.value)} placeholder='Procurar Onu...' />
-            </div>
+            <Options
+                update={guardRequestPon(abaInfo.request)}
+                loading={loading}
+                handleClickPonRequest={handleClickPonRequest}
+                setmodalPon={setmodalPon}
+                setmodalSerial={setmodalSerial}
+                searchFilter={searchFilter}
+                setsearchFilter={setsearchFilter}
+            />
             <Dialog open={modalSerial} onOpenChange={setmodalSerial}>
                 <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
                 <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[10%] mr-[15%] max-w-[340px]  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
