@@ -38,13 +38,12 @@ const Tab: React.FC<Props> = React.memo(({ abaInfo }) => {
   return (
     <Reorder.Item value={abaInfo} key={abaInfo.id + 'item'}
       initial={{ width: 0 }} animate={{ width: 250 }} exit={{ width: 0, opacity: 0 }} transition={{ duration: 0.18, ease: "easeOut" }} aria-label={abaInfo.request?.olt.model + " " + abaInfo.request?.olt.location + ' header'}
-
       onClick={() => setcurrentAbaInfo(abaInfo.id)}
       className={`flex items-center gap-2 px-2 cursor-pointer 
-              hover:opacity-70  min-w-0 max-w-[240px] shrink
+                min-w-0 max-w-[240px] shrink 
               ${currentAbaInfo === abaInfo.id
-          ? "bg-background border-b-2 border-sky-600"
-          : " border-border"}`}
+          ? "bg-background border-b-2 border-primary hover:opacity-80"
+          : " border-border bg-background/30 opacity-40 hover:opacity-70"}`}
     >
       {/* Container de informações com truncamento */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
