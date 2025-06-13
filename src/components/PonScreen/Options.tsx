@@ -5,7 +5,6 @@ import LoaderButton from '../LoaderButton'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Button } from '../ui/button'
 import SearchInput from '../SearchInput'
-import guardRequestPon from '@/interfaces/request'
 interface OptionsInterface {
     update : boolean,
     loading : boolean,
@@ -19,21 +18,21 @@ interface OptionsInterface {
 const Options : React.FC<OptionsInterface> = ({loading,handleClickPonRequest,setmodalPon,setmodalSerial,searchFilter,setsearchFilter,update}) => {
   return (
     <div className='flex gap-3 justify-center w-fit justify-items-end self-start ml-auto'>
-                <IconButton ariaLabel='Incidents-btn' className='w-fit self-end' variant={'link'} Icon={<TriangleAlert />} text='Incidentes' />
+                <IconButton ariaLabel='Incidents-btn' className='w-fit self-end' variant={'destructive'} Icon={<TriangleAlert />} text='Incidentes' />
 
 
                 {/*@ts-ignore*/}
                 {update &&
-                    <LoaderButton isLoading={loading} text='Atualizar' onClick={handleClickPonRequest} />}
+                    <LoaderButton  variant='outline' isLoading={loading} text='Atualizar' onClick={handleClickPonRequest} />}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant={'outline'} aria-label="load-Pon" className="w-fit text-primary" >
+                        <Button variant={'outline'} aria-label="load-Pon" className="w-fit " >
                             <p>Carregar Pon</p>
                         </Button>
                     </DropdownMenuTrigger>
 
                     <DropdownMenuContent
-                        className="w-50 mt-3 p-1 border rounded-md bg-sidebar-accent text-popover-foreground z-10 shadow-md data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2"
+                        className="w-50 mt-3 p-1 border rounded-md bg-secondary text-popover-foreground z-10 shadow-md data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2"
                     >
                         <DropdownMenuGroup>
                             <DropdownMenuItem className='dropdown-item' onSelect={() => setmodalPon(true)}>

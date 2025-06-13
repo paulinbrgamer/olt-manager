@@ -1,4 +1,4 @@
-import { EllipsisVertical, Filter, Signal, X } from "lucide-react";
+import { EllipsisVertical, Filter, Signal, Wifi, X } from "lucide-react";
 import { Button } from "./ui/button";
 import type { OnuInfo, OnuInfoHw } from "@/interfaces/onu-interface";
 import React, { useEffect, useRef, useState } from "react";
@@ -9,13 +9,14 @@ import { getAbaFromList } from "@/utils/getAbaFromList";
 import type { abaInterface } from "@/interfaces/abas";
 import type { stateOnu } from "@/interfaces/filter";
 import { filterBySearch } from "@/utils/filterBySearch";
-import { Dialog, DialogContent, DialogDescription, DialogTitle, Overlay } from "@radix-ui/react-dialog";
-import OnuDetailsTable from "./OnuDetailsTable";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, Overlay } from "@radix-ui/react-dialog";
+import OnuDetailsTable from "./OnuDetailsDialog";
 import LoaderButton from "./LoaderButton";
 import { Badge } from "./ui/badge";
-import { DialogFooter } from "./ui/dialog";
+import { DialogFooter, DialogHeader } from "./ui/dialog";
 import { useLazyFetch } from "../utils/useLazyFetch";
 import { toast } from "sonner";
+import OnuDetailsDialog from "./OnuDetailsDialog";
 interface Props {
   currentAbaInfo: string | undefined,
 }
@@ -45,7 +46,7 @@ const StateComponent = ({ state }: { state: string }) => {
 const OnusTable: React.FC = React.memo(() => {
   const [modalDetails, setmodalDetails] = useState(false)
   const [onuDetailTarget, setOnuDetailTarget] = useState<OnuInfo | OnuInfoHw | null>(null)
-  const { updateAba, abaslist,currentAbaInfo } = useAbas()
+  const { updateAba, abaslist, currentAbaInfo } = useAbas()
   const abaInfo: abaInterface = getAbaFromList(currentAbaInfo!, abaslist)!
   const stateFilter = filterBySearch(abaInfo.OnuList, abaInfo.filter.state, ['phaseState']) //variavel com as onusFiltradas por state
   const parentRef = useRef<HTMLDivElement>(null);
@@ -126,21 +127,13 @@ const OnusTable: React.FC = React.memo(() => {
           <DialogFooter className="text-xs mt-4">Somente para ONTs*</DialogFooter>
         </DialogContent>
       </Dialog>
-      <Dialog open={modalDetails} onOpenChange={setmodalDetails}>
-        <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
-        <DialogContent className="z-50 absolute bg-sidebar border self-center  tall  mr-[15%] w-fit  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
-                          data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
+      {onuDetailTarget && modalDetails && (
+        <OnuDetailsDialog data={onuDetailTarget} open={modalDetails} onOpenChange={setmodalDetails} />
 
-          <div className='flex flex-row justify-between items-start mb-4 gap-4'>
-            <DialogTitle className="text-xl font-bold text-primary">Detalhes da Onu</DialogTitle>
-            <Button className='self-start w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalDetails(false)}><X size={10} /></Button>
-          </div>
-          <OnuDetailsTable data={onuDetailTarget!} />
-        </DialogContent>
-      </Dialog>
+      )}
       <div className="h-full flex flex-col border rounded-md overflow-hidden" aria-label={'table-Onus'}>
         {/* Cabeçalho */}
-        <div className="grid grid-cols-[0.1fr_2fr_1.5fr_1fr_80px_3fr] text-sm font-medium bg-tablerow text-textrow px-4 py-3 border-b transition-all  duration-35 hover:bg-accent/60  ease-in">
+        <div className="bg-secondary grid grid-cols-[0.1fr_2fr_1.5fr_1fr_80px_3fr] text-sm font-medium text-textrow px-4 py-3 border-b transition-all  duration-35 hover:bg-secondary/60  ease-in">
           <div className="w-[100px]">ID</div>
           <div>Nome</div>
           <div className="text-start">Serial</div>
@@ -252,7 +245,7 @@ const OnusTable: React.FC = React.memo(() => {
                       </DropdownMenuTrigger>
                       <Portal>
 
-                        <DropdownMenuContent className='w-fit p-1 border rounded-sm bg-sidebar-accent text-popover-foreground z-[100] data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
+                        <DropdownMenuContent className='w-fit p-1 border rounded-sm bg-card text-card-foreground z-[100] data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-top-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-top-2 '>
                           <DropdownMenuGroup>
                             <DropdownMenuItem className="dropdown-item" onSelect={() => { setOnuDetailTarget(onu); setmodalDetails(true) }}>
                               Detalhes

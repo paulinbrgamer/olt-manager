@@ -140,16 +140,16 @@ const PonScreen: React.FC = () => {
             />
             <Dialog open={modalSerial} onOpenChange={setmodalSerial}>
                 <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
-                <DialogContent className="z-50 absolute bg-sidebar border self-center mt-[10%] mr-[15%] max-w-[340px]  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
+                <DialogContent className="z-50 absolute bg-card border self-center mt-[10%] mr-[15%] max-w-[340px]  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
                           data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
                     <div className='flex flex-row justify-between items-start  gap-4'>
-                        <DialogTitle className="text-xl font-bold text-primary ">Buscar Pon </DialogTitle>
-                        <Button className='self-start w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalSerial(false)}><X size={10} /></Button>
+                        <DialogTitle className="text-xl font-bold text-card-foreground ">Buscar Pon </DialogTitle>
+                       <X className='self-start w-8 cursor-pointer ' onClick={() => setmodalSerial(false)} size={18} />
                     </div>
-                    <DialogDescription className='mb-2'>
+                    <DialogDescription className='mb-2 text-muted-foreground'>
                         Encontrar por Serial de uma Onu
                     </DialogDescription>
-                    <DialogDescription className='text-primary'>
+                    <DialogDescription className='text-card-primary'>
                         Serial:
                     </DialogDescription>
                     <Input
@@ -160,21 +160,21 @@ const PonScreen: React.FC = () => {
                         className="mt-2 w-full "
                         placeholder="Ex: ZTEG12345678"
                     />
-                    <LoaderButton className='mt-6 text-primary font-medium' isLoading={loading} onClick={handleClickSerialOnu} variant='outline' text='Buscar' />
+                    <LoaderButton className='mt-6  font-medium' isLoading={loading} onClick={handleClickSerialOnu} text='Buscar' />
                 </DialogContent>
             </Dialog>
             <Dialog open={modalPon} onOpenChange={setmodalPon}>
                 <Overlay className="fixed inset-0 bg-black/50 backdrop-blur-xx z-50" />
-                <DialogContent className="z-50  absolute bg-sidebar border self-center mt-[10%] mr-[15%] max-w[340px]  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
+                <DialogContent className="z-50  absolute bg-card border self-center mt-[10%] mr-[15%] max-w[340px]  px-5 pb-5 pt-5 rounded-md flex flex-col data-[state=open]:animate-in data-[state=open]:fade-in-40 data-[state=open]:slide-in-from-bottom-2
                           data-[state=closed]:animate-out data-[state=closed]:fade-out-40 data-[state=closed]:slide-out-to-bottom-2">
                     <div className='flex flex-row justify-between items-start mb-2 gap-4'>
-                        <DialogTitle className="text-xl font-bold text-start text-primary">Carregar informações de Pon</DialogTitle>
-                        <Button className='self-start w-8 ' size={'icon'} variant={'ghost'} onClick={() => setmodalPon(false)}><X size={10} /></Button>
+                        <DialogTitle className="text-xl font-bold text-start text-card-foreground">Carregar informações de Pon</DialogTitle>
+                        <X className='self-start w-8 cursor-pointer ' onClick={() => setmodalPon(false)} size={18} />
                     </div>
                     <DialogDescription className="text-sm text-muted-foreground  text-start ">
                         Carregue as informações digitando o Slot e Pon.
                     </DialogDescription>
-                    <Label className='mt-4 text-primary' htmlFor={'slot'}>Slot</Label>
+                    <Label className='mt-4 text-card-primary' htmlFor={'slot'}>Slot</Label>
                     <Input
                         id="slot"
                         type="number"
@@ -189,7 +189,7 @@ const PonScreen: React.FC = () => {
                         }
                     />
 
-                    <Label htmlFor="pon" className="mt-4 text-primary">Pon</Label>
+                    <Label htmlFor="pon" className="mt-4 card-primary">Pon</Label>
                     <Input
                         onKeyDown={(e) => handleKeyDown(e, handleClickPonRequest)}
                         id="pon"
@@ -205,7 +205,7 @@ const PonScreen: React.FC = () => {
                         }
                     />
 
-                    <LoaderButton className='mt-4 text-primary' isLoading={loading} onClick={handleClickPonRequest} variant='outline' text='Buscar' />
+                    <LoaderButton className='mt-4' isLoading={loading} onClick={handleClickPonRequest}text='Buscar' />
                 </DialogContent>
             </Dialog>
 
