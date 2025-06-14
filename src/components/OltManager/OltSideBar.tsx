@@ -8,17 +8,16 @@ import {
 } from "@/components/ui/accordion"
 import { filterBySearch } from '@/utils/filterBySearch'
 import olts from '@/constants/olts'
-import { useEffect, useState } from 'react'
+import {  useState } from 'react'
 import useAbas from '@/context/useAbas'
 import type oltInterface from '@/interfaces/olt-interface'
 import OltList from './OltList'
 import { GlobeLock, ServerCog } from 'lucide-react'
 import { Button } from '../ui/button'
-import { getAbaFromList } from '@/utils/getAbaFromList'
 const OltSideBar = () => {
     const [search, setSearch] = useState<string>('') //state que guarda a pesquisa de OLT
-    const [abaDemoId , setabaDemoId] = useState<string | null>(null)
-    const { createAba,abaslist } = useAbas()
+    const [, setabaDemoId] = useState<string | null>(null)
+    const { createAba } = useAbas()
     const filteredOlts = filterBySearch(olts, search, ['model', 'location']) /*variavel que guarda o filtro do teclado */
     const handleText = (event: any) => {
         setSearch(event.target.value)

@@ -1,4 +1,4 @@
-import { EllipsisVertical, Filter, Signal, Wifi, X } from "lucide-react";
+import { EllipsisVertical, Filter, Signal, X } from "lucide-react";
 import { Button } from "../ui/button";
 import type { OnuInfo, OnuInfoHw } from "@/interfaces/onu-interface";
 import React, { useEffect, useRef, useState } from "react";
@@ -9,17 +9,14 @@ import { getAbaFromList } from "@/utils/getAbaFromList";
 import type { abaInterface } from "@/interfaces/abas";
 import type { stateOnu } from "@/interfaces/filter";
 import { filterBySearch } from "@/utils/filterBySearch";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, Overlay } from "@radix-ui/react-dialog";
-import OnuDetailsTable from "./OnuDetailsDialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, Overlay } from "@radix-ui/react-dialog";
 import LoaderButton from "../LoaderButton";
 import { Badge } from "../ui/badge";
-import { DialogFooter, DialogHeader } from "../ui/dialog";
+import { DialogFooter, } from "../ui/dialog";
 import { useLazyFetch } from "../../utils/useLazyFetch";
 import { toast } from "sonner";
 import OnuDetailsDialog from "./OnuDetailsDialog";
-interface Props {
-  currentAbaInfo: string | undefined,
-}
+
 const signalColor = (signal: number) => {
   if (signal >= -24) return "text-green-500";
   if (signal >= -28) return "text-orange-500";

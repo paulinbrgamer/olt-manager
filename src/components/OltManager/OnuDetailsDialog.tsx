@@ -1,18 +1,14 @@
-"use client"
-
-import { useState } from "react"
 import type { OnuInfo, OnuInfoHw } from "@/interfaces/onu-interface"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogClose,
 } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { X, Wifi, Signal, Clock, AlertTriangle } from "lucide-react"
+import {  Wifi, Signal, Clock, AlertTriangle } from "lucide-react"
 
 interface Props {
   data: OnuInfo | OnuInfoHw | null | undefined
