@@ -1,22 +1,21 @@
 import { X } from 'lucide-react'
-import { Button } from './ui/button'
 import OnusTable from './OnusTable'
 import { Dialog, DialogContent, DialogDescription, DialogTitle, Overlay } from '@radix-ui/react-dialog'
-import { Input } from './ui/input'
+import { Input } from '../ui/input'
 import React, { useEffect, useState, } from 'react'
-import { useLazyFetch } from '../utils/useLazyFetch'
+import { useLazyFetch } from '../../utils/useLazyFetch'
 import useAbas from '@/context/useAbas'
 import { toast } from 'sonner'
 import type { OnuInfo } from '@/interfaces/onu-interface'
 import type { abaInterface } from '@/interfaces/abas'
 import guardRequestPon, { type ponRequest } from '@/interfaces/request'
-import LoaderButton from './LoaderButton'
+import LoaderButton from '../LoaderButton'
 import { getAbaFromList } from '@/utils/getAbaFromList'
-import { Label } from './ui/label'
-import { useDebounce } from '../utils/useDebounce';
+import { Label } from '../ui/label'
+import { useDebounce } from '../../utils/useDebounce';
 import handleKeyDown from '@/utils/onKeyDown'
 import { motion } from "framer-motion"
-import Options from './PonScreen/Options'
+import Options from './Options'
 
 const PonScreen: React.FC = () => {
     const { updateAba, abaslist, currentAbaInfo } = useAbas() //context api

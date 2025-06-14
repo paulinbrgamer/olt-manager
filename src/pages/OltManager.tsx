@@ -1,6 +1,6 @@
 
 import useAbas from '../context/useAbas'
-import PonScreen from '../components/PonScreen'
+import PonScreen from '../components/OltManager/PonScreen'
 import OltSideBar from '@/components/OltManager/OltSideBar'
 import TabGroup from '@/components/OltManager/TabGroup'
 const OltManager = () => {

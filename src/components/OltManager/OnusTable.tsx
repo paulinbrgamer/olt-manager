@@ -1,5 +1,5 @@
 import { EllipsisVertical, Filter, Signal, Wifi, X } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import type { OnuInfo, OnuInfoHw } from "@/interfaces/onu-interface";
 import React, { useEffect, useRef, useState } from "react";
 import { useVirtualizer } from '@tanstack/react-virtual';
@@ -11,10 +11,10 @@ import type { stateOnu } from "@/interfaces/filter";
 import { filterBySearch } from "@/utils/filterBySearch";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, Overlay } from "@radix-ui/react-dialog";
 import OnuDetailsTable from "./OnuDetailsDialog";
-import LoaderButton from "./LoaderButton";
-import { Badge } from "./ui/badge";
-import { DialogFooter, DialogHeader } from "./ui/dialog";
-import { useLazyFetch } from "../utils/useLazyFetch";
+import LoaderButton from "../LoaderButton";
+import { Badge } from "../ui/badge";
+import { DialogFooter, DialogHeader } from "../ui/dialog";
+import { useLazyFetch } from "../../utils/useLazyFetch";
 import { toast } from "sonner";
 import OnuDetailsDialog from "./OnuDetailsDialog";
 interface Props {

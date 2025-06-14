@@ -4,7 +4,7 @@ import useAbas from "@/context/useAbas"
 import type { abaInterface } from "@/interfaces/abas"
 import { useEffect, useLayoutEffect, useState } from "react"
 import { getAbaFromList } from "@/utils/getAbaFromList"
-import PonScreen from "@/components/PonScreen"
+import PonScreen from "@/components/OltManager/PonScreen"
 import { prettyDOM } from '@testing-library/react'
 import type { OnuInfo } from "@/interfaces/onu-interface"
 

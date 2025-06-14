@@ -3,7 +3,7 @@ import { ThemeProvider } from "./context/theme-provider"
 import { useState } from "react"
 import OltManager from "./pages/OltManager"
 import Incidents from "./pages/Incidents"
-import AppLayout from './layout/AppLayout';
+import AppLayout from './pages/AppLayout';
 type tabSelect = "OLTs" | "Incidentes"
 
 function App() {

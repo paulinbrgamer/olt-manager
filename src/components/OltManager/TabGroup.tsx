@@ -1,6 +1,6 @@
 import useAbas from '@/context/useAbas'
 import { AnimatePresence, Reorder } from 'framer-motion'
-import Tab from '../Tab'
+import Tab from './Tab'
 
 const TabGroup = () => {
     const { abaslist,setAbasList} = useAbas()
