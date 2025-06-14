@@ -8,14 +8,17 @@ import {
 } from "@/components/ui/accordion"
 import { filterBySearch } from '@/utils/filterBySearch'
 import olts from '@/constants/olts'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useAbas from '@/context/useAbas'
 import type oltInterface from '@/interfaces/olt-interface'
 import OltList from './OltList'
-import { ServerCog } from 'lucide-react'
+import { GlobeLock, ServerCog } from 'lucide-react'
+import { Button } from '../ui/button'
+import { getAbaFromList } from '@/utils/getAbaFromList'
 const OltSideBar = () => {
     const [search, setSearch] = useState<string>('') //state que guarda a pesquisa de OLT
-    const { createAba } = useAbas()
+    const [abaDemoId , setabaDemoId] = useState<string | null>(null)
+    const { createAba,abaslist } = useAbas()
     const filteredOlts = filterBySearch(olts, search, ['model', 'location']) /*variavel que guarda o filtro do teclado */
     const handleText = (event: any) => {
         setSearch(event.target.value)
@@ -23,6 +26,13 @@ const OltSideBar = () => {
     const handleClickSelectOlt = (oltItem: oltInterface) => {
         createAba(oltItem)
     }
+    const handleCreateDemo = ()=>{
+        const oltDemo : oltInterface = { id: 1000, model: "ZTE", location: "Demo" }
+        const idDemo  = createAba(oltDemo)
+        setabaDemoId(idDemo)
+    }
+
+    
     return (
         <motion.aside initial={{ width: 0, x: 0 }} animate={{ width: 240 }} className='bg-background grid-cols-1 p-4 pt-3 overflow-hidden  border-border border-r-1  flex flex-col justify-start items-center gap-5 h-screen '> 
             <div className='border-b pb-2 w-full flex gap-1.5 justify-center'>
@@ -52,6 +62,7 @@ const OltSideBar = () => {
                         </AccordionItem>
 
                     </Accordion>
+                    <Button onClick={handleCreateDemo} className='flex justify-between items-center' variant={'outline'}><p>Demo</p><GlobeLock /></Button>
                 </div>
 
             )}

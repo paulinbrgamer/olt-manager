@@ -2,9 +2,9 @@ import { create } from 'zustand'
 import type { abaInterface } from '@/interfaces/abas'
 import type { filter } from '@/interfaces/filter'
 import type oltInterface from '@/interfaces/olt-interface'
-import type { Request } from '@/interfaces/request'
+import type { ponRequest, Request } from '@/interfaces/request'
 import generateId from '@/utils/generateId'
-
+import onuListTest from '../constants/onuListTest'
 export interface AbasContextInterface {
   abaslist: abaInterface[],
   currentAbaInfo: string | null,
@@ -50,10 +50,25 @@ const createInitialState = (set: any): Omit<AbasContextInterface, 'reset'> => ({
       filter: { search: "", state: "" } as filter,
       incident: [],
     }
-    set((state: AbasContextInterface) => ({
-      abaslist: [...state.abaslist, newAba],
-      currentAbaInfo: idG,
-    }))
+    const DemoAba : abaInterface = {
+      id: idG,
+      request: { olt: oltObj,slot:1,pon:3 } as ponRequest,
+      OnuList: onuListTest,
+      filter: { search: "", state: "" } as filter,
+      incident: [],
+    }
+    if(oltObj.location !="Demo"){
+      set((state: AbasContextInterface) => ({
+        abaslist: [...state.abaslist, newAba],
+        currentAbaInfo: idG,
+      }))
+    }else{
+      set((state: AbasContextInterface) => ({
+        abaslist: [...state.abaslist, DemoAba],
+        currentAbaInfo: idG,
+      }))
+    }
+    
     return idG
   },
 

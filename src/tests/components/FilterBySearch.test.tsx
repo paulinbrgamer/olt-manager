@@ -19,13 +19,13 @@ describe("filterBySearch", () => {
   it("deve filtrar os ONUs por nome de usuário", () => {
     const result = filterBySearch(onus, "monique", ["name"]);
     expect(result).toHaveLength(1);
-    expect(result[0].name).toContain("monique");
+    expect(result[0].name).toContain("Monique Pimentel");
   });
 
   it("deve ser case-insensitive", () => {
     const result = filterBySearch(onus, "MoNiQuE", ["name"]);
     expect(result).toHaveLength(1);
-    expect(result[0].name).toContain("monique");
+    expect(result[0].name).toContain("Monique Pimentel");
   });
 
   it("deve funcionar com campos do tipo número convertidos para string", () => {
