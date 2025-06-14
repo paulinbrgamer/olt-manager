@@ -103,11 +103,18 @@ const OnusTable: React.FC = React.memo(() => {
   useEffect(() => {
     if (data) {
       //@ts-ignore
-      toast(data.message);
+      toast("Liberação de ONT finalizada", { description: data.message });
       setmodalOntEnable(false)
     }
 
   }, [data])
+  useEffect(() => {
+    if (error) {
+      toast("Erro inesperado", { description: error });
+
+      setmodalOntEnable(false)
+    }
+  }, [error])
 
   return (
     <>
@@ -267,6 +274,7 @@ const OnusTable: React.FC = React.memo(() => {
                 </div>
               );
             })}
+            {filteredOnulistSearch.length ===0 && <p className="text-center p-5 text-sm opacity-55 ">Sem resultados...</p>}
           </div>
         </div>
         <p className="text-center text-sm text-muted-foreground p-2">
