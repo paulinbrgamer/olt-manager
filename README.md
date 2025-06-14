@@ -30,7 +30,7 @@ Este repositório contempla **apenas a interface web** do sistema, que se conect
 
 Para testar o sistema sem conexão com uma OLT real:
 
-1. Acesse o sistema localmente.
+1. Acesse o sistema localmente ou pela url : (https://olt-manager.netlify.app/).
 2. Vá até a aba **"OLT"** na barra de navegação superior.
 3. Clique no botão **"Demo"** no canto da tela.
 4. Uma aba será aberta com dados simulados de uma OLT fictícia.
